@@ -4,4 +4,8 @@
 
 <script setup></script>
 
-<style lang="scss"></style>
+<style lang="scss">
+.footer {
+  margin-top: auto;
+}
+</style>

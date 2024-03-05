@@ -1,5 +1,8 @@
 <template>
-  <div class="page">Home</div>
+  <div class="page">
+    <PageSeoData title="Home" description="Home" />
+    Home
+  </div>
 </template>
 
 <script setup></script>

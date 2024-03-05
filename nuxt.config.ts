@@ -19,13 +19,6 @@ export default defineNuxtConfig({
       htmlAttrs: {
         lang: "en",
       },
-      title: "Nuxt movies",
-      meta: [
-        {
-          name: "description",
-          content: "Nuxt movies",
-        },
-      ],
       link: [
         {
           rel: "icon",
@@ -53,9 +46,12 @@ export default defineNuxtConfig({
     },
   ],
 
-  css: ["~/assets/styles/styles.scss"],
+  css: [
+    "~/assets/styles/styles.scss",
+    "primevue/resources/themes/aura-light-green/theme.css",
+  ],
 
-  modules: ["@nuxtjs/google-fonts"],
+  modules: ["@nuxtjs/google-fonts", "nuxt-primevue"],
 
   googleFonts: {
     families: {
