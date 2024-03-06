@@ -1,12 +1,10 @@
 <template>
-  <Header />
-  <div class="page-layout">
+  <TheSidebar />
+  <div class="page-wrapper">
     <NuxtPage />
+    <TheFooter />
   </div>
-  <Footer />
 </template>
-
-<script setup></script>
 
 <style>
 .page-enter-active,
@@ -18,5 +16,12 @@
 .page-leave-to {
   opacity: 0;
   filter: blur(2px);
+}
+
+.page-wrapper {
+  min-height: inherit;
+  display: flex;
+  flex-direction: column;
+  padding-left: var(--sidebar-width);
 }
 </style>

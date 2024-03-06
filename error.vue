@@ -10,9 +10,12 @@
         Looks like you've followed a broken link or entered a URL that doesn't
         exist on this site.
       </p>
-      <Button to="/" class="error-page__button" variant="primary"
-        >Go back</Button
-      >
+      <TheButton
+        to="/"
+        class="error-page__button"
+        variant="primary"
+        label="Go back"
+      />
     </div>
   </div>
 </template>

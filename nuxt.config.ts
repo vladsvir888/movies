@@ -5,7 +5,7 @@ export default defineNuxtConfig({
 
   runtimeConfig: {
     public: {
-      apiKey: process.env.NUXT_API_KEY_AUTH || "",
+      apiToken: process.env.NUXT_ACCESS_TOKEN_AUTH || "",
       apiUrl: process.env.NUXT_API_URL || "",
     },
   },
@@ -46,12 +46,31 @@ export default defineNuxtConfig({
     },
   ],
 
-  css: [
-    "~/assets/styles/styles.scss",
-    "primevue/resources/themes/aura-light-green/theme.css",
-  ],
+  css: ["~/assets/styles/styles.scss"],
 
-  modules: ["@nuxtjs/google-fonts", "nuxt-primevue"],
+  modules: [
+    "@nuxtjs/google-fonts",
+    "@nuxt/image",
+    [
+      "@nuxtjs/i18n",
+      {
+        detectBrowserLanguage: false,
+        locales: [
+          {
+            code: "en",
+            file: "en.json",
+          },
+          {
+            code: "ru",
+            file: "ru.json",
+          },
+        ],
+        lazy: true,
+        langDir: "lang",
+        defaultLocale: "en",
+      },
+    ],
+  ],
 
   googleFonts: {
     families: {

@@ -7,9 +7,7 @@
     :target="target"
   >
     <slot name="left-icon" />
-    <span class="button__text">
-      <slot />
-    </span>
+    <span v-if="label" class="button__label">{{ label }}</span>
   </component>
 </template>
 
@@ -22,6 +20,9 @@ const props = defineProps({
     type: String,
   },
   target: {
+    type: String,
+  },
+  label: {
     type: String,
   },
 });
@@ -47,6 +48,7 @@ const component = computed(() => {
 @import "~/assets/styles/helpers/mixins/hover.scss";
 
 .button {
+  position: relative;
   display: inline-flex;
   justify-content: center;
   align-items: center;

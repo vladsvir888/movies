@@ -1,0 +1,12 @@
+{
+    "sidebar_links": {
+        "home": "Home",
+        "movie": "Movie",
+        "tv": "TV",
+        "search": "Search"
+    },
+    "footer": {
+        "logo": "Movies",
+        "data": "Data provided by"
+    }
+}
