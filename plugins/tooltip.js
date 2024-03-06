@@ -48,7 +48,7 @@ export default defineNuxtPlugin((nuxtApp) => {
       el.addEventListener("mouseout", hide);
     },
 
-    unmounted() {
+    unmounted(el) {
       el.removeEventListener("mouseover", () => show(tooltipElement));
       el.removeEventListener("mouseout", hide);
     },

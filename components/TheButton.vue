@@ -48,7 +48,6 @@ const component = computed(() => {
 @import "~/assets/styles/helpers/mixins/hover.scss";
 
 .button {
-  position: relative;
   display: inline-flex;
   justify-content: center;
   align-items: center;
