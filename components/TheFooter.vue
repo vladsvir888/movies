@@ -13,8 +13,12 @@
 
     <p class="footer__data">
       {{ $t("footer.data") }}
-      <TheIcon icon="tmdb" class="footer__data-icon" />
+      <TheButton to="https://www.themoviedb.org/" target="_blank">
+        <TheIcon icon="tmdb" class="footer__data-icon" />
+      </TheButton>
     </p>
+
+    <LanguageSwitcher />
   </footer>
 </template>
 
@@ -25,6 +29,10 @@
   row-gap: 15px;
   padding: 60px;
   margin-top: auto;
+
+  @media (width <= 600px) {
+    padding: 20px;
+  }
 
   &__logo {
     display: flex;
@@ -49,8 +57,6 @@
     column-gap: 6px;
 
     &-icon {
-      margin-bottom: -5px;
-
       svg {
         width: 120px;
         height: 16px;

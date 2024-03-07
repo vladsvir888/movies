@@ -82,6 +82,8 @@ defineProps({
 
 <style lang="scss">
 .icon {
+  display: inline-flex;
+
   > svg {
     flex-shrink: 0;
   }

@@ -1,20 +1,20 @@
 <template>
   <aside class="sidebar">
     <nav class="sidebar__nav">
-      <TheButton
-        v-for="link in links"
+      <TheTooltip
+        v-for="(link, index) in links"
         :key="link.value"
-        :to="link.to"
-        class="sidebar__link"
-        :aria-label="$t(`sidebar_links.${link.value}`)"
-        v-tooltip="{
-          value: $t(`sidebar_links.${link.value}`),
-        }"
+        :id="`sidebarItem${index}`"
+        :text="$t(`sidebar_links.${link.value}`)"
       >
-        <template #left-icon>
+        <TheButton
+          :to="link.to"
+          class="sidebar__link"
+          :aria-labelledby="`sidebarItem${index}`"
+        >
           <TheIcon :icon="link.icon" />
-        </template>
-      </TheButton>
+        </TheButton>
+      </TheTooltip>
     </nav>
   </aside>
 </template>
@@ -82,6 +82,11 @@ const links = ref([
 
     &[aria-current="page"] {
       color: rgb(64 193 173);
+    }
+
+    &:focus-visible + .tooltip__text {
+      opacity: 1;
+      visibility: visible;
     }
   }
 }

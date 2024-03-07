@@ -48,29 +48,25 @@ export default defineNuxtConfig({
 
   css: ["~/assets/styles/styles.scss"],
 
-  modules: [
-    "@nuxtjs/google-fonts",
-    "@nuxt/image",
-    [
-      "@nuxtjs/i18n",
+  modules: ["@nuxtjs/google-fonts", "@nuxt/image", "@nuxtjs/i18n"],
+
+  i18n: {
+    detectBrowserLanguage: false,
+    locales: [
       {
-        detectBrowserLanguage: false,
-        locales: [
-          {
-            code: "en",
-            file: "en.json",
-          },
-          {
-            code: "ru",
-            file: "ru.json",
-          },
-        ],
-        lazy: true,
-        langDir: "lang",
-        defaultLocale: "en",
+        code: "en",
+        file: "en.json",
+      },
+      {
+        code: "ru",
+        file: "ru.json",
       },
     ],
-  ],
+    lazy: true,
+    langDir: "lang",
+    strategy: "no_prefix",
+    defaultLocale: "en",
+  },
 
   googleFonts: {
     families: {

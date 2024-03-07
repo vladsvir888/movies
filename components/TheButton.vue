@@ -6,8 +6,7 @@
     :class="variant"
     :target="target"
   >
-    <slot name="left-icon" />
-    <span v-if="label" class="button__label">{{ label }}</span>
+    <slot />
   </component>
 </template>
 
@@ -20,9 +19,6 @@ const props = defineProps({
     type: String,
   },
   target: {
-    type: String,
-  },
-  label: {
     type: String,
   },
 });
