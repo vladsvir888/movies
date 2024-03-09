@@ -39,6 +39,11 @@ img {
   height: auto;
 }
 
+html {
+  scrollbar-color: var(--primary-color) transparent;
+  scrollbar-width: thin;
+}
+
 body {
   font-family: "Inter", sans-serif;
   background-color: #111;
@@ -49,4 +54,14 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+}
+
+.visually-hidden {
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
 }

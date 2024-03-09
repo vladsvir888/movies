@@ -54,7 +54,8 @@
   &__data {
     display: flex;
     align-items: center;
-    column-gap: 6px;
+    flex-wrap: wrap;
+    gap: 6px;
 
     &-icon {
       svg {

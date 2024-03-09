@@ -51,6 +51,7 @@ const links = ref([
   position: fixed;
   top: 0;
   left: 0;
+  z-index: 1;
   min-height: 100vh;
   min-width: var(--sidebar-width);
   display: flex;
@@ -70,7 +71,7 @@ const links = ref([
     transition: color var(--transition300ms);
 
     @include hover {
-      color: rgb(64 193 173);
+      color: var(--primary-color);
     }
 
     svg {
@@ -81,7 +82,7 @@ const links = ref([
     }
 
     &[aria-current="page"] {
-      color: rgb(64 193 173);
+      color: var(--primary-color);
     }
 
     &:focus-visible + .tooltip__text {

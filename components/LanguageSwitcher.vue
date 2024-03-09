@@ -31,6 +31,7 @@ const { locale, locales, setLocale } = useI18n();
     background-color: #000;
     color: #fff;
     border-radius: 8px;
+    cursor: pointer;
   }
 }
 </style>

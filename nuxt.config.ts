@@ -7,6 +7,7 @@ export default defineNuxtConfig({
     public: {
       apiToken: process.env.NUXT_ACCESS_TOKEN_AUTH || "",
       apiUrl: process.env.NUXT_API_URL || "",
+      apiImgUrl: process.env.NUXT_API_IMG_URL || "",
     },
   },
 
@@ -46,7 +47,10 @@ export default defineNuxtConfig({
     },
   ],
 
-  css: ["~/assets/styles/styles.scss"],
+  css: [
+    "primevue/resources/themes/aura-light-green/theme.css",
+    "~/assets/styles/styles.scss",
+  ],
 
   modules: ["@nuxtjs/google-fonts", "@nuxt/image", "@nuxtjs/i18n"],
 

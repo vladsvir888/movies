@@ -1,4 +1,5 @@
 <template>
+  <NuxtLoadingIndicator color="var(--primary-color)" />
   <TheSidebar />
   <div class="page-wrapper">
     <NuxtPage />
