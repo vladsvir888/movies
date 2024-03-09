@@ -47,10 +47,7 @@ export default defineNuxtConfig({
     },
   ],
 
-  css: [
-    "primevue/resources/themes/aura-light-green/theme.css",
-    "~/assets/styles/styles.scss",
-  ],
+  css: ["~/assets/styles/styles.scss"],
 
   modules: ["@nuxtjs/google-fonts", "@nuxt/image", "@nuxtjs/i18n"],
 
