@@ -10,12 +10,16 @@
         {{ data.title }}
       </h1>
       <div class="hero__wrapper">
-        <TheRating v-if="data.vote_average" v-model="data.vote_average" />
+        <TheRating v-if="data.vote_average" v-model="ratingCount" />
+        <p v-if="data.vote_average" class="hero__rating-count">
+          {{ data.vote_average }} / 10
+        </p>
         <p v-if="data.vote_count" class="hero__reviews">
-          Reviews: {{ data.vote_count }}
+          {{ $t("hero_block.reviews") }} {{ data.vote_count }}
         </p>
         <p v-if="data.release_date" class="hero__date">
-          Release date: {{ transformDate(data.release_date) }}
+          {{ $t("hero_block.release_date") }}
+          {{ transformDate(data.release_date) }}
         </p>
       </div>
       <p v-if="data.overview" class="hero__text">
@@ -28,12 +32,16 @@
 <script setup>
 const config = useRuntimeConfig();
 
-defineProps({
+const props = defineProps({
   data: {
     type: Object,
     required: true,
     default: () => {},
   },
+});
+
+const ratingCount = computed(() => {
+  return Math.ceil(props.data.vote_average / 2);
 });
 </script>
 
@@ -78,11 +86,9 @@ defineProps({
   &__wrapper {
     display: flex;
     flex-wrap: wrap;
-    align-items: center;
-    gap: 10px 20px;
+    gap: 12px;
 
-    > *:not(.rating-wrapper),
-    .rating-wrapper__count {
+    > *:not(.rating) {
       opacity: 0.5;
     }
   }

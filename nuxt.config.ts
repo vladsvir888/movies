@@ -17,9 +17,6 @@ export default defineNuxtConfig({
         ? { name: "page", mode: "out-in" }
         : false,
     head: {
-      htmlAttrs: {
-        lang: "en",
-      },
       link: [
         {
           rel: "icon",
@@ -36,7 +33,6 @@ export default defineNuxtConfig({
           href: "/manifest.webmanifest",
         },
       ],
-      noscript: ["JavaScript is required"],
     },
   },
 
@@ -52,21 +48,22 @@ export default defineNuxtConfig({
   modules: ["@nuxtjs/google-fonts", "@nuxt/image", "@nuxtjs/i18n"],
 
   i18n: {
-    detectBrowserLanguage: false,
     locales: [
       {
         code: "en",
-        file: "en.json",
+        file: "en.js",
       },
       {
         code: "ru",
-        file: "ru.json",
+        file: "ru.js",
       },
     ],
     lazy: true,
     langDir: "lang",
     strategy: "no_prefix",
     defaultLocale: "en",
+    detectBrowserLanguage: false,
+    vueI18n: "./i18n.config.ts",
   },
 
   googleFonts: {

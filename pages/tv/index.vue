@@ -1,5 +1,9 @@
 <template>
   <div class="page">
-    <PageSeoData title="TV Shows • Movies" description="TV Shows • Movies" />
+    <PageSeoData
+      :lang="$t('lang')"
+      :title="$t('tv_page.seo.title')"
+      :description="$t('tv_page.seo.meta.description')"
+    />
   </div>
 </template>

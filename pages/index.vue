@@ -1,12 +1,17 @@
 <template>
   <div class="page">
-    <PageSeoData title="Movies" description="Movies" />
+    <PageSeoData
+      :lang="$t('lang')"
+      :title="$t('home_page.seo.title')"
+      :description="$t('home_page.seo.meta.description')"
+    />
     <HeroBlock v-if="heroBlockData" :data="heroBlockData" />
   </div>
 </template>
 
 <script setup>
 const config = useRuntimeConfig();
+const { locale } = useI18n();
 
 const heroBlockData = ref(null);
 
@@ -19,7 +24,7 @@ const { data: popularMovieData } = useFetch(
       Authorization: `Bearer ${config.public.apiToken}`,
     },
     query: {
-      language: "en",
+      language: locale,
     },
     server: false,
     onResponse({ response }) {
