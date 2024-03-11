@@ -36,13 +36,11 @@ const props = defineProps({
   data: {
     type: Object,
     required: true,
-    default: () => {},
+    default: null,
   },
 });
 
-const ratingCount = computed(() => {
-  return Math.ceil(props.data.vote_average / 2);
-});
+const ratingCount = ref(Math.ceil(props.data.vote_average / 2));
 </script>
 
 <style lang="scss">

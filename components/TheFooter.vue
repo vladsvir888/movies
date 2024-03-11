@@ -1,37 +1,38 @@
 <template>
   <footer class="footer">
-    <p class="footer__logo">
-      <NuxtImg
-        src="/images/movies-sm.webp"
-        width="25"
-        height="25"
-        alt=""
-        loading="lazy"
-      />
-      {{ $t("footer.logo") }}
-    </p>
+    <div class="container footer__container">
+      <p class="footer__logo">
+        <NuxtImg
+          src="/images/movies-sm.webp"
+          width="25"
+          height="25"
+          alt=""
+          loading="lazy"
+        />
+        {{ $t("footer.logo") }}
+      </p>
 
-    <p class="footer__data">
-      {{ $t("footer.data") }}
-      <TheButton to="https://www.themoviedb.org/" target="_blank">
-        <TheIcon icon="tmdb" class="footer__data-icon" />
-      </TheButton>
-    </p>
+      <p class="footer__data">
+        {{ $t("footer.data") }}
+        <TheButton to="https://www.themoviedb.org/" target="_blank">
+          <TheIcon icon="tmdb" class="footer__data-icon" />
+        </TheButton>
+      </p>
 
-    <LanguageSwitcher />
+      <LanguageSwitcher />
+    </div>
   </footer>
 </template>
 
 <style lang="scss">
 .footer {
-  display: flex;
-  flex-direction: column;
-  row-gap: 15px;
-  padding: 60px;
+  padding: 20px 0;
   margin-top: auto;
 
-  @media (width <= 600px) {
-    padding: 20px;
+  &__container {
+    display: flex;
+    flex-direction: column;
+    row-gap: 15px;
   }
 
   &__logo {

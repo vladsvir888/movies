@@ -60,4 +60,14 @@ export default {
     language: "Language:",
   },
   stars: "star | stars",
+  carousel: {
+    select: "Select a slide to show",
+    button_prev: "Previous",
+    button_next: "Next",
+    pagination: "Go to",
+    slide: "of",
+  },
+  popular_movies: {
+    title: "Popular movies",
+  },
 };

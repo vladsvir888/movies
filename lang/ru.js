@@ -60,4 +60,14 @@ export default {
     language: "Язык:",
   },
   stars: "звезда | звезды | звезд",
+  carousel: {
+    select: "Выберите слайд для показа",
+    button_prev: "Предыдущий",
+    button_next: "Следующий",
+    pagination: "Перейти к",
+    slide: "из",
+  },
+  popular_movies: {
+    title: "Популярные фильмы",
+  },
 };

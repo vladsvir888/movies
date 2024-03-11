@@ -6,7 +6,6 @@
         :value="star.value"
         v-model="model"
         type="radio"
-        name="rating"
         class="rating__input visually-hidden"
       />
       <label :for="`star${star.value}`" class="rating__label">
