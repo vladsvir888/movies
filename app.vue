@@ -1,17 +1,11 @@
 <template>
   <NuxtLoadingIndicator color="var(--primary-color)" />
-  <MenuButton />
   <TheSidebar />
   <div class="page-wrapper">
     <NuxtPage />
     <TheFooter />
   </div>
 </template>
-
-<script setup>
-const isMenuExpanded = ref(false);
-provide("isMenuExpanded", isMenuExpanded);
-</script>
 
 <style>
 .page-enter-active,

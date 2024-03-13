@@ -68,7 +68,10 @@ export default {
     slide: "из",
   },
   popular_movies: {
-    title: "Популярные фильмы",
+    title: "Популярные Фильмы",
+  },
+  popular_shows: {
+    title: "Популярные Телешоу",
   },
   menu_button: "Меню",
 };

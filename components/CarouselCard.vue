@@ -9,9 +9,9 @@
       loading="lazy"
     />
     <div class="carousel-card__content">
-      <h3 v-if="data.title" class="carousel-card__title">
+      <h3 v-if="data.title || data.name" class="carousel-card__title">
         <TheButton :to="`/movie/${data.id}`" class="carousel-card__link">
-          {{ data.title }}
+          {{ data.title || data.name }}
         </TheButton>
       </h3>
       <div class="carousel-card__wrapper">

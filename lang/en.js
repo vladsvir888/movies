@@ -68,7 +68,10 @@ export default {
     slide: "of",
   },
   popular_movies: {
-    title: "Popular movies",
+    title: "Popular Movies",
+  },
+  popular_shows: {
+    title: "Popular TV Shows",
   },
   menu_button: "Menu",
 };

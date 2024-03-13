@@ -31,40 +31,42 @@
     :has-track="false"
     :tag="'section'"
   >
-    <h2 class="carousel__title">{{ $t("popular_movies.title") }}</h2>
+    <div class="container">
+      <h2 v-if="carouselTitle" class="carousel__title">{{ carouselTitle }}</h2>
 
-    <SplideTrack>
-      <SplideSlide v-for="item in data" :key="item.id">
-        <CarouselCard :data="item" />
-      </SplideSlide>
-    </SplideTrack>
+      <SplideTrack>
+        <SplideSlide v-for="item in data" :key="item.id">
+          <CarouselCard :data="item" />
+        </SplideSlide>
+      </SplideTrack>
 
-    <div class="splide__arrows carousel__controls">
-      <TheButton
-        class="splide__arrow splide__arrow--prev carousel__button carousel__button--prev"
-      >
-        <span class="visually-hidden">{{ $t("carousel.button_prev") }}</span>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 10 18"
-          aria-hidden="true"
+      <div class="splide__arrows carousel__controls">
+        <TheButton
+          class="splide__arrow splide__arrow--prev carousel__button carousel__button--prev"
         >
-          <path d="M1 1l8 8-8 8" />
-        </svg>
-      </TheButton>
-      <div class="splide__pagination carousel__pagination"></div>
-      <TheButton
-        class="splide__arrow splide__arrow--next carousel__button carousel__button--next"
-      >
-        <span class="visually-hidden">{{ $t("carousel.button_next") }}</span>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 10 18"
-          aria-hidden="true"
+          <span class="visually-hidden">{{ $t("carousel.button_prev") }}</span>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 10 18"
+            aria-hidden="true"
+          >
+            <path d="M1 1l8 8-8 8" />
+          </svg>
+        </TheButton>
+        <div class="splide__pagination carousel__pagination"></div>
+        <TheButton
+          class="splide__arrow splide__arrow--next carousel__button carousel__button--next"
         >
-          <path d="M1 1l8 8-8 8" />
-        </svg>
-      </TheButton>
+          <span class="visually-hidden">{{ $t("carousel.button_next") }}</span>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 10 18"
+            aria-hidden="true"
+          >
+            <path d="M1 1l8 8-8 8" />
+          </svg>
+        </TheButton>
+      </div>
     </div>
   </Splide>
 </template>
@@ -78,6 +80,9 @@ const props = defineProps({
     type: Array,
     required: true,
     default: () => [],
+  },
+  carouselTitle: {
+    type: String,
   },
 });
 </script>

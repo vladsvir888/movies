@@ -39,6 +39,7 @@ const position = computed(() => {
   $this: &;
 
   position: relative;
+  display: flex;
 
   @include hover {
     #{$this}__text {

@@ -1,30 +1,38 @@
 <template>
   <div
     v-trap="isMenuExpanded"
-    id="sidebar"
-    class="sidebar-wrapper"
+    class="sidebar"
     :class="{ expanded: isMenuExpanded }"
-    @click="closeMenu"
     @keydown.esc="closeMenu"
   >
-    <aside class="sidebar" @click.stop>
-      <nav class="sidebar__nav">
-        <TheTooltip
-          v-for="(link, index) in links"
-          :key="link.value"
-          :id="`sidebarItem${index}`"
-          :text="$t(`sidebar_links.${link.value}`)"
-        >
-          <TheButton
-            :to="link.to"
-            class="sidebar__link"
-            :aria-labelledby="`sidebarItem${index}`"
+    <MenuButton
+      :is-menu-expanded="isMenuExpanded"
+      @update:is-menu-expanded="
+        (isExpanded) => {
+          isExpanded ? showMenu() : closeMenu();
+        }
+      "
+    />
+    <div class="sidebar__wrapper" @click="closeMenu">
+      <aside id="sidebar" class="sidebar__aside" @click.stop>
+        <nav class="sidebar__nav">
+          <TheTooltip
+            v-for="(link, index) in links"
+            :key="link.value"
+            :id="`sidebarItem${index}`"
+            :text="$t(`sidebar_links.${link.value}`)"
           >
-            <TheIcon :icon="link.icon" />
-          </TheButton>
-        </TheTooltip>
-      </nav>
-    </aside>
+            <TheButton
+              :to="link.to"
+              class="sidebar__link"
+              :aria-labelledby="`sidebarItem${index}`"
+            >
+              <TheIcon :icon="link.icon" />
+            </TheButton>
+          </TheTooltip>
+        </nav>
+      </aside>
+    </div>
   </div>
 </template>
 
@@ -53,11 +61,16 @@ const links = ref([
     icon: "search",
   },
 ]);
-
-const isMenuExpanded = inject("isMenuExpanded");
+const isMenuExpanded = ref(false);
 
 const closeMenu = () => {
   isMenuExpanded.value = false;
+  document.body.classList.remove("no-scroll");
+};
+
+const showMenu = () => {
+  isMenuExpanded.value = true;
+  document.body.classList.add("no-scroll");
 };
 
 watch(() => route.path, closeMenu);
@@ -69,41 +82,45 @@ watch(() => route.path, closeMenu);
 .sidebar {
   $this: &;
 
-  min-height: inherit;
-  width: var(--sidebar-width);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 10px;
-  background-color: #000;
-  transition: all var(--transition300ms);
+  &.expanded {
+    #{$this} {
+      &__wrapper {
+        visibility: visible;
+        width: 100vw;
+        background-color: rgb(0 0 0 / 50%);
+      }
 
-  @media (width <= 600px) {
-    translate: -100% 0;
-    visibility: hidden;
+      &__aside {
+        translate: 0 0;
+      }
+    }
   }
 
-  @at-root {
-    #{$this}-wrapper {
-      position: fixed;
-      top: 0;
-      left: 0;
-      z-index: 1;
-      min-height: 100vh;
-      transition: background-color var(--transition300ms);
+  &__wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    min-height: 100vh;
+    transition: background-color var(--transition300ms);
 
-      @media (width <= 600px) {
-        width: 100vw;
-      }
+    @media (width <= 600px) {
+      visibility: hidden;
+    }
+  }
 
-      &.expanded {
-        background-color: rgb(0 0 0 / 50%);
+  &__aside {
+    min-height: inherit;
+    width: var(--sidebar-width);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    background-color: #000;
+    transition: all var(--transition300ms);
 
-        #{$this} {
-          visibility: visible;
-          translate: 0 0;
-        }
-      }
+    @media (width <= 600px) {
+      translate: -100% 0;
     }
   }
 

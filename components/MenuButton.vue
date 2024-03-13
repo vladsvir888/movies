@@ -3,7 +3,7 @@
     class="menu-button"
     :aria-expanded="isMenuExpanded"
     aria-controls="sidebar"
-    @click="onMenuButtonClick"
+    @click="$emit('update:isMenuExpanded', !isMenuExpanded)"
   >
     <span
       :hidden="isMenuExpanded"
@@ -43,17 +43,15 @@
 </template>
 
 <script setup>
-const isMenuExpanded = inject("isMenuExpanded");
+defineProps({
+  isMenuExpanded: {
+    type: Boolean,
+    required: true,
+    default: false,
+  },
+});
 
-const onMenuButtonClick = () => {
-  isMenuExpanded.value = !isMenuExpanded.value;
-
-  if (isMenuExpanded.value) {
-    document.body.classList.add("no-scroll");
-  } else {
-    document.body.classList.remove("no-scroll");
-  }
-};
+defineEmits(["update:isMenuExpanded"]);
 </script>
 
 <style lang="scss">

@@ -7,9 +7,17 @@
     />
     <HeroBlock v-if="heroBlockData" :data="heroBlockData" />
 
-    <div class="container">
-      <TheCarousel v-if="popularMoviesData" :data="popularMoviesData" />
-    </div>
+    <TheCarousel
+      v-if="popularMoviesData"
+      :data="popularMoviesData"
+      :carousel-title="$t('popular_movies.title')"
+    />
+
+    <TheCarousel
+      v-if="popularShowsData"
+      :data="popularShowsData"
+      :carousel-title="$t('popular_shows.title')"
+    />
   </div>
 </template>
 
@@ -19,23 +27,36 @@ const { locale } = useI18n();
 
 const heroBlockData = ref(null);
 const popularMoviesData = ref(null);
+const popularShowsData = ref(null);
 
-const { data, error } = await useFetch(
-  `${config.public.apiUrl}/movie/popular`,
-  {
-    method: "GET",
-    headers: {
-      accept: "application/json",
-      Authorization: `Bearer ${config.public.apiToken}`,
-    },
-    query: {
-      language: locale,
-    },
-    server: false,
-    onResponse({ response }) {
-      heroBlockData.value = response._data.results[0];
-      popularMoviesData.value = response._data.results;
-    },
-  }
-);
+useFetch(`${config.public.apiUrl}/movie/popular`, {
+  method: "GET",
+  headers: {
+    accept: "application/json",
+    Authorization: `Bearer ${config.public.apiToken}`,
+  },
+  query: {
+    language: locale,
+  },
+  server: false,
+  onResponse({ response }) {
+    heroBlockData.value = response._data.results[0];
+    popularMoviesData.value = response._data.results;
+  },
+});
+
+useFetch(`${config.public.apiUrl}/tv/popular`, {
+  method: "GET",
+  headers: {
+    accept: "application/json",
+    Authorization: `Bearer ${config.public.apiToken}`,
+  },
+  query: {
+    language: locale,
+  },
+  server: false,
+  onResponse({ response }) {
+    popularShowsData.value = response._data.results;
+  },
+});
 </script>
