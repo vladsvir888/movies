@@ -20,19 +20,22 @@ const { locale } = useI18n();
 const heroBlockData = ref(null);
 const popularMoviesData = ref(null);
 
-await useFetch(`${config.public.apiUrl}/movie/popular`, {
-  method: "GET",
-  headers: {
-    accept: "application/json",
-    Authorization: `Bearer ${config.public.apiToken}`,
-  },
-  query: {
-    language: locale,
-  },
-  server: false,
-  onResponse({ response }) {
-    heroBlockData.value = response._data.results[0];
-    popularMoviesData.value = response._data.results;
-  },
-});
+const { data, error } = await useFetch(
+  `${config.public.apiUrl}/movie/popular`,
+  {
+    method: "GET",
+    headers: {
+      accept: "application/json",
+      Authorization: `Bearer ${config.public.apiToken}`,
+    },
+    query: {
+      language: locale,
+    },
+    server: false,
+    onResponse({ response }) {
+      heroBlockData.value = response._data.results[0];
+      popularMoviesData.value = response._data.results;
+    },
+  }
+);
 </script>

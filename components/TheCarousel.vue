@@ -16,6 +16,17 @@
         pageX: `${$t('carousel.pagination')} %s`,
         slideLabel: `%s ${$t('carousel.slide')} %s`,
       },
+      breakpoints: {
+        660: {
+          perPage: 2,
+        },
+        900: {
+          perPage: 3,
+        },
+        1400: {
+          perPage: 4,
+        },
+      },
     }"
     :has-track="false"
     :tag="'section'"

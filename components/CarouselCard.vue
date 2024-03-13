@@ -101,7 +101,15 @@ const ratingCount = ref(Math.ceil(props.data.vote_average / 2));
 
   &__wrapper {
     display: flex;
-    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 5px 10px;
+  }
+
+  &__title {
+    @media (width <= 600px) {
+      font-size: 16px;
+    }
   }
 
   &__link {

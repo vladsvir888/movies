@@ -70,4 +70,5 @@ export default {
   popular_movies: {
     title: "Popular movies",
   },
+  menu_button: "Menu",
 };

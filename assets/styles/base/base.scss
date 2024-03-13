@@ -71,3 +71,11 @@ body {
   margin: 0 auto;
   padding: 0 10px;
 }
+
+[hidden] {
+  display: none !important;
+}
+
+.no-scroll {
+  overflow-y: hidden !important;
+}
