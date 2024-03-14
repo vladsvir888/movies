@@ -9,9 +9,9 @@
       loading="lazy"
     />
     <div class="carousel-card__content">
-      <h3 v-if="data.title || data.name" class="carousel-card__title">
+      <h3 v-if="computedTitle" class="carousel-card__title">
         <TheButton :to="`/movie/${data.id}`" class="carousel-card__link">
-          {{ data.title || data.name }}
+          {{ computedTitle }}
         </TheButton>
       </h3>
       <div class="carousel-card__wrapper">
@@ -35,7 +35,15 @@ const props = defineProps({
   },
 });
 
-const ratingCount = ref(Math.ceil(props.data.vote_average / 2));
+const ratingCount = ref(divideByTwoAndRound(props.data.vote_average));
+
+const computedTitle = computed(() => {
+  if (props.data.title) {
+    return props.data.title;
+  }
+
+  return props.data.name;
+});
 </script>
 
 <style lang="scss">
@@ -93,6 +101,7 @@ const ratingCount = ref(Math.ceil(props.data.vote_average / 2));
     align-items: center;
     row-gap: 10px;
     grid-area: 1 / 2;
+    padding: 10px;
     opacity: 0;
     translate: 0 2%;
     text-align: center;

@@ -70,7 +70,7 @@ export default {
   popular_movies: {
     title: "Популярные Фильмы",
   },
-  popular_shows: {
+  popular_tv: {
     title: "Популярные Телешоу",
   },
   menu_button: "Меню",

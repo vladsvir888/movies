@@ -8,6 +8,7 @@ export default defineNuxtConfig({
       apiToken: process.env.NUXT_ACCESS_TOKEN_AUTH || "",
       apiUrl: process.env.NUXT_API_URL || "",
       apiImgUrl: process.env.NUXT_API_IMG_URL || "",
+      appLangKey: process.env.NUXT_APP_LANG_KEY || "",
     },
   },
 
@@ -45,7 +46,12 @@ export default defineNuxtConfig({
 
   css: ["~/assets/styles/styles.scss"],
 
-  modules: ["@nuxtjs/google-fonts", "@nuxt/image", "@nuxtjs/i18n"],
+  modules: [
+    "@nuxtjs/google-fonts",
+    "@nuxt/image",
+    "@nuxtjs/i18n",
+    "@pinia/nuxt",
+  ],
 
   i18n: {
     locales: [

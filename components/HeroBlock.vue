@@ -36,11 +36,16 @@ const props = defineProps({
   data: {
     type: Object,
     required: true,
-    default: null,
+    default: () => {},
   },
 });
 
-const ratingCount = ref(Math.ceil(props.data.vote_average / 2));
+const ratingCount = ref(divideByTwoAndRound(props.data.vote_average));
+
+watch(
+  () => props.data.vote_average,
+  (newValue) => (ratingCount.value = divideByTwoAndRound(newValue))
+);
 </script>
 
 <style lang="scss">

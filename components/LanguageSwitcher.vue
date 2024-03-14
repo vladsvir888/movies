@@ -3,7 +3,7 @@
     <label for="languageSwitcher">{{ $t("footer.language") }}</label>
     <select
       :value="locale"
-      @change="setLocale($event.target.value)"
+      @change="updateLocale"
       class="language-switcher__select"
       name="language-switcher"
       id="languageSwitcher"
@@ -16,7 +16,22 @@
 </template>
 
 <script setup>
+const config = useRuntimeConfig();
 const { locale, locales, setLocale } = useI18n();
+
+const updateLocale = (event) => {
+  setLocale(event.target.value);
+  setItemInLocalStorage(config.public.appLangKey, event.target.value);
+  window.location.reload();
+};
+
+onMounted(() => {
+  const value = getItemFromLocalStorage(config.public.appLangKey);
+
+  if (value) {
+    setLocale(value);
+  }
+});
 </script>
 
 <style lang="scss">
