@@ -1,12 +1,13 @@
 <template>
   <article class="carousel-card">
-    <NuxtImg
-      class="carousel-card__img"
+    <MyLazyImage
       :src="`${config.public.apiImgUrl}${data.poster_path}`"
-      width="460"
-      height="600"
-      alt=""
+      class="carousel-card__img"
       loading="lazy"
+      :sizes="{
+        width: 460,
+        height: 600,
+      }"
     />
     <div class="carousel-card__content">
       <h3 v-if="computedTitle" class="carousel-card__title">
@@ -59,6 +60,7 @@ const computedTitle = computed(() => {
   &::before {
     position: absolute;
     inset: 0;
+    z-index: 1;
     background-color: rgb(0 0 0 / 0%);
     transition: background-color var(--transition300ms);
     content: "";
@@ -88,19 +90,25 @@ const computedTitle = computed(() => {
   }
 
   &__img {
-    grid-area: 1 / 2;
-    height: 100%;
-    object-fit: cover;
+    grid-column: 1 / 2;
+    grid-row: 1 / 2;
+
+    > .lazy-image__image {
+      height: 100%;
+      object-fit: cover;
+    }
   }
 
   &__content {
     position: relative;
+    z-index: 2;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     row-gap: 10px;
-    grid-area: 1 / 2;
+    grid-column: 1 / 2;
+    grid-row: 1 / 2;
     padding: 10px;
     opacity: 0;
     translate: 0 2%;
