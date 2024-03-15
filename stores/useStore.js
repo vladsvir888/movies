@@ -4,9 +4,14 @@ export const useStore = defineStore("store", {
       movie: {
         heroBlock: {},
         popular: [],
+        nowPlaying: [],
+        topRated: [],
+        upcoming: [],
       },
       tv: {
+        heroBlock: {},
         popular: [],
+        topRated: [],
       },
     };
   },

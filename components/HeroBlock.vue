@@ -51,7 +51,9 @@ watch(
 <style lang="scss">
 .hero {
   position: relative;
-  min-height: 100vh;
+  min-height: min(100vh, 1080px);
+  max-width: 1920px;
+  margin: 0 auto;
   display: flex;
   align-items: center;
   background-position: center;

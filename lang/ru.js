@@ -67,11 +67,23 @@ export default {
     pagination: "Перейти к",
     slide: "из",
   },
-  popular_movies: {
+  movie_popular: {
     title: "Популярные Фильмы",
   },
-  popular_tv: {
+  movie_top_rated: {
+    title: "Высокорейтинговые Фильмы",
+  },
+  movie_upcoming: {
+    title: "Предстоящие Фильмы",
+  },
+  movie_now_playing: {
+    title: "Новые Фильмы",
+  },
+  tv_popular: {
     title: "Популярные Телешоу",
+  },
+  tv_top_rated: {
+    title: "Высокорейтинговые Телешоу",
   },
   menu_button: "Меню",
 };

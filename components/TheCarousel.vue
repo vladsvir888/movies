@@ -2,7 +2,6 @@
   <Splide
     class="carousel"
     :options="{
-      // perPage: 7,
       focus: 0,
       omitEnd: true,
       gap: 10,
@@ -16,17 +15,6 @@
         pageX: `${$t('carousel.pagination')} %s`,
         slideLabel: `%s ${$t('carousel.slide')} %s`,
       },
-      // breakpoints: {
-      //   660: {
-      //     perPage: 2,
-      //   },
-      //   900: {
-      //     perPage: 3,
-      //   },
-      //   1400: {
-      //     perPage: 4,
-      //   },
-      // },
     }"
     :has-track="false"
     :tag="'section'"
@@ -36,7 +24,11 @@
       <h2 v-if="carouselTitle" class="carousel__title">{{ carouselTitle }}</h2>
 
       <SplideTrack class="carousel__track">
-        <SplideSlide v-for="item in data" :key="item.id">
+        <SplideSlide
+          v-for="item in data"
+          :key="item.id"
+          class="carousel__slide"
+        >
           <CarouselCard :data="item" />
         </SplideSlide>
       </SplideTrack>
@@ -97,7 +89,7 @@ const props = defineProps({
   padding: 25px 0;
   overflow-x: hidden;
 
-  .splide__slide {
+  &__slide {
     width: 245px !important;
   }
 

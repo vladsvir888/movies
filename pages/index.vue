@@ -5,22 +5,26 @@
       :title="$t('home_page.seo.title')"
       :description="$t('home_page.seo.meta.description')"
     />
+
     <HeroBlock :data="store.movie.heroBlock" />
 
     <TheCarousel
-      :data="store.movie.popular"
-      :carousel-title="$t('popular_movies.title')"
-    />
-
-    <TheCarousel
-      :data="store.tv.popular"
-      :carousel-title="$t('popular_tv.title')"
+      v-for="item in computedLists"
+      :key="item.category"
+      :data="store[item.type][transformWord(item.category)]"
+      :carousel-title="$t(`${item.type}_${item.category}.title`)"
     />
   </div>
 </template>
 
 <script setup>
+import { lists } from "~/constants";
+
 const store = useStore();
+
+const computedLists = computed(() => {
+  return [lists.movie[0], lists.tv[0]];
+});
 
 useApi("/movie/popular", {
   onResponse({ response }) {

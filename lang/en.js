@@ -67,11 +67,23 @@ export default {
     pagination: "Go to",
     slide: "of",
   },
-  popular_movies: {
+  movie_popular: {
     title: "Popular Movies",
   },
-  popular_tv: {
+  movie_top_rated: {
+    title: "Top Rated Movies",
+  },
+  movie_upcoming: {
+    title: "Upcoming Movies",
+  },
+  movie_now_playing: {
+    title: "Now Playing Movies",
+  },
+  tv_popular: {
     title: "Popular TV Shows",
+  },
+  tv_top_rated: {
+    title: "Top Rated TV Shows",
   },
   menu_button: "Menu",
 };
