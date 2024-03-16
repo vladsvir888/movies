@@ -25,6 +25,7 @@ const props = defineProps({
 
 const variants = ref({
   primary: "button--primary",
+  decoration: "button--decoration",
 });
 
 const variant = computed(() => {
@@ -52,6 +53,10 @@ const component = computed(() => {
   background-color: transparent;
   cursor: pointer;
 
+  &:disabled {
+    cursor: default;
+  }
+
   &--primary {
     padding: 12px 24px;
     background-color: #9ca3af26;
@@ -60,6 +65,27 @@ const component = computed(() => {
 
     @include hover {
       background-color: #9ca3af33;
+    }
+  }
+
+  &--decoration {
+    position: relative;
+
+    &::before {
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 0;
+      height: 1px;
+      background-color: var(--primary-color);
+      content: "";
+      transition: width var(--transition300ms);
+    }
+
+    @include hover {
+      &::before {
+        width: 100%;
+      }
     }
   }
 }

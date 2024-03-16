@@ -37,27 +37,15 @@
         <TheButton
           class="splide__arrow splide__arrow--prev carousel__button carousel__button--prev"
         >
-          <span class="visually-hidden">{{ $t("carousel.button_prev") }}</span>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 10 18"
-            aria-hidden="true"
-          >
-            <path d="M1 1l8 8-8 8" />
-          </svg>
+          <span class="visually-hidden">{{ $t("previous") }}</span>
+          <TheIcon icon="arrow-prev" />
         </TheButton>
         <div class="splide__pagination carousel__pagination"></div>
         <TheButton
           class="splide__arrow splide__arrow--next carousel__button carousel__button--next"
         >
-          <span class="visually-hidden">{{ $t("carousel.button_next") }}</span>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 10 18"
-            aria-hidden="true"
-          >
-            <path d="M1 1l8 8-8 8" />
-          </svg>
+          <span class="visually-hidden">{{ $t("next") }}</span>
+          <TheIcon icon="arrow-next" />
         </TheButton>
       </div>
     </div>
@@ -132,13 +120,6 @@ const props = defineProps({
 
     &--prev {
       rotate: 180deg;
-    }
-
-    > svg {
-      width: 14px;
-      height: 14px;
-      stroke: currentColor;
-      fill: none;
     }
   }
 

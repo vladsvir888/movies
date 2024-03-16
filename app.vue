@@ -5,7 +5,17 @@
     <NuxtPage />
     <TheFooter />
   </div>
+  <SearchDialog />
 </template>
+
+<script setup>
+onMounted(() => {
+  document.body.style.setProperty(
+    "--scrollbar-compensate",
+    `${getScrollbarWidth()}px`
+  );
+});
+</script>
 
 <style>
 .page-enter-active,

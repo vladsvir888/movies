@@ -17,9 +17,9 @@
       </h3>
       <div class="carousel-card__wrapper">
         <TheRating v-if="data.vote_average" v-model="ratingCount" />
-        <div v-if="data.vote_average" class="carousel-card__text">
+        <p v-if="data.vote_average" class="carousel-card__text">
           {{ data.vote_average }}
-        </div>
+        </p>
       </div>
     </div>
   </article>

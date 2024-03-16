@@ -26,6 +26,7 @@
               :to="link.to"
               class="sidebar__link"
               :aria-labelledby="`sidebarItem${index}`"
+              v-on="link.handlers ?? {}"
             >
               <TheIcon :icon="link.icon" />
             </TheButton>
@@ -37,6 +38,7 @@
 </template>
 
 <script setup>
+const store = useStore();
 const route = useRoute();
 
 const links = ref([
@@ -56,9 +58,14 @@ const links = ref([
     icon: "tv",
   },
   {
-    to: "/search",
     value: "search",
     icon: "search",
+    handlers: {
+      click: () => {
+        store.isSearchDialogShow = true;
+        isMenuExpanded.value = false;
+      },
+    },
   },
 ]);
 const isMenuExpanded = ref(false);

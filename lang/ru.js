@@ -24,14 +24,6 @@ export default {
       },
     },
   },
-  search_page: {
-    seo: {
-      title: "Поиск • Фильмы",
-      meta: {
-        description: "Поиск • Фильмы",
-      },
-    },
-  },
   error_page: {
     seo: {
       title: "Эту страницу не удалось найти",
@@ -62,8 +54,6 @@ export default {
   stars: "звезда | звезды | звезд",
   carousel: {
     select: "Выберите слайд для показа",
-    button_prev: "Предыдущий",
-    button_next: "Следующий",
     pagination: "Перейти к",
     slide: "из",
   },
@@ -86,4 +76,14 @@ export default {
     title: "Высокорейтинговые Телешоу",
   },
   menu_button: "Меню",
+  search_dialog: {
+    title: "Поиск",
+    input: "Введите для поиска...",
+    clean_button: "Очистить текущий запрос",
+    no_results: "Нет результатов для",
+  },
+  loader: "Этот контент загружается...",
+  close: "Закрыть",
+  previous: "Предыдущий",
+  next: "Следующий",
 };

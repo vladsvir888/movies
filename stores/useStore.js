@@ -13,6 +13,7 @@ export const useStore = defineStore("store", {
         popular: [],
         topRated: [],
       },
+      isSearchDialogShow: false,
     };
   },
 });

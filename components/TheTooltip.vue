@@ -1,7 +1,7 @@
 <template>
   <div class="tooltip" :class="position">
     <slot />
-    <div :id="id" class="tooltip__text" role="tooltip">{{ text }}</div>
+    <p :id="id" class="tooltip__text" role="tooltip">{{ text }}</p>
   </div>
 </template>
 

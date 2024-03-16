@@ -24,14 +24,6 @@ export default {
       },
     },
   },
-  search_page: {
-    seo: {
-      title: "Search • Movies",
-      meta: {
-        description: "Search • Movies",
-      },
-    },
-  },
   error_page: {
     seo: {
       title: "This page could not be found",
@@ -62,8 +54,6 @@ export default {
   stars: "star | stars",
   carousel: {
     select: "Select a slide to show",
-    button_prev: "Previous",
-    button_next: "Next",
     pagination: "Go to",
     slide: "of",
   },
@@ -86,4 +76,14 @@ export default {
     title: "Top Rated TV Shows",
   },
   menu_button: "Menu",
+  search_dialog: {
+    title: "Search",
+    input: "Type to search...",
+    clean_button: "Clean current search",
+    no_results: "No results for",
+  },
+  loader: "This content is loading...",
+  close: "Close",
+  previous: "Previous",
+  next: "Next",
 };
