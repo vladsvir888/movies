@@ -107,7 +107,7 @@ watch(() => route.path, closeMenu);
     position: fixed;
     top: 0;
     left: 0;
-    z-index: 1;
+    z-index: 3;
     min-height: 100vh;
     transition: background-color var(--transition300ms);
 

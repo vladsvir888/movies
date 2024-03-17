@@ -86,4 +86,5 @@ export default {
   close: "Закрыть",
   previous: "Предыдущий",
   next: "Следующий",
+  back: "Назад",
 };

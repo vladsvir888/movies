@@ -36,7 +36,7 @@ defineEmits(["update:isMenuExpanded"]);
 <style lang="scss">
 .menu-button {
   position: absolute;
-  z-index: 2;
+  z-index: 4;
   right: 10px;
   top: 10px;
   display: none;

@@ -9,15 +9,21 @@
 </template>
 
 <script setup>
-onMounted(() => {
+const route = useRoute();
+
+const setScrollbarCustomPropertiesToBody = () => {
   document.body.style.setProperty(
     "--scrollbar-compensate",
     `${getScrollbarWidth()}px`
   );
-});
+};
+
+onMounted(setScrollbarCustomPropertiesToBody);
+
+watch(() => route.path, setScrollbarCustomPropertiesToBody);
 </script>
 
-<style>
+<style lang="scss">
 .page-enter-active,
 .page-leave-active {
   transition: all var(--transition300ms);

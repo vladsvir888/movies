@@ -23,10 +23,10 @@
       </div>
       <TheLoader v-if="isPendingSearch" class="search-dialog__loader" />
       <ul
-        v-else-if="searchResults.length && !isPendingSearch"
+        v-else-if="totalResults.length && !isPendingSearch"
         class="search-dialog__results"
       >
-        <li v-for="result in searchResults" :key="result.id">
+        <li v-for="result in totalResults" :key="result.id">
           <TheButton
             @click="hideSearchDialog"
             class="search-dialog__results-button"
@@ -39,7 +39,7 @@
       </ul>
       <div
         v-else-if="
-          !searchResults.length &&
+          !totalResults.length &&
           !isPendingSearch &&
           searchQueryDebounced.length
         "
@@ -52,7 +52,7 @@
         </p>
       </div>
       <div
-        v-if="searchResults.length && !isPendingSearch"
+        v-if="totalResults.length && !isPendingSearch"
         class="search-dialog__pagination"
       >
         <TheButton
@@ -94,7 +94,7 @@ const { locale } = useI18n();
 const searchDialog = ref(null);
 const searchQuery = ref("");
 const searchQueryDebounced = debouncedRef(searchQuery, 650);
-const searchResults = ref([]);
+const totalResults = ref([]);
 const isPendingSearch = ref(false);
 const page = ref(1);
 const totalPages = ref(null);
@@ -105,7 +105,7 @@ await useApi("/search/multi", {
   query: {
     query: searchQueryDebounced,
     include_adult: false,
-    page: page,
+    page,
     language: locale,
   },
   onRequest() {
@@ -113,7 +113,7 @@ await useApi("/search/multi", {
   },
   onResponse({ response }) {
     isPendingSearch.value = false;
-    searchResults.value = response._data.results;
+    totalResults.value = response._data.results;
 
     if (
       totalPages.value !== response._data.total_pages &&
@@ -172,7 +172,7 @@ onMounted(() => {
 
 onUnmounted(() => {
   document.body.removeEventListener("click", onClickOutsideSearchDialog);
-  searchDialog.value.removeEventListener("close", hideSearchDialog);
+  searchDialog.value?.removeEventListener("close", hideSearchDialog);
 });
 </script>
 

@@ -21,7 +21,18 @@
     :autoWidth="true"
   >
     <div class="container">
-      <h2 v-if="carouselTitle" class="carousel__title">{{ carouselTitle }}</h2>
+      <header class="carousel__header">
+        <h2 class="carousel__title">
+          {{ carouselTitle }}
+        </h2>
+
+        <TheButton
+          :to="`/${type}/category/${category}`"
+          class="carousel__more"
+          variant="decoration"
+          >Explore more</TheButton
+        >
+      </header>
 
       <SplideTrack class="carousel__track">
         <SplideSlide
@@ -29,7 +40,7 @@
           :key="item.id"
           class="carousel__slide"
         >
-          <CarouselCard :data="item" />
+          <CarouselCard :data="item" :type="type" />
         </SplideSlide>
       </SplideTrack>
 
@@ -56,15 +67,33 @@
 import { Splide, SplideSlide, SplideTrack } from "@splidejs/vue-splide";
 import "@splidejs/vue-splide/css/core";
 
+const { t } = useI18n();
+
+const store = useStore();
+
 const props = defineProps({
-  data: {
-    type: Array,
-    required: true,
-    default: () => [],
-  },
-  carouselTitle: {
+  type: {
     type: String,
+    required: true,
   },
+  category: {
+    type: String,
+    required: true,
+  },
+});
+
+useApi(`/${props.type}/${props.category}`, {
+  onResponse({ response }) {
+    store[props.type][transformWord(props.category)] = response._data.results;
+  },
+});
+
+const data = computed(() => {
+  return store[props.type][transformWord(props.category)];
+});
+
+const carouselTitle = computed(() => {
+  return t(`${props.type}_${props.category}.title`);
 });
 </script>
 
@@ -87,7 +116,12 @@ const props = defineProps({
     }
   }
 
-  &__title {
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
     margin-bottom: 20px;
   }
 

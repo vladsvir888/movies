@@ -11,7 +11,7 @@
     />
     <div class="carousel-card__content">
       <h3 v-if="computedTitle" class="carousel-card__title">
-        <TheButton :to="`/movie/${data.id}`" class="carousel-card__link">
+        <TheButton :to="`/${type}/${data.id}`" class="carousel-card__link">
           {{ computedTitle }}
         </TheButton>
       </h3>
@@ -33,6 +33,10 @@ const props = defineProps({
     type: Object,
     required: true,
     default: null,
+  },
+  type: {
+    type: String,
+    required: true,
   },
 });
 

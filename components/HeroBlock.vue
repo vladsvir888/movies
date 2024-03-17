@@ -6,8 +6,8 @@
     }"
   >
     <div class="hero__content">
-      <h1 v-if="data.title" class="hero__title">
-        {{ data.title }}
+      <h1 v-if="computedTitle" class="hero__title">
+        {{ computedTitle }}
       </h1>
       <div class="hero__wrapper">
         <TheRating v-if="data.vote_average" v-model="ratingCount" />
@@ -41,6 +41,14 @@ const props = defineProps({
 });
 
 const ratingCount = ref(divideByTwoAndRound(props.data.vote_average));
+
+const computedTitle = computed(() => {
+  if (props.data.title) {
+    return props.data.title;
+  }
+
+  return props.data.name;
+});
 
 watch(
   () => props.data.vote_average,

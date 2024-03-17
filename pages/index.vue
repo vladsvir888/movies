@@ -11,8 +11,8 @@
     <TheCarousel
       v-for="item in computedLists"
       :key="item.category"
-      :data="store[item.type][transformWord(item.category)]"
-      :carousel-title="$t(`${item.type}_${item.category}.title`)"
+      :type="item.type"
+      :category="item.category"
     />
   </div>
 </template>
@@ -28,14 +28,7 @@ const computedLists = computed(() => {
 
 useApi("/movie/popular", {
   onResponse({ response }) {
-    store.movie.popular = response._data.results;
     store.movie.heroBlock = response._data.results[0];
-  },
-});
-
-useApi("/tv/popular", {
-  onResponse({ response }) {
-    store.tv.popular = response._data.results;
   },
 });
 </script>

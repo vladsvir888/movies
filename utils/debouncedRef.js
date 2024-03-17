@@ -3,7 +3,7 @@ export default (source, wait = 300) => {
 
   watch(
     source,
-    debounce((value, oldValue) => {
+    debounce((value) => {
       debouncedSource.value = value;
     }, wait)
   );
