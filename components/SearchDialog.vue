@@ -88,7 +88,6 @@
 </template>
 
 <script setup>
-const store = useStore();
 const { locale } = useI18n();
 
 const searchDialog = ref(null);
@@ -99,6 +98,8 @@ const isPendingSearch = ref(false);
 const page = ref(1);
 const totalPages = ref(null);
 const totalResultsCount = ref(null);
+
+const isSearchDialogShow = inject("isSearchDialogShow");
 
 await useApi("/search/multi", {
   immediate: false,
@@ -128,7 +129,7 @@ await useApi("/search/multi", {
 });
 
 const hideSearchDialog = () => {
-  store.isSearchDialogShow = false;
+  isSearchDialogShow.value = false;
 };
 
 const onClickOutsideSearchDialog = (event) => {
@@ -137,33 +138,30 @@ const onClickOutsideSearchDialog = (event) => {
   }
 };
 
-watch(
-  () => store.isSearchDialogShow,
-  (value) => {
-    if (value) {
-      searchDialog.value.showModal();
-      document.body.classList.add("no-scroll");
-      searchDialog.value.animate(
-        {
-          opacity: [0, 1],
-          translate: ["0 12px", "0 0"],
-        },
-        200
-      );
-    } else {
-      searchDialog.value.animate(
-        {
-          opacity: [1, 0],
-          translate: ["0 0", "0 12px"],
-        },
-        200
-      ).onfinish = () => {
-        searchDialog.value?.close();
-        document.body.classList.remove("no-scroll");
-      };
-    }
+watch(isSearchDialogShow, (value) => {
+  if (value) {
+    searchDialog.value.showModal();
+    document.body.classList.add("no-scroll");
+    searchDialog.value.animate(
+      {
+        opacity: [0, 1],
+        translate: ["0 12px", "0 0"],
+      },
+      200
+    );
+  } else {
+    searchDialog.value.animate(
+      {
+        opacity: [1, 0],
+        translate: ["0 0", "0 12px"],
+      },
+      200
+    ).onfinish = () => {
+      searchDialog.value?.close();
+      document.body.classList.remove("no-scroll");
+    };
   }
-);
+});
 
 onMounted(() => {
   document.body.addEventListener("click", onClickOutsideSearchDialog);

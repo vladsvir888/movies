@@ -11,6 +11,9 @@
 <script setup>
 const route = useRoute();
 
+const isSearchDialogShow = ref(false);
+provide("isSearchDialogShow", isSearchDialogShow);
+
 const setScrollbarCustomPropertiesToBody = () => {
   document.body.style.setProperty(
     "--scrollbar-compensate",

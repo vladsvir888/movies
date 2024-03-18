@@ -30,8 +30,10 @@
           :to="`/${type}/category/${category}`"
           class="carousel__more"
           variant="decoration"
-          >Explore more</TheButton
         >
+          Explore more
+          <TheIcon icon="arrow-next" />
+        </TheButton>
       </header>
 
       <SplideTrack class="carousel__track">
@@ -180,6 +182,10 @@ const carouselTitle = computed(() => {
 
   &__track {
     overflow: visible;
+  }
+
+  &__more {
+    column-gap: 5px;
   }
 }
 </style>

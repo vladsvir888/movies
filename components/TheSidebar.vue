@@ -38,8 +38,9 @@
 </template>
 
 <script setup>
-const store = useStore();
 const route = useRoute();
+
+const isSearchDialogShow = inject("isSearchDialogShow");
 
 const links = ref([
   {
@@ -62,7 +63,7 @@ const links = ref([
     icon: "search",
     handlers: {
       click: () => {
-        store.isSearchDialogShow = true;
+        isSearchDialogShow.value = true;
         isMenuExpanded.value = false;
       },
     },

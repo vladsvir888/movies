@@ -1,8 +1,13 @@
 <template>
   <div class="page page-category">
+    <PageSeoData
+      :lang="$t('lang')"
+      :title="$t(`${$route.params.type}_${$route.params.category}.title`)"
+      :description="$t(`${$route.params.type}_${$route.params.category}.title`)"
+    />
     <CardBlock :data="totalResults" />
     <div class="container page-category__container">
-      <TheLoader v-show="isPendingAutoload" />
+      <TheLoader v-if="isPendingAutoload" />
       <div v-intersection-observer="{ callback, options }" ref="target"></div>
     </div>
   </div>
