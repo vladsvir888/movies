@@ -29,9 +29,6 @@
 const route = useRoute();
 const { locale } = useI18n();
 
-const activeTab = ref("Overview");
-provide("activeTab", activeTab);
-
 const heroBlockDetail = ref({});
 const photos = ref(null);
 

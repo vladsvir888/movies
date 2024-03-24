@@ -2,12 +2,12 @@
   <div class="tab-group">
     <div class="tab-group__nav" role="tablist">
       <TheButton
-        v-for="(slot, index) in $slots.default()"
-        :key="slot?.props?.title"
-        :id="`tab-${slot?.props?.title}`"
-        :aria-selected="activeTab === slot?.props?.title"
-        :aria-controls="`tabpanel-${slot?.props?.title}`"
-        :tabindex="activeTab !== slot?.props?.title ? -1 : 0"
+        v-for="(title, index) in tabTitles"
+        :key="title"
+        :id="`tab-${title}`"
+        :aria-selected="activeTab === title"
+        :aria-controls="`tabpanel-${title}`"
+        :tabindex="activeTab !== title ? -1 : 0"
         role="tab"
         type="button"
         class="tab-group__tab"
@@ -16,9 +16,9 @@
         @keydown.right="setSelectedToNextTab"
         @keydown.left="setSelectedToPreviousTab"
         @keydown.home.prevent="setSelectedTab(0)"
-        @keydown.end.prevent="setSelectedTab($slots.default().length - 1)"
+        @keydown.end.prevent="setSelectedTab(tabTitles.length - 1)"
       >
-        {{ slot?.props?.title }}
+        {{ title }}
       </TheButton>
     </div>
     <div class="tab-group__panels">
@@ -28,18 +28,23 @@
 </template>
 
 <script setup>
-const activeTab = inject("activeTab");
-
-const tabs = useSlots().default();
 const tabRefs = ref([]);
+const tabTitles = ref(
+  useSlots()
+    .default()
+    .map((tab) => tab.props?.title)
+);
+const activeTab = ref(tabTitles.value[0]);
+
+provide("activeTab", activeTab);
 
 const getCurrentIndexTab = () => {
-  return tabs.findIndex((tab) => tab?.props?.title === activeTab.value);
+  return tabTitles.value.findIndex((title) => title === activeTab.value);
 };
 
 const setSelectedTab = (index) => {
   tabRefs.value[index].button.focus();
-  activeTab.value = tabs[index]?.props?.title;
+  activeTab.value = tabTitles.value[index];
 };
 
 const setSelectedToPreviousTab = () => {
@@ -48,14 +53,14 @@ const setSelectedToPreviousTab = () => {
   if (index !== 0) {
     setSelectedTab(index - 1);
   } else {
-    setSelectedTab(tabs.length - 1);
+    setSelectedTab(tabTitles.value.length - 1);
   }
 };
 
 const setSelectedToNextTab = () => {
   const index = getCurrentIndexTab();
 
-  if (index === tabs.length - 1) {
+  if (index === tabTitles.value.length - 1) {
     setSelectedTab(0);
   } else {
     setSelectedTab(index + 1);
