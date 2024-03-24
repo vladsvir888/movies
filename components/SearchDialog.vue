@@ -138,8 +138,8 @@ const onClickOutsideSearchDialog = (event) => {
   }
 };
 
-watch(isSearchDialogShow, (value) => {
-  if (value) {
+watch(isSearchDialogShow, (newValue) => {
+  if (newValue) {
     searchDialog.value.showModal();
     document.body.classList.add("no-scroll");
     searchDialog.value.animate(

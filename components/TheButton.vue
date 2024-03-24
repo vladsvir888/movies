@@ -5,6 +5,7 @@
     class="button"
     :class="variant"
     :target="target"
+    ref="button"
   >
     <slot />
   </component>
@@ -23,6 +24,8 @@ const props = defineProps({
   },
 });
 
+const button = ref(null);
+
 const variants = ref({
   primary: "button--primary",
   decoration: "button--decoration",
@@ -38,6 +41,10 @@ const component = computed(() => {
   }
 
   return "button";
+});
+
+defineExpose({
+  button,
 });
 </script>
 

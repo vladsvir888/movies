@@ -18,7 +18,7 @@
         </TabPanel>
 
         <TabPanel title="Photos">
-          <p>Photos content</p>
+          <PhotosBlock v-if="photos" :data="photos" />
         </TabPanel>
       </TabGroup>
     </div>
@@ -33,6 +33,17 @@ const activeTab = ref("Overview");
 provide("activeTab", activeTab);
 
 const heroBlockDetail = ref({});
+const photos = ref(null);
+
+const transformPhotos = (images) => {
+  delete images?.logos;
+
+  for (let key in images) {
+    images[key] = images[key].map((image) => image.file_path);
+  }
+
+  return images;
+};
 
 useApi(`/${route.params.type}/${route.params.id}`, {
   query: {
@@ -50,7 +61,9 @@ useApi(`/${route.params.type}/${route.params.id}`, {
       genres,
       vote_average: voteAverage,
       poster_path: posterImage,
+      images,
     } = response._data;
+
     heroBlockDetail.value = {
       backdropImage,
       title,
@@ -62,6 +75,8 @@ useApi(`/${route.params.type}/${route.params.id}`, {
       voteAverage,
       posterImage,
     };
+
+    photos.value = transformPhotos(images);
   },
 });
 </script>
@@ -69,7 +84,7 @@ useApi(`/${route.params.type}/${route.params.id}`, {
 <style lang="scss">
 .page-detail {
   &__tabs {
-    padding: 50px 0;
+    padding: 50px var(--container-padding);
   }
 }
 </style>

@@ -2,7 +2,7 @@
   <div
     class="hero"
     :style="{
-      backgroundImage: `url('${config.public.apiImgUrl}${data.backdrop_path}')`,
+      backgroundImage: `url('${config.public.apiImgUrl}original${data.backdrop_path}')`,
     }"
   >
     <div class="hero__content">
@@ -75,7 +75,7 @@ watch(
   &::before {
     position: absolute;
     inset: 0;
-    background-color: rgb(0 0 0 / 45%);
+    background-color: rgb(0 0 0 / 80%);
     content: "";
   }
 

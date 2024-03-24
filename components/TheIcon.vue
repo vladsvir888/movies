@@ -1,183 +1,45 @@
 <template>
   <span class="icon">
-    <svg
-      v-if="icon === 'home'"
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 576 512"
-      aria-hidden="true"
-    >
-      <path
-        d="M575.8 255.5c0 18-15 32.1-32 32.1h-32l.7 160.2c0 2.7-.2 5.4-.5 8.1V472c0 22.1-17.9 40-40 40H456c-1.1 0-2.2 0-3.3-.1c-1.4 .1-2.8 .1-4.2 .1H416 392c-22.1 0-40-17.9-40-40V448 384c0-17.7-14.3-32-32-32H256c-17.7 0-32 14.3-32 32v64 24c0 22.1-17.9 40-40 40H160 128.1c-1.5 0-3-.1-4.5-.2c-1.2 .1-2.4 .2-3.6 .2H104c-22.1 0-40-17.9-40-40V360c0-.9 0-1.9 .1-2.8V287.6H32c-18 0-32-14-32-32.1c0-9 3-17 10-24L266.4 8c7-7 15-8 22-8s15 2 21 7L564.8 231.5c8 7 12 15 11 24z"
-      />
-    </svg>
-
-    <svg
-      v-if="icon === 'movie'"
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 512 512"
-      aria-hidden="true"
-    >
-      <path
-        d="M0 96C0 60.7 28.7 32 64 32H448c35.3 0 64 28.7 64 64V416c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V96zM48 368v32c0 8.8 7.2 16 16 16H96c8.8 0 16-7.2 16-16V368c0-8.8-7.2-16-16-16H64c-8.8 0-16 7.2-16 16zm368-16c-8.8 0-16 7.2-16 16v32c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16V368c0-8.8-7.2-16-16-16H416zM48 240v32c0 8.8 7.2 16 16 16H96c8.8 0 16-7.2 16-16V240c0-8.8-7.2-16-16-16H64c-8.8 0-16 7.2-16 16zm368-16c-8.8 0-16 7.2-16 16v32c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16V240c0-8.8-7.2-16-16-16H416zM48 112v32c0 8.8 7.2 16 16 16H96c8.8 0 16-7.2 16-16V112c0-8.8-7.2-16-16-16H64c-8.8 0-16 7.2-16 16zM416 96c-8.8 0-16 7.2-16 16v32c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16V112c0-8.8-7.2-16-16-16H416zM160 128v64c0 17.7 14.3 32 32 32H320c17.7 0 32-14.3 32-32V128c0-17.7-14.3-32-32-32H192c-17.7 0-32 14.3-32 32zm32 160c-17.7 0-32 14.3-32 32v64c0 17.7 14.3 32 32 32H320c17.7 0 32-14.3 32-32V320c0-17.7-14.3-32-32-32H192z"
-      />
-    </svg>
-
-    <svg
-      v-if="icon === 'tv'"
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 640 512"
-      aria-hidden="true"
-    >
-      <path
-        d="M64 64V352H576V64H64zM0 64C0 28.7 28.7 0 64 0H576c35.3 0 64 28.7 64 64V352c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V64zM128 448H512c17.7 0 32 14.3 32 32s-14.3 32-32 32H128c-17.7 0-32-14.3-32-32s14.3-32 32-32z"
-      />
-    </svg>
-
-    <svg
-      v-if="icon === 'search'"
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 512 512"
-      aria-hidden="true"
-    >
-      <path
-        d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z"
-      />
-    </svg>
-
-    <svg
-      v-if="icon === 'tmdb'"
-      xmlns="http://www.w3.org/2000/svg"
-      xmlns:xlink="http://www.w3.org/1999/xlink"
-      viewBox="0 0 273.42 35.52"
-      aria-hidden="true"
-    >
-      <defs>
-        <linearGradient
-          id="linear-gradient"
-          y1="17.76"
-          x2="273.42"
-          y2="17.76"
-          gradientUnits="userSpaceOnUse"
-        >
-          <stop offset="0" stop-color="#90cea1" />
-          <stop offset="0.56" stop-color="#3cbec9" />
-          <stop offset="1" stop-color="#00b3e5" />
-        </linearGradient>
-      </defs>
-      <g id="Layer_2" data-name="Layer 2">
-        <g id="Layer_1-2" data-name="Layer 1">
-          <path
-            class="cls-1"
-            d="M191.85,35.37h63.9A17.67,17.67,0,0,0,273.42,17.7h0A17.67,17.67,0,0,0,255.75,0h-63.9A17.67,17.67,0,0,0,174.18,17.7h0A17.67,17.67,0,0,0,191.85,35.37ZM10.1,35.42h7.8V6.92H28V0H0v6.9H10.1Zm28.1,0H46V8.25h.1L55.05,35.4h6L70.3,8.25h.1V35.4h7.8V0H66.45l-8.2,23.1h-.1L50,0H38.2ZM89.14.12h11.7a33.56,33.56,0,0,1,8.08,1,18.52,18.52,0,0,1,6.67,3.08,15.09,15.09,0,0,1,4.53,5.52,18.5,18.5,0,0,1,1.67,8.25,16.91,16.91,0,0,1-1.62,7.58,16.3,16.3,0,0,1-4.38,5.5,19.24,19.24,0,0,1-6.35,3.37,24.53,24.53,0,0,1-7.55,1.15H89.14Zm7.8,28.2h4a21.66,21.66,0,0,0,5-.55A10.58,10.58,0,0,0,110,26a8.73,8.73,0,0,0,2.68-3.35,11.9,11.9,0,0,0,1-5.08,9.87,9.87,0,0,0-1-4.52,9.17,9.17,0,0,0-2.63-3.18A11.61,11.61,0,0,0,106.22,8a17.06,17.06,0,0,0-4.68-.63h-4.6ZM133.09.12h13.2a32.87,32.87,0,0,1,4.63.33,12.66,12.66,0,0,1,4.17,1.3,7.94,7.94,0,0,1,3,2.72,8.34,8.34,0,0,1,1.15,4.65,7.48,7.48,0,0,1-1.67,5,9.13,9.13,0,0,1-4.43,2.82V17a10.28,10.28,0,0,1,3.18,1,8.51,8.51,0,0,1,2.45,1.85,7.79,7.79,0,0,1,1.57,2.62,9.16,9.16,0,0,1,.55,3.2,8.52,8.52,0,0,1-1.2,4.68,9.32,9.32,0,0,1-3.1,3A13.38,13.38,0,0,1,152.32,35a22.5,22.5,0,0,1-4.73.5h-14.5Zm7.8,14.15h5.65a7.65,7.65,0,0,0,1.78-.2,4.78,4.78,0,0,0,1.57-.65,3.43,3.43,0,0,0,1.13-1.2,3.63,3.63,0,0,0,.42-1.8A3.3,3.3,0,0,0,151,8.6a3.42,3.42,0,0,0-1.23-1.13A6.07,6.07,0,0,0,148,6.9a9.9,9.9,0,0,0-1.85-.18h-5.3Zm0,14.65h7a8.27,8.27,0,0,0,1.83-.2,4.67,4.67,0,0,0,1.67-.7,3.93,3.93,0,0,0,1.23-1.3,3.8,3.8,0,0,0,.47-1.95,3.16,3.16,0,0,0-.62-2,4,4,0,0,0-1.58-1.18,8.23,8.23,0,0,0-2-.55,15.12,15.12,0,0,0-2.05-.15h-5.9Z"
-          />
-        </g>
-      </g>
-    </svg>
-
-    <svg
-      v-if="icon === 'star'"
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 576 512"
-      width="20"
-      height="20"
-      aria-hidden="true"
-    >
-      <path
-        d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z"
-      />
-    </svg>
-
-    <svg
-      v-if="icon === 'arrow-prev'"
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 10 18"
-      aria-hidden="true"
-      width="14"
-      height="14"
-      fill="none"
-      stroke="currentColor"
-    >
-      <path d="M1 1l8 8-8 8" />
-    </svg>
-
-    <svg
-      v-if="icon === 'arrow-next'"
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 10 18"
-      aria-hidden="true"
-      width="14"
-      height="14"
-      fill="none"
-      stroke="currentColor"
-    >
-      <path d="M1 1l8 8-8 8" />
-    </svg>
-
-    <svg
-      v-if="icon === 'menu'"
-      stroke="currentcolor"
-      stroke-width="2"
-      stroke-linecap="round"
-      viewBox="0 0 24 24"
-      aria-hidden="true"
-      width="24"
-      height="24"
-    >
-      <path d="M3 6h18M3 12h12M3 18h18" />
-    </svg>
-
-    <svg
-      v-if="icon === 'close'"
-      stroke-width="2"
-      stroke="currentcolor"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-      viewBox="0 0 24 24"
-      aria-hidden="true"
-      width="24"
-      height="24"
-    >
-      <path d="M18 6L6 18M6 6L18 18" />
-    </svg>
-
-    <svg
-      v-if="icon === 'loupe'"
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 512 512"
-      aria-hidden="true"
-      width="18"
-      height="18"
-      fill="currentColor"
-    >
-      <path
-        d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z"
-      />
-    </svg>
-
-    <svg
-      v-if="icon === 'loupe-line-through'"
-      width="25"
-      height="25"
-      viewBox="0 0 20 20"
-      fill="none"
-      fill-rule="evenodd"
-      stroke="currentColor"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-    >
-      <path
-        d="M15.5 4.8c2 3 1.7 7-1 9.7h0l4.3 4.3-4.3-4.3a7.8 7.8 0 01-9.8 1m-2.2-2.2A7.8 7.8 0 0113.2 2.4M2 18L18 2"
-      ></path>
-    </svg>
+    <component :is="icons[icon]" />
   </span>
 </template>
 
 <script setup>
+import {
+  IconHome,
+  IconMovie,
+  IconTV,
+  IconSearch,
+  IconTMDB,
+  IconStar,
+  IconArrowPrev,
+  IconArrowNext,
+  IconMenu,
+  IconClose,
+  IconLoupe,
+  IconLoupeLineThrough,
+} from "#components";
+
 defineProps({
   icon: {
     type: String,
     required: true,
   },
+});
+
+const icons = shallowRef({
+  home: IconHome,
+  movie: IconMovie,
+  tv: IconTV,
+  search: IconSearch,
+  tmdb: IconTMDB,
+  star: IconStar,
+  "arrow-prev": IconArrowPrev,
+  "arrow-next": IconArrowNext,
+  menu: IconMenu,
+  close: IconClose,
+  loupe: IconLoupe,
+  "loupe-line-through": IconLoupeLineThrough,
 });
 </script>
 

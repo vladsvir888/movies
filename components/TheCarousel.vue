@@ -31,7 +31,7 @@
           class="carousel__more"
           variant="decoration"
         >
-          Explore more
+          {{ $t("explore_more") }}
           <TheIcon icon="arrow-next" />
         </TheButton>
       </header>
@@ -84,14 +84,28 @@ const props = defineProps({
   },
 });
 
+const transformCategory = (value) => {
+  return value
+    .split("_")
+    .map((item, index) => {
+      if (index !== 0) {
+        item = item[0].toUpperCase() + item.slice(1);
+      }
+
+      return item;
+    })
+    .join("");
+};
+
 useApi(`/${props.type}/${props.category}`, {
   onResponse({ response }) {
-    store[props.type][transformWord(props.category)] = response._data.results;
+    store[props.type][transformCategory(props.category)] =
+      response._data.results;
   },
 });
 
 const data = computed(() => {
-  return store[props.type][transformWord(props.category)];
+  return store[props.type][transformCategory(props.category)];
 });
 
 const carouselTitle = computed(() => {

@@ -2,7 +2,7 @@
   <div
     class="hero-block-detail"
     :style="{
-      backgroundImage: `url(${config.public.apiImgUrl}${data.backdropImage})`,
+      backgroundImage: `url(${config.public.apiImgUrl}original${data.backdropImage})`,
     }"
   >
     <div class="container hero-block-detail__container">
@@ -30,13 +30,13 @@
         </div>
       </div>
       <MyLazyImage
-        :src="`${config.public.apiImgUrl}${data.posterImage}`"
-        class="hero-block-detail__image"
-        loading="lazy"
+        :src="`${config.public.apiImgUrl}w500${data.posterImage}`"
         :sizes="{
-          width: 570,
-          height: 856,
+          width: 550,
+          height: 750,
         }"
+        loading="lazy"
+        class="hero-block-detail__image"
       />
     </div>
   </div>

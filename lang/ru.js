@@ -87,4 +87,6 @@ export default {
   previous: "Предыдущий",
   next: "Следующий",
   back: "Назад",
+  images: "Изображений",
+  explore_more: "Узнать больше",
 };

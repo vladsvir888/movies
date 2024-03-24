@@ -1,13 +1,13 @@
 <template>
   <article class="carousel-card">
     <MyLazyImage
-      :src="`${config.public.apiImgUrl}${data.poster_path}`"
-      class="carousel-card__img"
-      loading="lazy"
+      :src="`${config.public.apiImgUrl}w400${data.poster_path}`"
       :sizes="{
-        width: 460,
+        width: 400,
         height: 600,
       }"
+      loading="lazy"
+      class="carousel-card__img"
     />
     <div class="carousel-card__content">
       <h3 v-if="computedTitle" class="carousel-card__title">
@@ -98,6 +98,7 @@ const computedTitle = computed(() => {
     grid-row: 1 / 2;
 
     > .lazy-image__image {
+      width: 100%;
       height: 100%;
       object-fit: cover;
     }

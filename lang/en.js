@@ -87,4 +87,6 @@ export default {
   previous: "Previous",
   next: "Next",
   back: "Go back",
+  images: "Images",
+  explore_more: "Explore more",
 };

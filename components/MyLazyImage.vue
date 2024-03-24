@@ -1,5 +1,5 @@
 <template>
-  <div class="lazy-image">
+  <span class="lazy-image">
     <img
       class="lazy-image__placeholder"
       src="/images/img-placeholder.png"
@@ -14,15 +14,15 @@
       class="lazy-image__image"
       :src="src"
       :alt="alt"
-      :width="sizes.width"
-      :height="sizes.height"
+      :width="sizes?.width"
+      :height="sizes?.height"
       :loading="loading"
       @load="onLoad"
       :style="{
         opacity: isPlaceholder ? 0 : 1,
       }"
     />
-  </div>
+  </span>
 </template>
 
 <script setup>

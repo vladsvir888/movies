@@ -13,10 +13,7 @@ export default defineNuxtConfig({
   },
 
   app: {
-    pageTransition:
-      process.env.NODE_ENV === "production"
-        ? { name: "page", mode: "out-in" }
-        : false,
+    pageTransition: false,
     head: {
       link: [
         {
