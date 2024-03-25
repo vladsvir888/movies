@@ -20,6 +20,10 @@
         <TabPanel title="Photos">
           <PhotosBlock v-if="photos" :data="photos" />
         </TabPanel>
+
+        <TabPanel title="Reviews">
+          <ReviewsBlock v-if="reviews" :data="reviews" />
+        </TabPanel>
       </TabGroup>
     </div>
   </div>
@@ -31,6 +35,7 @@ const { locale } = useI18n();
 
 const heroBlockDetail = ref({});
 const photos = ref(null);
+const reviews = ref(null);
 
 const transformPhotos = (images) => {
   delete images?.logos;
@@ -42,10 +47,18 @@ const transformPhotos = (images) => {
   return images;
 };
 
+const transformReviews = (items) => {
+  return items.map(({ id, author, content }) => ({
+    id,
+    author,
+    content,
+  }));
+};
+
 useApi(`/${route.params.type}/${route.params.id}`, {
   query: {
     language: locale,
-    append_to_response: "videos,images",
+    append_to_response: "videos,images,reviews",
   },
   onResponse({ response }) {
     const {
@@ -59,6 +72,7 @@ useApi(`/${route.params.type}/${route.params.id}`, {
       vote_average: voteAverage,
       poster_path: posterImage,
       images,
+      reviews: reviewsItems,
     } = response._data;
 
     heroBlockDetail.value = {
@@ -74,6 +88,7 @@ useApi(`/${route.params.type}/${route.params.id}`, {
     };
 
     photos.value = transformPhotos(images);
+    reviews.value = transformReviews(reviewsItems.results);
   },
 });
 </script>

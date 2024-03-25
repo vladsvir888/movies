@@ -89,4 +89,5 @@ export default {
   back: "Go back",
   images: "Images",
   explore_more: "Explore more",
+  no_reviews: "No reviews",
 };

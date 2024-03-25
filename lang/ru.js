@@ -89,4 +89,5 @@ export default {
   back: "Назад",
   images: "Изображений",
   explore_more: "Узнать больше",
+  no_reviews: "Нет отзывов",
 };
