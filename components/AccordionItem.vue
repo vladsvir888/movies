@@ -16,9 +16,10 @@
       :id="`accordion-panel-${id}`"
       :aria-labelledby="`accordion-header-${id}`"
       class="accordion-item__content"
-      v-show="activeAccordionItem === id"
     >
-      <slot />
+      <div class="accordion-item__content-wrapper">
+        <slot />
+      </div>
     </div>
   </div>
 </template>
@@ -56,6 +57,13 @@ const onClickButton = (id) => {
     border-bottom: 0;
   }
 
+  &:has(.accordion-item__button[aria-expanded="true"])
+    .accordion-item__content {
+    grid-template-rows: 1fr;
+    margin-bottom: 20px;
+    visibility: visible;
+  }
+
   &__button {
     display: flex;
     justify-content: space-between;
@@ -83,7 +91,14 @@ const onClickButton = (id) => {
   }
 
   &__content {
-    margin-bottom: 20px;
+    display: grid;
+    grid-template-rows: 0fr;
+    visibility: hidden;
+    transition: all var(--transition500ms);
+
+    &-wrapper {
+      overflow: hidden;
+    }
   }
 }
 </style>

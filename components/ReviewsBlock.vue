@@ -7,7 +7,7 @@
         :title="item.author"
         :id="item.id"
       >
-        <p>{{ item.content }}</p>
+        {{ item.content }}
       </AccordionItem>
     </AccordionGroup>
 
