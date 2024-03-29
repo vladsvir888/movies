@@ -9,20 +9,16 @@
 
     <div class="page-detail__tabs container">
       <TabGroup>
-        <TabPanel title="Overview">
-          <p>Overview content</p>
-        </TabPanel>
-
-        <TabPanel title="Videos">
-          <p>Videos content</p>
-        </TabPanel>
-
-        <TabPanel title="Photos">
-          <PhotosBlock v-if="photos" :data="photos" />
-        </TabPanel>
-
-        <TabPanel title="Reviews">
-          <ReviewsBlock v-if="reviews" :data="reviews" />
+        <TabPanel
+          v-for="(tabPanelsValue, tabPanelsKey) in tabPanels"
+          :key="tabPanelsKey"
+          :title="tabPanelsValue.title"
+        >
+          <component
+            v-if="tabPanelsValue.data"
+            :is="tabPanelsValue.component"
+            :data="tabPanelsValue.data"
+          />
         </TabPanel>
       </TabGroup>
     </div>
@@ -30,21 +26,48 @@
 </template>
 
 <script setup>
+import { VideosBlock, PhotosBlock, ReviewsBlock } from "#components";
+
 const route = useRoute();
 const { locale } = useI18n();
 
+const tabPanels = ref({
+  videos: {
+    title: "Videos",
+    component: markRaw(VideosBlock),
+    data: ref(null),
+  },
+  photos: {
+    title: "Photos",
+    component: markRaw(PhotosBlock),
+    data: ref(null),
+  },
+  reviews: {
+    title: "Reviews",
+    component: markRaw(ReviewsBlock),
+    data: ref(null),
+  },
+});
+
 const heroBlockDetail = ref({});
-const photos = ref(null);
-const reviews = ref(null);
 
-const transformPhotos = (images) => {
-  delete images?.logos;
+const transformPhotos = (items) => {
+  delete items?.logos;
 
-  for (let key in images) {
-    images[key] = images[key].map((image) => image.file_path);
+  for (let key in items) {
+    items[key] = items[key].map((item) => item.file_path);
   }
 
-  return images;
+  return items;
+};
+
+const transformVideos = (items) => {
+  return items.map(({ key, name, type, published_at }) => ({
+    id: key,
+    name,
+    type,
+    date: published_at,
+  }));
 };
 
 const transformReviews = (items) => {
@@ -73,6 +96,7 @@ useApi(`/${route.params.type}/${route.params.id}`, {
       poster_path: posterImage,
       images,
       reviews: reviewsItems,
+      videos: videosItems,
     } = response._data;
 
     heroBlockDetail.value = {
@@ -87,8 +111,9 @@ useApi(`/${route.params.type}/${route.params.id}`, {
       posterImage,
     };
 
-    photos.value = transformPhotos(images);
-    reviews.value = transformReviews(reviewsItems.results);
+    tabPanels.value.photos.data = transformPhotos(images);
+    tabPanels.value.reviews.data = transformReviews(reviewsItems.results);
+    tabPanels.value.videos.data = transformVideos(videosItems.results);
   },
 });
 </script>

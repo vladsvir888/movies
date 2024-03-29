@@ -28,11 +28,12 @@
 </template>
 
 <script setup>
+const videoStore = useVideo();
 const tabRefs = ref([]);
 const tabTitles = ref(
   useSlots()
-    .default()
-    .map((tab) => tab.props?.title)
+    .default()[0]
+    .children.map((tab) => tab.props?.title)
 );
 const activeTab = ref(tabTitles.value[0]);
 
@@ -45,6 +46,8 @@ const getCurrentIndexTab = () => {
 const setSelectedTab = (index) => {
   tabRefs.value[index].button.focus();
   activeTab.value = tabTitles.value[index];
+
+  videoStore.stopAllVideos();
 };
 
 const setSelectedToPreviousTab = () => {
