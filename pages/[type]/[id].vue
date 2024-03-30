@@ -26,12 +26,17 @@
 </template>
 
 <script setup>
-import { VideosBlock, PhotosBlock, ReviewsBlock } from "#components";
+import { VideosBlock, PhotosBlock, ReviewsBlock, InfoBlock } from "#components";
 
 const route = useRoute();
 const { locale } = useI18n();
 
 const tabPanels = ref({
+  info: {
+    title: "Info",
+    component: markRaw(InfoBlock),
+    data: ref(null),
+  },
   videos: {
     title: "Videos",
     component: markRaw(VideosBlock),
@@ -85,6 +90,13 @@ useApi(`/${route.params.type}/${route.params.id}`, {
   },
   onResponse({ response }) {
     const {
+      original_title: originalTitle,
+      original_language: originalLanguage,
+      runtime,
+      budget,
+      revenue,
+      production_companies: productionCompanies,
+      production_countries: productionCountries,
       backdrop_path: backdropImage,
       title,
       name,
@@ -111,6 +123,17 @@ useApi(`/${route.params.type}/${route.params.id}`, {
       posterImage,
     };
 
+    tabPanels.value.info.data = {
+      originalTitle,
+      originalLanguage,
+      runtime,
+      budget,
+      revenue,
+      status,
+      date,
+      productionCompanies,
+      productionCountries,
+    };
     tabPanels.value.photos.data = transformPhotos(images);
     tabPanels.value.reviews.data = transformReviews(reviewsItems.results);
     tabPanels.value.videos.data = transformVideos(videosItems.results);

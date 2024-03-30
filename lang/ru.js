@@ -90,4 +90,17 @@ export default {
   images: "Изображений",
   explore_more: "Узнать больше",
   no_reviews: "Нет отзывов",
+  info_block: {
+    title: "Название",
+    language: "Язык",
+    runtime: "Время",
+    status: "Статус",
+    release_date: "Дата релиза",
+    production_companies: "Производственные компании",
+    production_countries: "Страны производства",
+    budget: "Бюджет",
+    revenue: "Доход",
+  },
+  hours: "ч",
+  minutes: "мин",
 };

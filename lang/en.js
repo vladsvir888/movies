@@ -90,4 +90,17 @@ export default {
   images: "Images",
   explore_more: "Explore more",
   no_reviews: "No reviews",
+  info_block: {
+    title: "Original Title",
+    language: "Original Language",
+    runtime: "Runtime",
+    status: "Status",
+    release_date: "Release Date",
+    production_companies: "Production Companies",
+    production_countries: "Production Countries",
+    budget: "Budget",
+    revenue: "Revenue",
+  },
+  hours: "h",
+  minutes: "min",
 };
