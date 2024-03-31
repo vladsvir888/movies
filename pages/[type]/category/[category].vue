@@ -5,11 +5,13 @@
       :title="$t(`${$route.params.type}_${$route.params.category}.title`)"
       :description="$t(`${$route.params.type}_${$route.params.category}.title`)"
     />
-    <CardBlock :data="totalResults" />
-    <div class="container page-category__container">
-      <TheLoader v-if="isPendingAutoload" />
-      <div v-intersection-observer="{ callback, options }" ref="target"></div>
-    </div>
+    <AutoloadCardBlock
+      :data="totalResults"
+      :page="page"
+      :total-pages="totalPages"
+      :is-pending="isPendingAutoload"
+      @update:page="page = $event"
+    />
   </div>
 </template>
 
@@ -19,9 +21,8 @@ import { lists } from "~/constants";
 const route = useRoute();
 const { locale } = useI18n();
 
-const target = ref(null);
 const page = ref(1);
-const totalPages = ref(null);
+const totalPages = ref(0);
 const totalResults = ref([]);
 const isPendingAutoload = ref(false);
 
@@ -39,19 +40,6 @@ if (!lists[type.value].find((item) => item.category === category.value)) {
     fatal: true,
   });
 }
-
-const options = {
-  rootMargin: "-150px 0px 0px 0px",
-};
-const callback = (entries) => {
-  if (
-    entries[0].isIntersecting &&
-    page.value < totalPages.value &&
-    !isPendingAutoload.value
-  ) {
-    page.value += 1;
-  }
-};
 
 useApi(`/${type.value}/${category.value}`, {
   query: {

@@ -26,30 +26,43 @@
 </template>
 
 <script setup>
-import { VideosBlock, PhotosBlock, ReviewsBlock, InfoBlock } from "#components";
+import {
+  VideosBlock,
+  PhotosBlock,
+  ReviewsBlock,
+  InfoBlock,
+  SimilarBlock,
+} from "#components";
+
+const { t } = useI18n();
 
 const route = useRoute();
 const { locale } = useI18n();
 
 const tabPanels = ref({
   info: {
-    title: "Info",
+    title: t("tabs.info"),
     component: markRaw(InfoBlock),
     data: ref(null),
   },
   videos: {
-    title: "Videos",
+    title: t("tabs.videos"),
     component: markRaw(VideosBlock),
     data: ref(null),
   },
   photos: {
-    title: "Photos",
+    title: t("tabs.photos"),
     component: markRaw(PhotosBlock),
     data: ref(null),
   },
   reviews: {
-    title: "Reviews",
+    title: t("tabs.reviews"),
     component: markRaw(ReviewsBlock),
+    data: ref(null),
+  },
+  similar: {
+    title: t("tabs.similar"),
+    component: markRaw(SimilarBlock),
     data: ref(null),
   },
 });
@@ -93,7 +106,7 @@ const id = computed(() => {
 const data = await useApi(`/${type.value}/${id.value}`, {
   query: {
     language: locale,
-    append_to_response: "videos,images,reviews",
+    append_to_response: "videos,images,reviews,similar",
   },
   onResponse({ response }) {
     const {
@@ -116,6 +129,7 @@ const data = await useApi(`/${type.value}/${id.value}`, {
       images,
       reviews: reviewsItems,
       videos: videosItems,
+      similar,
     } = response._data;
 
     heroBlockDetail.value = {
@@ -144,6 +158,7 @@ const data = await useApi(`/${type.value}/${id.value}`, {
     tabPanels.value.photos.data = transformPhotos(images);
     tabPanels.value.reviews.data = transformReviews(reviewsItems.results);
     tabPanels.value.videos.data = transformVideos(videosItems.results);
+    tabPanels.value.similar.data = similar;
   },
 });
 

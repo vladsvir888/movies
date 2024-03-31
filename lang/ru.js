@@ -103,4 +103,11 @@ export default {
   },
   hours: "ч",
   minutes: "мин",
+  tabs: {
+    info: "Информация",
+    videos: "Видео",
+    photos: "Фото",
+    reviews: "Отзывы",
+    similar: "Похожие",
+  },
 };

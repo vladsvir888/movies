@@ -114,6 +114,10 @@ const setSelectedToNextTab = () => {
 
   &__panels {
     margin-top: 50px;
+
+    @media (width <= 600px) {
+      margin-top: 30px;
+    }
   }
 }
 </style>

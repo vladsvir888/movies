@@ -103,4 +103,11 @@ export default {
   },
   hours: "h",
   minutes: "min",
+  tabs: {
+    info: "Info",
+    videos: "Videos",
+    photos: "Photos",
+    reviews: "Reviews",
+    similar: "Similar",
+  },
 };
