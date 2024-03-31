@@ -14,6 +14,8 @@
 </template>
 
 <script setup>
+import { lists } from "~/constants";
+
 const route = useRoute();
 const { locale } = useI18n();
 
@@ -23,20 +25,20 @@ const totalPages = ref(null);
 const totalResults = ref([]);
 const isPendingAutoload = ref(false);
 
-useApi(`/${route.params.type}/${route.params.category}`, {
-  query: {
-    page,
-    language: locale,
-  },
-  onRequest() {
-    isPendingAutoload.value = true;
-  },
-  onResponse({ response }) {
-    isPendingAutoload.value = false;
-    totalResults.value = [...totalResults.value, ...response._data.results];
-    totalPages.value = response._data.total_pages;
-  },
+const type = computed(() => {
+  return route.params.type;
 });
+
+const category = computed(() => {
+  return route.params.category;
+});
+
+if (!lists[type.value].find((item) => item.category === category.value)) {
+  throw createError({
+    statusCode: 404,
+    fatal: true,
+  });
+}
 
 const options = {
   rootMargin: "-150px 0px 0px 0px",
@@ -50,6 +52,21 @@ const callback = (entries) => {
     page.value += 1;
   }
 };
+
+useApi(`/${type.value}/${category.value}`, {
+  query: {
+    page,
+    language: locale,
+  },
+  onRequest() {
+    isPendingAutoload.value = true;
+  },
+  onResponse({ response }) {
+    isPendingAutoload.value = false;
+    totalResults.value = [...totalResults.value, ...response._data.results];
+    totalPages.value = response._data.total_pages;
+  },
+});
 </script>
 
 <style lang="scss">

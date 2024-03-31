@@ -53,7 +53,6 @@ const tabPanels = ref({
     data: ref(null),
   },
 });
-
 const heroBlockDetail = ref({});
 
 const transformPhotos = (items) => {
@@ -83,7 +82,15 @@ const transformReviews = (items) => {
   }));
 };
 
-useApi(`/${route.params.type}/${route.params.id}`, {
+const type = computed(() => {
+  return route.params.type;
+});
+
+const id = computed(() => {
+  return route.params.id;
+});
+
+const data = await useApi(`/${type.value}/${id.value}`, {
   query: {
     language: locale,
     append_to_response: "videos,images,reviews",
@@ -139,6 +146,13 @@ useApi(`/${route.params.type}/${route.params.id}`, {
     tabPanels.value.videos.data = transformVideos(videosItems.results);
   },
 });
+
+if (!data) {
+  throw createError({
+    statusCode: 404,
+    fatal: true,
+  });
+}
 </script>
 
 <style lang="scss">

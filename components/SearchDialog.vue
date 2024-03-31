@@ -101,7 +101,7 @@ const totalResultsCount = ref(null);
 
 const isSearchDialogShow = inject("isSearchDialogShow");
 
-await useApi("/search/multi", {
+useApi("/search/multi", {
   immediate: false,
   query: {
     query: searchQueryDebounced,
