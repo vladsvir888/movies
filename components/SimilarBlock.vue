@@ -1,6 +1,7 @@
 <template>
   <div class="similar-block">
     <AutoloadCardBlock
+      v-if="data.results.length"
       :data="totalResults"
       :page="page"
       :total-pages="totalPages"
@@ -9,6 +10,7 @@
       :is-back-button="false"
       @update:page="page = $event"
     />
+    <p v-else class="similar-block__text">{{ $t("no_similar") }}</p>
   </div>
 </template>
 

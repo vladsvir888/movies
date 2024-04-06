@@ -160,6 +160,7 @@ const transformedRevenue = computed(() => {
 
     &:first-child {
       font-weight: 700;
+      vertical-align: top;
     }
   }
 

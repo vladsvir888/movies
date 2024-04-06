@@ -12,22 +12,40 @@
 
       <ul class="photos-block__list">
         <li
-          v-for="path in categoryData"
+          v-for="(path, index) in categoryData"
           :key="path"
           class="photos-block__list-item"
         >
-          <MyLazyImage
-            :src="`${config.public.apiImgUrl}w500${path}`"
-            :sizes="{
-              width: 400,
-              height: 400,
-            }"
-            loading="lazy"
-            class="photos-block__image"
-          />
+          <TheButton
+            class="photos-block__list-button"
+            :aria-label="$t('lightbox.open_button')"
+            @click="onClickButton(categoryName, index)"
+          >
+            <MyLazyImage
+              :src="`${config.public.apiImgUrl}w500${path}`"
+              :sizes="{
+                width: 400,
+                height: 400,
+              }"
+              loading="lazy"
+              class="photos-block__image"
+            />
+          </TheButton>
         </li>
       </ul>
     </section>
+
+    <ImageLightbox
+      :items="items"
+      :index="indexActiveItem"
+      :is-show="isShow"
+      @close="
+        (value) => {
+          isShow = value;
+          items = [];
+        }
+      "
+    />
   </div>
 </template>
 
@@ -41,6 +59,24 @@ const props = defineProps({
   },
 });
 
+const backdrops = ref(props.data.backdrops);
+const posters = ref(props.data.posters);
+
+const items = ref([]);
+const indexActiveItem = ref(0);
+const isShow = ref(false);
+
+const onClickButton = (category, index) => {
+  if (category === "backdrops") {
+    items.value = backdrops.value;
+  } else if (category === "posters") {
+    items.value = posters.value;
+  }
+
+  indexActiveItem.value = index;
+  isShow.value = true;
+};
+
 const transformCategory = (category) => {
   return category[0].toUpperCase() + category.slice(1);
 };
@@ -50,6 +86,8 @@ const transformCategory = (category) => {
 @import "~/assets/styles/helpers/mixins/hover.scss";
 
 .photos-block {
+  $this: &;
+
   display: flex;
   flex-direction: column;
   row-gap: 60px;
@@ -83,6 +121,18 @@ const transformCategory = (category) => {
     &-item {
       display: flex;
       justify-content: center;
+    }
+
+    &-button {
+      &:focus-visible {
+        outline: none;
+
+        #{$this}__image {
+          > .lazy-image__image {
+            scale: 1.1;
+          }
+        }
+      }
     }
   }
 

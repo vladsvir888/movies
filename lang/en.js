@@ -89,7 +89,6 @@ export default {
   back: "Go back",
   images: "Images",
   explore_more: "Explore more",
-  no_reviews: "No reviews",
   info_block: {
     title: "Original Title",
     language: "Original Language",
@@ -110,4 +109,11 @@ export default {
     reviews: "Reviews",
     similar: "Similar",
   },
+  lightbox: {
+    open_button: "Open gallery images",
+    label: "Gallery images",
+  },
+  no_reviews: "No reviews",
+  no_videos: "No videos",
+  no_similar: "No similar",
 };

@@ -89,7 +89,6 @@ export default {
   back: "Назад",
   images: "Изображений",
   explore_more: "Узнать больше",
-  no_reviews: "Нет отзывов",
   info_block: {
     title: "Название",
     language: "Язык",
@@ -110,4 +109,11 @@ export default {
     reviews: "Отзывы",
     similar: "Похожие",
   },
+  lightbox: {
+    open_button: "Открыть галерею изображений",
+    label: "Галерея изображений",
+  },
+  no_reviews: "Нет отзывов",
+  no_videos: "Нет видео",
+  no_similar: "Нет похожих",
 };

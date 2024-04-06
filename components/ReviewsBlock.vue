@@ -10,7 +10,6 @@
         {{ item.content }}
       </AccordionItem>
     </AccordionGroup>
-
     <p v-else class="reviews-block__text">{{ $t("no_reviews") }}</p>
   </div>
 </template>
@@ -23,3 +22,10 @@ defineProps({
   },
 });
 </script>
+
+<style lang="scss">
+.reviews-block {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+</style>
