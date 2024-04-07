@@ -5,14 +5,7 @@
     :class="{ expanded: isMenuExpanded }"
     @keydown.esc="closeMenu"
   >
-    <MenuButton
-      :is-menu-expanded="isMenuExpanded"
-      @update:is-menu-expanded="
-        (isExpanded) => {
-          isExpanded ? showMenu() : closeMenu();
-        }
-      "
-    />
+    <MenuButton v-model:is-menu-expanded="isMenuExpanded" />
     <div class="sidebar__wrapper" @click="closeMenu">
       <aside id="sidebar" class="sidebar__aside" @click.stop>
         <nav class="sidebar__nav">
@@ -41,6 +34,7 @@
 const route = useRoute();
 
 const isSearchDialogShow = inject("isSearchDialogShow");
+const isDiscoverDialogShow = inject("isDiscoverDialogShow");
 
 const links = ref([
   {
@@ -68,17 +62,22 @@ const links = ref([
       },
     },
   },
+  {
+    value: "filter",
+    icon: "filter",
+    handlers: {
+      click: () => {
+        isDiscoverDialogShow.value = true;
+        isMenuExpanded.value = false;
+      },
+    },
+  },
 ]);
 const isMenuExpanded = ref(false);
 
 const closeMenu = () => {
   isMenuExpanded.value = false;
   document.body.classList.remove("no-scroll");
-};
-
-const showMenu = () => {
-  isMenuExpanded.value = true;
-  document.body.classList.add("no-scroll");
 };
 
 watch(() => route.path, closeMenu);
@@ -135,7 +134,7 @@ watch(() => route.path, closeMenu);
   &__nav {
     display: flex;
     flex-direction: column;
-    row-gap: 100px;
+    row-gap: 80px;
   }
 
   &__link {

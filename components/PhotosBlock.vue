@@ -37,14 +37,8 @@
 
     <ImageLightbox
       :items="items"
-      :index="indexActiveItem"
-      :is-show="isShow"
-      @close="
-        (value) => {
-          isShow = value;
-          items = [];
-        }
-      "
+      v-model:index="indexActiveItem"
+      v-model:is-show="isShow"
     />
   </div>
 </template>
@@ -63,7 +57,7 @@ const backdrops = ref(props.data.backdrops);
 const posters = ref(props.data.posters);
 
 const items = ref([]);
-const indexActiveItem = ref(0);
+const indexActiveItem = ref(null);
 const isShow = ref(false);
 
 const onClickButton = (category, index) => {

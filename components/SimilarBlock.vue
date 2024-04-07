@@ -3,12 +3,11 @@
     <AutoloadCardBlock
       v-if="data.results.length"
       :data="totalResults"
-      :page="page"
+      v-model:page="page"
       :total-pages="totalPages"
       :is-pending="isPendingAutoload"
       :is-title="false"
       :is-back-button="false"
-      @update:page="page = $event"
     />
     <p v-else class="similar-block__text">{{ $t("no_similar") }}</p>
   </div>

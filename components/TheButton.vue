@@ -18,6 +18,7 @@ const props = defineProps({
   },
   variant: {
     type: String,
+    validator: (value) => ["primary", "decoration"].includes(value),
   },
   target: {
     type: String,

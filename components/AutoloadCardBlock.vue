@@ -31,11 +31,6 @@ const props = defineProps({
     required: true,
     default: () => [],
   },
-  page: {
-    type: Number,
-    required: true,
-    default: 1,
-  },
   totalPages: {
     type: Number,
     required: true,
@@ -56,9 +51,10 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(["update:page"]);
-
-const localPage = ref(props.page);
+const page = defineModel("page", {
+  required: true,
+  default: 1,
+});
 
 const options = {
   rootMargin: "-150px 0px 0px 0px",
@@ -69,7 +65,7 @@ const callback = (entries) => {
     props.page < props.totalPages &&
     !props.isPending
   ) {
-    emit("update:page", (localPage.value += 1));
+    page.value += 1;
   }
 };
 </script>

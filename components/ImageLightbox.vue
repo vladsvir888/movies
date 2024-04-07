@@ -18,7 +18,7 @@
             v-for="(item, i) in items"
             :key="item"
             :style="{
-              opacity: localIndex === i ? 1 : 0,
+              opacity: index === i ? 1 : 0,
             }"
             class="image-lightbox__list-item"
           >
@@ -56,7 +56,7 @@
           <TheIcon icon="arrow-next" />
         </TheButton>
         <div class="image-lightbox__counter">
-          {{ localIndex + 1 }} / {{ items.length }}
+          {{ index + 1 }} / {{ items.length }}
         </div>
       </div>
     </Transition>
@@ -71,46 +71,35 @@ const props = defineProps({
     type: Array,
     required: true,
   },
-  index: {
-    type: Number,
-    required: true,
-  },
-  isShow: {
-    type: Boolean,
-    default: false,
-  },
 });
 
-const emit = defineEmits(["close"]);
+const isShow = defineModel("isShow", {
+  default: false,
+});
 
-const localIndex = ref(props.index);
+const index = defineModel("index", {
+  default: null,
+});
 
 const isFirstImage = computed(() => {
-  return localIndex.value === 0;
+  return index.value === 0;
 });
 
 const isLastImage = computed(() => {
-  return localIndex.value === props.items.length - 1;
+  return index.value === props.items.length - 1;
 });
 
-watch(
-  () => props.index,
-  () => (localIndex.value = props.index)
-);
-
-watch(
-  () => props.isShow,
-  (newValue) => {
-    if (newValue) {
-      document.body.classList.add("no-scroll");
-    } else {
-      document.body.classList.remove("no-scroll");
-    }
+watch(isShow, (newValue) => {
+  if (newValue) {
+    document.body.classList.add("no-scroll");
+  } else {
+    document.body.classList.remove("no-scroll");
   }
-);
+});
 
 const closeLightbox = () => {
-  emit("close", false);
+  isShow.value = false;
+  index.value = null;
 };
 
 const toNextImage = (event) => {
@@ -119,7 +108,7 @@ const toNextImage = (event) => {
     return;
   }
 
-  localIndex.value += 1;
+  index.value += 1;
 };
 
 const toPreviousImage = (event) => {
@@ -128,7 +117,7 @@ const toPreviousImage = (event) => {
     return;
   }
 
-  localIndex.value -= 1;
+  index.value -= 1;
 };
 </script>
 

@@ -1,96 +1,86 @@
 <template>
-  <dialog ref="searchDialog" class="search-dialog">
-    <div class="search-dialog__wrapper">
-      <h2 class="search-dialog__title">{{ $t("search_dialog.title") }}</h2>
-      <div class="search-dialog__input-wrapper">
-        <TheIcon icon="loupe" class="search-dialog__loupe-icon" />
-        <input
-          v-model="searchQuery"
-          type="text"
-          class="search-dialog__input"
-          autocomplete="off"
-          :placeholder="$t('search_dialog.input')"
-        />
-        <TheButton
-          v-show="searchQueryDebounced.length"
-          @click="searchQuery = ''"
-          class="search-dialog__clean"
-          :aria-label="$t('search_dialog.clean_button')"
-          type="button"
-        >
-          <TheIcon icon="close" />
-        </TheButton>
-      </div>
-      <TheLoader v-if="isPendingSearch" class="search-dialog__loader" />
-      <ul
-        v-else-if="totalResults.length && !isPendingSearch"
-        class="search-dialog__results"
-      >
-        <li v-for="result in totalResults" :key="result.id">
-          <TheButton
-            @click="hideSearchDialog"
-            class="search-dialog__results-button"
-            :to="`/${result.media_type}/${result.id}`"
-            variant="decoration"
-          >
-            {{ result.title ?? result.name }}
-          </TheButton>
-        </li>
-      </ul>
-      <div
-        v-else-if="
-          !totalResults.length &&
-          !isPendingSearch &&
-          searchQueryDebounced.length
-        "
-        class="search-dialog__no-results"
-      >
-        <TheIcon icon="loupe-line-through" />
-        <p class="search-dialog__no-results-text">
-          {{ $t("search_dialog.no_results") }}
-          <b>"{{ searchQueryDebounced }}"</b>
-        </p>
-      </div>
-      <div
-        v-if="totalResults.length && !isPendingSearch"
-        class="search-dialog__pagination"
-      >
-        <TheButton
-          class="search-dialog__pagination-button search-dialog__pagination-button--prev"
-          :aria-label="$t('previous')"
-          @click="page -= 1"
-          :disabled="page === 1"
-        >
-          <TheIcon icon="arrow-prev" />
-        </TheButton>
-        <p class="search-dialog__pagination-text">
-          {{ page }} / {{ totalPages }}
-        </p>
-        <TheButton
-          class="search-dialog__pagination-button search-dialog__pagination-button--next"
-          :aria-label="$t('next')"
-          @click="page += 1"
-          :disabled="page === totalPages"
-        >
-          <TheIcon icon="arrow-next" />
-        </TheButton>
-      </div>
+  <DialogContainer
+    class="search-dialog"
+    :title="$t('search_dialog.title')"
+    v-model:is-show="isSearchDialogShow"
+  >
+    <div class="search-dialog__input-wrapper">
+      <TheIcon icon="loupe" class="search-dialog__loupe-icon" />
+      <input
+        v-model="searchQuery"
+        type="text"
+        class="search-dialog__input"
+        autocomplete="off"
+        :placeholder="$t('search_dialog.input')"
+      />
       <TheButton
-        class="search-dialog__close"
-        :aria-label="$t('close')"
+        v-show="searchQueryDebounced.length"
+        @click="cleanSearchQuery"
+        class="search-dialog__clean"
+        :aria-label="$t('search_dialog.clean_button')"
         type="button"
-        @click="hideSearchDialog"
       >
         <TheIcon icon="close" />
       </TheButton>
     </div>
-  </dialog>
+    <TheLoader v-if="isPendingSearch" class="search-dialog__loader" />
+    <ul
+      v-else-if="totalResults.length && !isPendingSearch"
+      class="search-dialog__results"
+    >
+      <li v-for="result in totalResults" :key="result.id">
+        <TheButton
+          @click="hideSearchDialog"
+          class="search-dialog__results-button"
+          :to="`/${result.media_type}/${result.id}`"
+          variant="decoration"
+        >
+          {{ result.title ?? result.name }}
+        </TheButton>
+      </li>
+    </ul>
+    <div
+      v-else-if="
+        !totalResults.length && !isPendingSearch && searchQueryDebounced.length
+      "
+      class="search-dialog__no-results"
+    >
+      <TheIcon icon="loupe-line-through" />
+      <p class="search-dialog__no-results-text">
+        {{ $t("search_dialog.no_results") }}
+        <b>"{{ searchQueryDebounced }}"</b>
+      </p>
+    </div>
+    <div
+      v-if="totalResults.length && !isPendingSearch"
+      class="search-dialog__pagination"
+    >
+      <TheButton
+        class="search-dialog__pagination-button search-dialog__pagination-button--prev"
+        :aria-label="$t('previous')"
+        @click="toPreviousPage"
+        :disabled="isFirstPage"
+      >
+        <TheIcon icon="arrow-prev" />
+      </TheButton>
+      <p class="search-dialog__pagination-text">
+        {{ page }} / {{ totalPages }}
+      </p>
+      <TheButton
+        class="search-dialog__pagination-button search-dialog__pagination-button--next"
+        :aria-label="$t('next')"
+        @click="toNextPage"
+        :disabled="isLastPage"
+      >
+        <TheIcon icon="arrow-next" />
+      </TheButton>
+    </div>
+  </DialogContainer>
 </template>
 
 <script setup>
 const { locale } = useI18n();
 
-const searchDialog = ref(null);
 const searchQuery = ref("");
 const searchQueryDebounced = debouncedRef(searchQuery, 650);
 const totalResults = ref([]);
@@ -100,6 +90,30 @@ const totalPages = ref(null);
 const totalResultsCount = ref(null);
 
 const isSearchDialogShow = inject("isSearchDialogShow");
+
+const cleanSearchQuery = () => {
+  searchQuery.value = "";
+};
+
+const toPreviousPage = () => {
+  page.value -= 1;
+};
+
+const toNextPage = () => {
+  page.value += 1;
+};
+
+const hideSearchDialog = () => {
+  isSearchDialogShow.value = false;
+};
+
+const isFirstPage = computed(() => {
+  return page.value === 1;
+});
+
+const isLastPage = computed(() => {
+  return page.value === totalPages.value;
+});
 
 useApi("/search/multi", {
   immediate: false,
@@ -127,79 +141,12 @@ useApi("/search/multi", {
     totalResultsCount.value = response._data.total_results;
   },
 });
-
-const hideSearchDialog = () => {
-  isSearchDialogShow.value = false;
-};
-
-const onClickOutsideSearchDialog = (event) => {
-  if (event.target === searchDialog.value) {
-    hideSearchDialog();
-  }
-};
-
-watch(isSearchDialogShow, (newValue) => {
-  if (newValue) {
-    searchDialog.value.showModal();
-    document.body.classList.add("no-scroll");
-    searchDialog.value.animate(
-      {
-        opacity: [0, 1],
-        translate: ["0 12px", "0 0"],
-      },
-      200
-    );
-  } else {
-    searchDialog.value.animate(
-      {
-        opacity: [1, 0],
-        translate: ["0 0", "0 12px"],
-      },
-      200
-    ).onfinish = () => {
-      searchDialog.value?.close();
-      document.body.classList.remove("no-scroll");
-    };
-  }
-});
-
-onMounted(() => {
-  document.body.addEventListener("click", onClickOutsideSearchDialog);
-  searchDialog.value.addEventListener("close", hideSearchDialog);
-});
-
-onUnmounted(() => {
-  document.body.removeEventListener("click", onClickOutsideSearchDialog);
-  searchDialog.value?.removeEventListener("close", hideSearchDialog);
-});
 </script>
 
 <style lang="scss">
 @import "~/assets/styles/helpers/mixins/hover.scss";
-@import "~/assets/styles/helpers/mixins/scrollbar.scss";
 
 .search-dialog {
-  $this: &;
-
-  @include scrollbar;
-
-  max-width: 500px;
-  width: 95%;
-  padding: 0;
-  border: none;
-  border-radius: 8px;
-
-  &::backdrop {
-    background-color: rgb(0 0 0 / 50%);
-  }
-
-  &__wrapper {
-    display: flex;
-    flex-direction: column;
-    row-gap: 20px;
-    padding: 30px;
-  }
-
   &__input-wrapper {
     position: relative;
   }
@@ -241,7 +188,6 @@ onUnmounted(() => {
   }
 
   &__clean,
-  &__close,
   &__pagination-button {
     transition: color var(--transition300ms);
 
@@ -250,12 +196,6 @@ onUnmounted(() => {
         color: var(--primary-color);
       }
     }
-  }
-
-  &__close {
-    position: absolute;
-    right: 6px;
-    top: 6px;
   }
 
   &__results {

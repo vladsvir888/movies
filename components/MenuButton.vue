@@ -3,7 +3,7 @@
     class="menu-button"
     :aria-expanded="isMenuExpanded"
     aria-controls="sidebar"
-    @click="$emit('update:isMenuExpanded', !isMenuExpanded)"
+    @click="isMenuExpanded = !isMenuExpanded"
   >
     <span
       :hidden="isMenuExpanded"
@@ -22,15 +22,10 @@
 </template>
 
 <script setup>
-defineProps({
-  isMenuExpanded: {
-    type: Boolean,
-    required: true,
-    default: false,
-  },
+const isMenuExpanded = defineModel("isMenuExpanded", {
+  required: true,
+  default: false,
 });
-
-defineEmits(["update:isMenuExpanded"]);
 </script>
 
 <style lang="scss">

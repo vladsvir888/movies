@@ -7,10 +7,9 @@
     />
     <AutoloadCardBlock
       :data="totalResults"
-      :page="page"
+      v-model:page="page"
       :total-pages="totalPages"
       :is-pending="isPendingAutoload"
-      @update:page="page = $event"
     />
   </div>
 </template>

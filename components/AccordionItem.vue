@@ -4,9 +4,9 @@
       <TheButton
         :id="`accordion-header-${id}`"
         :aria-controls="`accordion-panel-${id}`"
-        :aria-expanded="activeAccordionItem === id"
+        :aria-expanded="isShow"
         class="accordion-item__button"
-        @click="onClickButton(id)"
+        @click="isShow = !isShow"
       >
         {{ title }}
         <TheIcon icon="arrow-prev" />
@@ -25,7 +25,7 @@
 </template>
 
 <script setup>
-defineProps({
+const props = defineProps({
   id: {
     type: String,
     required: true,
@@ -38,13 +38,13 @@ defineProps({
 
 const activeAccordionItem = inject("activeAccordionItem");
 
-const onClickButton = (id) => {
-  if (id === activeAccordionItem.value) {
-    activeAccordionItem.value = null;
-  } else {
-    activeAccordionItem.value = id;
+const isShow = ref(false);
+
+onMounted(() => {
+  if (activeAccordionItem.value === props.id) {
+    isShow.value = true;
   }
-};
+});
 </script>
 
 <style lang="scss">

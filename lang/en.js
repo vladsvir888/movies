@@ -45,6 +45,7 @@ export default {
     movie: "Movie",
     tv: "TV",
     search: "Search",
+    filter: "Discover",
   },
   footer: {
     logo: "Movies",
@@ -116,4 +117,9 @@ export default {
   no_reviews: "No reviews",
   no_videos: "No videos",
   no_similar: "No similar",
+  discover_dialog: {
+    or: "Or",
+    movies: "Movies",
+    tv: "TV Series"
+  }
 };

@@ -45,6 +45,7 @@ export default {
     movie: "Кино",
     tv: "ТВ",
     search: "Поиск",
+    filter: "Фильтр"
   },
   footer: {
     logo: "Кино",
@@ -116,4 +117,9 @@ export default {
   no_reviews: "Нет отзывов",
   no_videos: "Нет видео",
   no_similar: "Нет похожих",
+  discover_dialog: {
+    or: "Или",
+    movies: "Кино",
+    tv: "Сериалы"
+  }
 };

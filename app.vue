@@ -6,6 +6,7 @@
     <TheFooter />
   </div>
   <SearchDialog />
+  <DiscoverDialog />
 </template>
 
 <script setup>
@@ -13,6 +14,9 @@ const route = useRoute();
 
 const isSearchDialogShow = ref(false);
 provide("isSearchDialogShow", isSearchDialogShow);
+
+const isDiscoverDialogShow = ref(false);
+provide("isDiscoverDialogShow", isDiscoverDialogShow);
 
 const setScrollbarCustomPropertiesToBody = () => {
   document.body.style.setProperty(
