@@ -7,6 +7,7 @@
         :aria-expanded="isShow"
         class="accordion-item__button"
         @click="isShow = !isShow"
+        type="button"
       >
         {{ title }}
         <TheIcon icon="arrow-prev" />

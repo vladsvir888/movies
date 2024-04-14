@@ -1,5 +1,5 @@
 <template>
-  <div class="page page-category">
+  <div class="page page-category container">
     <PageSeoData
       :lang="$t('lang')"
       :title="$t(`${$route.params.type}_${$route.params.category}.title`)"
@@ -10,6 +10,7 @@
       v-model:page="page"
       :total-pages="totalPages"
       :is-pending="isPendingAutoload"
+      class="page-category__card-block"
     />
   </div>
 </template>
@@ -58,11 +59,8 @@ useApi(`/${type.value}/${category.value}`, {
 
 <style lang="scss">
 .page-category {
-  &__container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 20px;
+  &__card-block {
+    padding: 40px 0 20px;
   }
 }
 </style>

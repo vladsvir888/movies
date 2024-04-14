@@ -117,9 +117,18 @@ export default {
   no_reviews: "Нет отзывов",
   no_videos: "Нет видео",
   no_similar: "Нет похожих",
-  discover_dialog: {
+  discover: {
+    discover: "Найти",
     or: "Или",
-    movies: "Кино",
-    tv: "Сериалы"
+    movie: "Кино",
+    tv: "Сериалы",
+    title_dialog: "Что вы хотите найти?"
+  },
+  "Please select one": "Пожалуйста, выберите один",
+  filter: {
+    genres: "Жанры",
+    sort: "Сортировка по",
+    sort_popularity: "Популярность",
+    sort_vote_count: "Количество проголосовавших"
   }
 };

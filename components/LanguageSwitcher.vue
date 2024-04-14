@@ -1,23 +1,24 @@
 <template>
-  <div class="language-switcher">
-    <label for="languageSwitcher">{{ $t("footer.language") }}</label>
-    <select
-      :value="locale"
-      @change="updateLocale"
-      class="language-switcher__select"
-      name="language-switcher"
-      id="languageSwitcher"
-    >
-      <option v-for="l in locales" :key="l.code" :value="l.code">
-        {{ l.code.toUpperCase() }}
-      </option>
-    </select>
-  </div>
+  <TheSelect
+    v-model="locale"
+    :options="transformedLocales"
+    :label="$t('footer.language')"
+    id="languageSwitcher"
+    wrapper-class="language-switcher"
+    @change="updateLocale"
+  />
 </template>
 
 <script setup>
 const config = useRuntimeConfig();
 const { locale, locales, setLocale } = useI18n();
+
+const transformedLocales = computed(() => {
+  return locales.value.map(({ code }) => ({
+    value: code,
+    text: code.toUpperCase(),
+  }));
+});
 
 const updateLocale = (event) => {
   setLocale(event.target.value);
@@ -25,7 +26,7 @@ const updateLocale = (event) => {
   window.location.reload();
 };
 
-onMounted(() => {
+onBeforeMount(() => {
   const value = getItemFromLocalStorage(config.public.appLangKey);
 
   if (value) {
@@ -36,17 +37,10 @@ onMounted(() => {
 
 <style lang="scss">
 .language-switcher {
-  display: flex;
-  align-items: center;
-  column-gap: 10px;
-
-  &__select {
-    min-width: 60px;
-    padding: 5px;
-    background-color: #000;
-    color: #fff;
-    border-radius: 8px;
-    cursor: pointer;
+  .select-block {
+    &__select {
+      width: 60px;
+    }
   }
 }
 </style>

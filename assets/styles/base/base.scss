@@ -49,6 +49,11 @@ body {
   color: #fff;
 }
 
+html,
+body {
+  scrollbar-gutter: stable;
+}
+
 #__nuxt {
   display: flex;
   flex-direction: column;
@@ -67,6 +72,7 @@ body {
 
 .container {
   max-width: 1800px;
+  width: 100%;
   margin: 0 auto;
   padding: 0 var(--container-padding);
 }

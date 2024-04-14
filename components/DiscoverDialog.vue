@@ -1,7 +1,7 @@
 <template>
   <DialogContainer
     class="discover-dialog"
-    title="What are you trying to discover?"
+    :title="$t('discover.title_dialog')"
     v-model:is-show="isDiscoverDialogShow"
   >
     <div class="discover-dialog__wrapper">
@@ -11,18 +11,16 @@
         class="discover-dialog__button"
         @click="hideDiscoverDialog"
       >
-        {{ $t("discover_dialog.movies") }}
+        {{ $t("discover.movie") }}
       </TheButton>
-      <span class="discover-dialog__divider">{{
-        $t("discover_dialog.or")
-      }}</span>
+      <span class="discover-dialog__divider">{{ $t("discover.or") }}</span>
       <TheButton
         :to="`/discover/tv`"
         variant="decoration"
         class="discover-dialog__button"
         @click="hideDiscoverDialog"
       >
-        {{ $t("discover_dialog.tv") }}
+        {{ $t("discover.tv") }}
       </TheButton>
     </div>
   </DialogContainer>

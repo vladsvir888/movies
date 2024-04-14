@@ -7,11 +7,13 @@ export const useStore = defineStore("store", {
         nowPlaying: [],
         topRated: [],
         upcoming: [],
+        genres: [],
       },
       tv: {
         heroBlock: {},
         popular: [],
         topRated: [],
+        genres: [],
       },
     };
   },

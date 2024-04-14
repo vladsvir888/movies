@@ -1,6 +1,6 @@
 <template>
   <div class="autoload-card-block">
-    <div class="container autoload-card-block__container">
+    <div class="autoload-card-block__container">
       <h1 v-if="isTitle" class="autoload-card-block__title">
         {{ $t(`${$route.params.type}_${$route.params.category}.title`) }}
       </h1>
@@ -15,7 +15,7 @@
       </TheButton>
       <ul class="autoload-card-block__list">
         <li v-for="item in data" :key="item.id">
-          <CarouselCard :data="item" :type="$route.params.type" />
+          <CarouselCard :data="item" :type="type" />
         </li>
       </ul>
       <TheLoader v-show="isPending" class="autoload-card-block__loader" />
@@ -25,6 +25,8 @@
 </template>
 
 <script setup>
+const route = useRoute();
+
 const props = defineProps({
   data: {
     type: Array,
@@ -56,6 +58,10 @@ const page = defineModel("page", {
   default: 1,
 });
 
+const type = computed(() => {
+  return route.params.type || route.params.category;
+});
+
 const options = {
   rootMargin: "-150px 0px 0px 0px",
 };
@@ -72,8 +78,6 @@ const callback = (entries) => {
 
 <style lang="scss">
 .autoload-card-block {
-  padding: 40px 0 20px;
-
   &__container {
     display: flex;
     flex-direction: column;

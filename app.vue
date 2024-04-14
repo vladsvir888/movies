@@ -10,24 +10,11 @@
 </template>
 
 <script setup>
-const route = useRoute();
-
 const isSearchDialogShow = ref(false);
-provide("isSearchDialogShow", isSearchDialogShow);
-
 const isDiscoverDialogShow = ref(false);
+
+provide("isSearchDialogShow", isSearchDialogShow);
 provide("isDiscoverDialogShow", isDiscoverDialogShow);
-
-const setScrollbarCustomPropertiesToBody = () => {
-  document.body.style.setProperty(
-    "--scrollbar-compensate",
-    `${getScrollbarWidth()}px`
-  );
-};
-
-onMounted(setScrollbarCustomPropertiesToBody);
-
-watch(() => route.path, setScrollbarCustomPropertiesToBody);
 </script>
 
 <style lang="scss">

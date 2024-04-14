@@ -117,9 +117,18 @@ export default {
   no_reviews: "No reviews",
   no_videos: "No videos",
   no_similar: "No similar",
-  discover_dialog: {
+  discover: {
+    title: 'Discover',
     or: "Or",
-    movies: "Movies",
-    tv: "TV Series"
+    movie: "Movies",
+    tv: "TV Series",
+    title_dialog: "What are you trying to discover?",
+  },
+  "Please select one": "Please select one",
+  filter: {
+    genres: "Genres",
+    sort: "Sort by",
+    sort_popularity: "Popularity",
+    sort_vote_count: "Vote Count"
   }
 };
