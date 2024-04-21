@@ -29,6 +29,7 @@
 
 <script setup>
 const videoStore = useVideo();
+
 const tabRefs = ref([]);
 const tabTitles = ref(
   useSlots()

@@ -2,14 +2,15 @@
   <div class="page page-category container">
     <PageSeoData
       :lang="$t('lang')"
-      :title="$t(`${$route.params.type}_${$route.params.category}.title`)"
-      :description="$t(`${$route.params.type}_${$route.params.category}.title`)"
+      :title="$t(title)"
+      :description="$t(title)"
     />
     <AutoloadCardBlock
       :data="totalResults"
       v-model:page="page"
       :total-pages="totalPages"
       :is-pending="isPendingAutoload"
+      :title="title"
       class="page-category__card-block"
     />
   </div>
@@ -34,7 +35,15 @@ const category = computed(() => {
   return route.params.category;
 });
 
-if (!lists[type.value].find((item) => item.category === category.value)) {
+const listItem = lists[type.value].find(
+  (item) => item.category === category.value
+);
+
+const title = computed(() => {
+  return listItem.title;
+});
+
+if (!listItem) {
   throw createError({
     statusCode: 404,
     fatal: true,

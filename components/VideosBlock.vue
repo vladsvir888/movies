@@ -3,7 +3,7 @@
     <div v-if="data.length" class="videos-block__wrapper">
       <VideoPlayer v-for="item in data" :key="item.id" :data="item" />
     </div>
-    <p v-else class="videos-block__text">{{ $t("no_videos") }}</p>
+    <p v-else class="videos-block__text">{{ $t("No videos") }}</p>
   </div>
 </template>
 

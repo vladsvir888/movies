@@ -5,7 +5,7 @@
       <slot />
       <TheButton
         class="dialog__close"
-        :aria-label="$t('close')"
+        :aria-label="$t('Close')"
         type="button"
         @click="hideSearchDialog"
       >

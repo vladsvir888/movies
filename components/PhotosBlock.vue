@@ -7,7 +7,7 @@
     >
       <h2 class="photos-block__title">
         {{ transformCategory(categoryName) }}
-        <span>{{ categoryData.length }} {{ $t("images") }}</span>
+        <span>{{ categoryData.length }} {{ $t("Images") }}</span>
       </h2>
 
       <ul class="photos-block__list">
@@ -18,7 +18,7 @@
         >
           <TheButton
             class="photos-block__list-button"
-            :aria-label="$t('lightbox.open_button')"
+            :aria-label="$t('Open gallery images')"
             @click="onClickButton(categoryName, index)"
           >
             <MyLazyImage

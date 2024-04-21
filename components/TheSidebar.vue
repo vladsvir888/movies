@@ -13,7 +13,7 @@
             v-for="(link, index) in links"
             :key="link.value"
             :id="`sidebarItem${index}`"
-            :text="$t(`sidebar_links.${link.value}`)"
+            :text="link.value"
           >
             <TheButton
               :to="link.to"
@@ -31,6 +31,7 @@
 </template>
 
 <script setup>
+const { t } = useI18n();
 const route = useRoute();
 
 const isSearchDialogShow = inject("isSearchDialogShow");
@@ -39,21 +40,21 @@ const isDiscoverDialogShow = inject("isDiscoverDialogShow");
 const links = ref([
   {
     to: "/",
-    value: "home",
+    value: t("Home"),
     icon: "home",
   },
   {
     to: "/movie",
-    value: "movie",
+    value: t("Movies"),
     icon: "movie",
   },
   {
     to: "/tv",
-    value: "tv",
+    value: t("TV Shows"),
     icon: "tv",
   },
   {
-    value: "search",
+    value: t("Search"),
     icon: "search",
     handlers: {
       click: () => {
@@ -63,7 +64,7 @@ const links = ref([
     },
   },
   {
-    value: "filter",
+    value: t("Discover"),
     icon: "filter",
     handlers: {
       click: () => {

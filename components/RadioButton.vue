@@ -36,14 +36,31 @@ const model = defineModel({
 </script>
 
 <style lang="scss">
+@import "~/assets/styles/helpers/mixins/hover.scss";
+
 .radio-button {
   display: flex;
   align-items: center;
-  column-gap: 5px;
+  width: max-content;
+  border-radius: 4px;
+  transition: background-color var(--transition300ms);
+
+  @include hover {
+    background-color: #000;
+  }
 
   &__input {
-    margin: 0;
+    margin: 8px 0 8px 8px;
     accent-color: var(--primary-color);
+  }
+
+  &__label {
+    padding: 8px;
+  }
+
+  &__input,
+  &__label {
+    cursor: pointer;
   }
 }
 </style>

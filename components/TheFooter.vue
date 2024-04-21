@@ -9,11 +9,11 @@
           alt=""
           loading="lazy"
         />
-        {{ $t("footer.logo") }}
+        {{ $t("Movies") }}
       </p>
 
       <p class="footer__data">
-        {{ $t("footer.data") }}
+        {{ $t("Data provided by") }}
         <TheButton to="https://www.themoviedb.org/" target="_blank">
           <TheIcon icon="tmdb" class="footer__data-icon" />
         </TheButton>

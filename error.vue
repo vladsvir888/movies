@@ -2,16 +2,22 @@
   <div class="page error-page">
     <PageSeoData
       :lang="$t('lang')"
-      :title="$t('error_page.seo.title')"
-      :description="$t('error_page.seo.meta.description')"
+      :title="$t('This page could not be found')"
+      :description="$t('This page could not be found')"
     />
     <div class="error-page__content">
-      <h1 class="error-page__title">{{ $t("error_page.title") }}</h1>
+      <h1 class="error-page__title">
+        {{ $t("This page could not be found") }}
+      </h1>
       <p class="error-page__text">
-        {{ $t("error_page.text") }}
+        {{
+          $t(
+            "Looks like you've followed a broken link or entered a URL that doesn't exist on this site."
+          )
+        }}
       </p>
       <TheButton to="/" class="error-page__button" variant="primary">
-        {{ $t("error_page.back_button") }}
+        {{ $t("Go Home") }}
       </TheButton>
     </div>
   </div>

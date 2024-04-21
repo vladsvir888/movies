@@ -2,15 +2,16 @@
   <div class="rating" :inert="inert">
     <template v-for="star in stars" :key="star.value">
       <input
-        :id="`star${star.value}`"
+        :id="`star_${uid}_${star.value}`"
         :value="star.value"
         v-model="model"
         type="radio"
         class="rating__input visually-hidden"
+        v-bind="$attrs"
       />
-      <label :for="`star${star.value}`" class="rating__label">
+      <label :for="`star_${uid}_${star.value}`" class="rating__label">
         <span class="visually-hidden"
-          >{{ star.value }} {{ $t("stars", star.value) }}</span
+          >{{ star.value }} {{ $t("star | stars", star.value) }}</span
         >
         <TheIcon icon="star" />
       </label>
@@ -24,6 +25,10 @@ defineProps({
     type: Boolean,
     default: true,
   },
+});
+
+defineOptions({
+  inheritAttrs: false,
 });
 
 const model = defineModel();
@@ -45,6 +50,7 @@ const stars = ref([
     value: 5,
   },
 ]);
+const uid = ref(getCurrentInstance().uid);
 </script>
 
 <style lang="scss">

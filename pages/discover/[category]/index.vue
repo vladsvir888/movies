@@ -11,7 +11,6 @@
         v-model:page="page"
         :total-pages="totalPages"
         :is-pending="isPendingAutoload"
-        :is-title="false"
         :is-back-button="false"
       />
     </div>
@@ -27,6 +26,9 @@ const { t, locale } = useI18n();
 const params = ref({
   with_genres: "",
   sort_by: "",
+  "vote_average.gte": "",
+  "release_date.gte": "",
+  "release_date.lte": "",
 });
 
 const page = ref(1);
@@ -39,7 +41,13 @@ const category = computed(() => {
 });
 
 const title = computed(() => {
-  return `${t("discover.title")} ${t(`discover.${category.value}`)}`;
+  if (category.value === "movie") {
+    return `${t("Discover")} ${t("Movies")}`;
+  } else if (category.value === "tv") {
+    return `${t("Discover")} ${t("TV Shows")}`;
+  }
+
+  return "";
 });
 
 useApi(() => `/discover/${category.value}?${qs.stringify(params.value)}`, {
@@ -80,6 +88,10 @@ watch(
     display: grid;
     grid-template-columns: 400px 1fr;
     gap: 20px;
+
+    @media (width <= 1200px) {
+      grid-template-columns: 1fr;
+    }
   }
 }
 </style>

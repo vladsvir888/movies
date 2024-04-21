@@ -6,10 +6,9 @@
       v-model:page="page"
       :total-pages="totalPages"
       :is-pending="isPendingAutoload"
-      :is-title="false"
       :is-back-button="false"
     />
-    <p v-else class="similar-block__text">{{ $t("no_similar") }}</p>
+    <p v-else class="similar-block__text">{{ $t("No similar") }}</p>
   </div>
 </template>
 

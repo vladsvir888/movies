@@ -90,6 +90,7 @@ const position = computed(() => {
     opacity: 0;
     visibility: hidden;
     transition: opacity var(--transition300ms);
+    white-space: nowrap;
   }
 }
 </style>

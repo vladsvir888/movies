@@ -7,7 +7,7 @@
         class="image-lightbox"
         role="dialog"
         aria-modal="true"
-        :aria-label="$t('lightbox.label')"
+        :aria-label="$t('Gallery images')"
         @keydown.esc="closeLightbox"
         @keydown.right="toNextImage"
         @keydown.left="toPreviousImage"
@@ -34,14 +34,14 @@
         </ul>
         <TheButton
           class="image-lightbox__close"
-          :aria-label="$t('close')"
+          :aria-label="$t('Close')"
           @click="closeLightbox"
         >
           <TheIcon icon="close" />
         </TheButton>
         <TheButton
           class="image-lightbox__button image-lightbox__button--prev"
-          :aria-label="$t('previous')"
+          :aria-label="$t('Previous')"
           :disabled="isFirstImage"
           @click="toPreviousImage"
         >
@@ -49,7 +49,7 @@
         </TheButton>
         <TheButton
           class="image-lightbox__button image-lightbox__button--next"
-          :aria-label="$t('next')"
+          :aria-label="$t('Next')"
           :disabled="isLastImage"
           @click="toNextImage"
         >

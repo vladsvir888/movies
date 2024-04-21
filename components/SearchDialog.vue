@@ -1,28 +1,20 @@
 <template>
   <DialogContainer
     class="search-dialog"
-    :title="$t('search_dialog.title')"
+    :title="$t('Search')"
     v-model:is-show="isSearchDialogShow"
   >
-    <div class="search-dialog__input-wrapper">
-      <TheIcon icon="loupe" class="search-dialog__loupe-icon" />
-      <input
-        v-model="searchQuery"
-        type="text"
-        class="search-dialog__input"
-        autocomplete="off"
-        :placeholder="$t('search_dialog.input')"
-      />
-      <TheButton
-        v-show="searchQueryDebounced.length"
-        @click="cleanSearchQuery"
-        class="search-dialog__clean"
-        :aria-label="$t('search_dialog.clean_button')"
-        type="button"
-      >
-        <TheIcon icon="close" />
-      </TheButton>
-    </div>
+    <InputBlock
+      v-model="searchQuery"
+      :placeholder="$t('Type to search...')"
+      :clearable="true"
+      autocomplete="off"
+      class="search-dialog__input"
+    >
+      <template #prefix-icon>
+        <TheIcon icon="loupe" />
+      </template>
+    </InputBlock>
     <TheLoader v-if="isPendingSearch" class="search-dialog__loader" />
     <ul
       v-else-if="totalResults.length && !isPendingSearch"
@@ -47,7 +39,7 @@
     >
       <TheIcon icon="loupe-line-through" />
       <p class="search-dialog__no-results-text">
-        {{ $t("search_dialog.no_results") }}
+        {{ $t("No results for") }}
         <b>"{{ searchQueryDebounced }}"</b>
       </p>
     </div>
@@ -57,7 +49,7 @@
     >
       <TheButton
         class="search-dialog__pagination-button search-dialog__pagination-button--prev"
-        :aria-label="$t('previous')"
+        :aria-label="$t('Previous')"
         @click="toPreviousPage"
         :disabled="isFirstPage"
       >
@@ -68,7 +60,7 @@
       </p>
       <TheButton
         class="search-dialog__pagination-button search-dialog__pagination-button--next"
-        :aria-label="$t('next')"
+        :aria-label="$t('Next')"
         @click="toNextPage"
         :disabled="isLastPage"
       >
@@ -90,10 +82,6 @@ const totalPages = ref(null);
 const totalResultsCount = ref(null);
 
 const isSearchDialogShow = inject("isSearchDialogShow");
-
-const cleanSearchQuery = () => {
-  searchQuery.value = "";
-};
 
 const toPreviousPage = () => {
   page.value -= 1;
@@ -147,47 +135,10 @@ useApi("/search/multi", {
 @import "~/assets/styles/helpers/mixins/hover.scss";
 
 .search-dialog {
-  &__input-wrapper {
-    position: relative;
-  }
-
-  &__loupe-icon {
-    position: absolute;
-    top: 50%;
-    left: 12px;
-    translate: 0 -50%;
-    display: flex;
-    transition: color var(--transition300ms);
-  }
-
   &__input {
-    width: 100%;
-    padding: 16px 40px;
-    border: 1px solid #e0ded7;
-    border-radius: 8px;
-    font: inherit;
-    color: #000;
     font-weight: 700;
-
-    &:focus {
-      outline: 2px solid var(--primary-color);
-      border-color: transparent;
-    }
-
-    &::placeholder {
-      color: inherit;
-      font-weight: 400;
-    }
   }
 
-  &__clean {
-    position: absolute;
-    right: 10px;
-    top: 50%;
-    translate: 0 -50%;
-  }
-
-  &__clean,
   &__pagination-button {
     transition: color var(--transition300ms);
 
@@ -231,6 +182,10 @@ useApi("/search/multi", {
         rotate: 180deg;
       }
     }
+  }
+
+  &__loader {
+    align-self: center;
   }
 }
 </style>

@@ -9,11 +9,11 @@
         page: 'carousel__bullet',
       },
       i18n: {
-        select: $t('carousel.select'),
+        select: $t('Select a slide to show'),
         prev: '',
         next: '',
-        pageX: `${$t('carousel.pagination')} %s`,
-        slideLabel: `%s ${$t('carousel.slide')} %s`,
+        pageX: `${$t('Go to')} %s`,
+        slideLabel: `%s ${$t('of')} %s`,
       },
     }"
     :has-track="false"
@@ -23,7 +23,7 @@
     <div class="container">
       <header class="carousel__header">
         <h2 class="carousel__title">
-          {{ carouselTitle }}
+          {{ $t(title) }}
         </h2>
 
         <TheButton
@@ -31,7 +31,7 @@
           class="carousel__more"
           variant="decoration"
         >
-          {{ $t("explore_more") }}
+          {{ $t("Explore more") }}
           <TheIcon icon="arrow-next" />
         </TheButton>
       </header>
@@ -50,14 +50,14 @@
         <TheButton
           class="splide__arrow splide__arrow--prev carousel__button carousel__button--prev"
         >
-          <span class="visually-hidden">{{ $t("previous") }}</span>
+          <span class="visually-hidden">{{ $t("Previous") }}</span>
           <TheIcon icon="arrow-prev" />
         </TheButton>
         <div class="splide__pagination carousel__pagination"></div>
         <TheButton
           class="splide__arrow splide__arrow--next carousel__button carousel__button--next"
         >
-          <span class="visually-hidden">{{ $t("next") }}</span>
+          <span class="visually-hidden">{{ $t("Next") }}</span>
           <TheIcon icon="arrow-next" />
         </TheButton>
       </div>
@@ -69,8 +69,6 @@
 import { Splide, SplideSlide, SplideTrack } from "@splidejs/vue-splide";
 import "@splidejs/vue-splide/css/core";
 
-const { t } = useI18n();
-
 const store = useStore();
 
 const props = defineProps({
@@ -79,6 +77,10 @@ const props = defineProps({
     required: true,
   },
   category: {
+    type: String,
+    required: true,
+  },
+  title: {
     type: String,
     required: true,
   },
@@ -106,10 +108,6 @@ useApi(`/${props.type}/${props.category}`, {
 
 const data = computed(() => {
   return store[props.type][transformCategory(props.category)];
-});
-
-const carouselTitle = computed(() => {
-  return t(`${props.type}_${props.category}.title`);
 });
 </script>
 

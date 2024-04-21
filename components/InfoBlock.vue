@@ -4,13 +4,13 @@
       <table class="info-block__table">
         <tr v-if="data.originalTitle" class="info-block__row">
           <td class="info-block__cell">
-            {{ $t("info_block.title") }}
+            {{ $t("Original Title") }}
           </td>
           <td class="info-block__cell">{{ data.originalTitle }}</td>
         </tr>
         <tr v-if="data.originalLanguage" class="info-block__row">
           <td class="info-block__cell">
-            {{ $t("info_block.language") }}
+            {{ $t("Original Language") }}
           </td>
           <td class="info-block__cell">
             {{ transformedLanguage }}
@@ -18,7 +18,7 @@
         </tr>
         <tr v-if="data.runtime" class="info-block__row">
           <td class="info-block__cell">
-            {{ $t("info_block.runtime") }}
+            {{ $t("Runtime") }}
           </td>
           <td class="info-block__cell">
             {{ transformedRuntime }}
@@ -26,7 +26,7 @@
         </tr>
         <tr v-if="data.status" class="info-block__row">
           <td class="info-block__cell">
-            {{ $t("info_block.status") }}
+            {{ $t("Status") }}
           </td>
           <td class="info-block__cell">
             {{ data.status }}
@@ -34,7 +34,7 @@
         </tr>
         <tr v-if="data.date" class="info-block__row">
           <td class="info-block__cell">
-            {{ $t("info_block.release_date") }}
+            {{ $t("Release Date") }}
           </td>
           <td class="info-block__cell">
             {{ transformedDate }}
@@ -42,7 +42,7 @@
         </tr>
         <tr v-if="data.productionCountries" class="info-block__row">
           <td class="info-block__cell">
-            {{ $t("info_block.production_countries") }}
+            {{ $t("Production Countries") }}
           </td>
           <td class="info-block__cell">
             {{ transformedProductionCountries }}
@@ -50,7 +50,7 @@
         </tr>
         <tr v-if="data.productionCompanies" class="info-block__row">
           <td class="info-block__cell">
-            {{ $t("info_block.production_companies") }}
+            {{ $t("Production Companies") }}
           </td>
           <td class="info-block__cell">
             <ul class="info-block__companies">
@@ -76,13 +76,13 @@
         </tr>
         <tr v-if="data.budget" class="info-block__row">
           <td class="info-block__cell">
-            {{ $t("info_block.budget") }}
+            {{ $t("Budget") }}
           </td>
           <td class="info-block__cell">${{ transformedBudget }}</td>
         </tr>
         <tr v-if="data.revenue" class="info-block__row">
           <td class="info-block__cell">
-            {{ $t("info_block.revenue") }}
+            {{ $t("Revenue") }}
           </td>
           <td class="info-block__cell">${{ transformedRevenue }}</td>
         </tr>
@@ -114,7 +114,7 @@ const transformedDate = computed(() => {
 const transformedRuntime = computed(() => {
   const { hours: h, minutes: m } = timeConvert(props.data.runtime);
 
-  return `${h}${t("hours")} ${m}${t("minutes")}`;
+  return `${h}${t("h")} ${m}${t("min")}`;
 });
 
 const transformedProductionCountries = computed(() => {

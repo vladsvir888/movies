@@ -17,7 +17,7 @@
     >
       <TheIcon icon="close" />
     </span>
-    {{ $t("menu_button") }}
+    {{ $t("Menu") }}
   </TheButton>
 </template>
 

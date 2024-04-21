@@ -35,33 +35,32 @@ import {
 } from "#components";
 
 const { t } = useI18n();
-
 const route = useRoute();
 const { locale } = useI18n();
 
 const tabPanels = ref({
   info: {
-    title: t("tabs.info"),
+    title: t("Info"),
     component: markRaw(InfoBlock),
     data: ref(null),
   },
   videos: {
-    title: t("tabs.videos"),
+    title: t("Videos"),
     component: markRaw(VideosBlock),
     data: ref(null),
   },
   photos: {
-    title: t("tabs.photos"),
+    title: t("Photos"),
     component: markRaw(PhotosBlock),
     data: ref(null),
   },
   reviews: {
-    title: t("tabs.reviews"),
+    title: t("Reviews"),
     component: markRaw(ReviewsBlock),
     data: ref(null),
   },
   similar: {
-    title: t("tabs.similar"),
+    title: t("Similar"),
     component: markRaw(SimilarBlock),
     data: ref(null),
   },

@@ -15,10 +15,10 @@
           {{ data.vote_average }} / 10
         </p>
         <p v-if="data.vote_count" class="hero__reviews">
-          {{ $t("hero_block.reviews") }} {{ data.vote_count }}
+          {{ $t("Reviews") }}: {{ data.vote_count }}
         </p>
         <p v-if="data.release_date" class="hero__date">
-          {{ $t("hero_block.release_date") }}
+          {{ $t("Release Date") }}:
           {{ transformDate(data.release_date) }}
         </p>
       </div>

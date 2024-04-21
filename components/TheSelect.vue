@@ -56,6 +56,8 @@ const model = defineModel({
 </script>
 
 <style lang="scss">
+@import "~/assets/styles/helpers/mixins/hover.scss";
+
 .select-block {
   display: flex;
   align-items: center;
@@ -88,6 +90,11 @@ const model = defineModel({
     font-family: inherit;
     cursor: pointer;
     appearance: none;
+    transition: border-color var(--transition300ms);
+
+    @include hover {
+      border-color: var(--primary-color);
+    }
   }
 }
 </style>

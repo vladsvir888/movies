@@ -2,7 +2,7 @@
   <TheSelect
     v-model="locale"
     :options="transformedLocales"
-    :label="$t('footer.language')"
+    :label="$t('Language:')"
     id="languageSwitcher"
     wrapper-class="language-switcher"
     @change="updateLocale"

@@ -2,8 +2,8 @@
   <div class="page">
     <PageSeoData
       :lang="$t('lang')"
-      :title="$t('home_page.seo.title')"
-      :description="$t('home_page.seo.meta.description')"
+      :title="$t('Home • Movies')"
+      :description="$t('Home • Movies')"
     />
 
     <HeroBlock :data="store.movie.heroBlock" />
@@ -13,6 +13,7 @@
       :key="item.category"
       :type="item.type"
       :category="item.category"
+      :title="item.title"
     />
   </div>
 </template>

@@ -1,6 +1,6 @@
 <template>
   <div class="loader" role="alert">
-    <p class="visually-hidden">{{ $t("loader") }}</p>
+    <p class="visually-hidden">{{ $t("This content is loading...") }}</p>
   </div>
 </template>
 

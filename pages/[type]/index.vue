@@ -1,10 +1,6 @@
 <template>
   <div class="page">
-    <PageSeoData
-      :lang="$t('lang')"
-      :title="$t(`${type}_page.seo.title`)"
-      :description="$t(`${type}_page.seo.meta.description`)"
-    />
+    <PageSeoData :lang="$t('lang')" :title="title" :description="title" />
 
     <HeroBlock :data="store[type].heroBlock" />
 
@@ -13,6 +9,7 @@
       :key="item.category"
       :type="item.type"
       :category="item.category"
+      :title="item.title"
     />
   </div>
 </template>
@@ -21,11 +18,21 @@
 import { lists } from "~/constants";
 
 const route = useRoute();
-
 const store = useStore();
+const { t } = useI18n();
 
 const type = computed(() => {
   return route.params.type;
+});
+
+const title = computed(() => {
+  if (type.value === "movie") {
+    return t("Movie • Movies");
+  } else if (type.value === "tv") {
+    return t("TV Shows • Movies");
+  }
+
+  return "";
 });
 
 if (!lists[type.value]) {

@@ -1,8 +1,8 @@
 <template>
   <div class="autoload-card-block">
     <div class="autoload-card-block__container">
-      <h1 v-if="isTitle" class="autoload-card-block__title">
-        {{ $t(`${$route.params.type}_${$route.params.category}.title`) }}
+      <h1 v-if="title" class="autoload-card-block__title">
+        {{ $t(title) }}
       </h1>
       <TheButton
         v-if="isBackButton"
@@ -11,7 +11,7 @@
         class="autoload-card-block__back"
       >
         <TheIcon icon="arrow-prev" />
-        {{ $t("back") }}
+        {{ $t("Go back") }}
       </TheButton>
       <ul class="autoload-card-block__list">
         <li v-for="item in data" :key="item.id">
@@ -43,9 +43,8 @@ const props = defineProps({
     required: true,
     default: false,
   },
-  isTitle: {
-    type: Boolean,
-    default: true,
+  title: {
+    type: String,
   },
   isBackButton: {
     type: Boolean,
