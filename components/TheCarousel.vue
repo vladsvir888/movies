@@ -22,9 +22,9 @@
   >
     <div class="container">
       <header class="carousel__header">
-        <h2 class="carousel__title">
+        <TheHeading :level="2" class="carousel__title">
           {{ $t(title) }}
-        </h2>
+        </TheHeading>
 
         <TheButton
           :to="`/${type}/category/${category}`"

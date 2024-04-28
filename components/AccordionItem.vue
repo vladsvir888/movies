@@ -1,6 +1,6 @@
 <template>
   <div class="accordion-item">
-    <h3 class="accordion-item__title">
+    <TheHeading :level="2" class="accordion-item__title">
       <TheButton
         :id="`accordion-header-${id}`"
         :aria-controls="`accordion-panel-${id}`"
@@ -12,7 +12,7 @@
         {{ title }}
         <TheIcon icon="arrow-prev" />
       </TheButton>
-    </h3>
+    </TheHeading>
     <div
       :id="`accordion-panel-${id}`"
       :aria-labelledby="`accordion-header-${id}`"
@@ -63,6 +63,10 @@ onMounted(() => {
     grid-template-rows: 1fr;
     margin-bottom: 20px;
     visibility: visible;
+  }
+
+  &__title {
+    font-size: 18px;
   }
 
   &__button {

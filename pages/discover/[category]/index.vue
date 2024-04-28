@@ -1,11 +1,14 @@
 <template>
   <div class="page page-discover container">
     <PageSeoData :lang="$t('lang')" :title="title" :description="title" />
-    <h1 class="page-discover__title">
+
+    <TheHeading class="page-discover__title">
       {{ title }}
-    </h1>
+    </TheHeading>
+
     <div class="page-discover__wrapper">
       <TheFilter />
+
       <AutoloadCardBlock
         :data="totalResults"
         v-model:page="page"

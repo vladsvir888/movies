@@ -1,5 +1,9 @@
 <template>
   <div class="page">
+    <TheHeading class="visually-hidden">
+      {{ title }}
+    </TheHeading>
+
     <PageSeoData :lang="$t('lang')" :title="title" :description="title" />
 
     <HeroBlock :data="store[type].heroBlock" />

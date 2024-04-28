@@ -16,7 +16,9 @@
         <TheIcon icon="youtube" />
       </TheButton>
     </div>
-    <h2 v-if="data.name" class="video-player__title">{{ data.name }}</h2>
+    <TheHeading v-if="data.name" :level="2" class="video-player__title">{{
+      data.name
+    }}</TheHeading>
     <div class="video-player__wrapper">
       <p v-if="data.type" class="video-player__type">{{ data.type }}</p>
       <p v-if="transformedDate" class="video-player__date">

@@ -10,11 +10,15 @@
       class="carousel-card__img"
     />
     <div class="carousel-card__content">
-      <h3 v-if="computedTitle" class="carousel-card__title">
+      <TheHeading
+        v-if="computedTitle"
+        :level="headingLevel"
+        class="carousel-card__title"
+      >
         <TheButton :to="`/${type}/${data.id}`" class="carousel-card__link">
           {{ computedTitle }}
         </TheButton>
-      </h3>
+      </TheHeading>
       <div class="carousel-card__wrapper">
         <TheRating v-if="data.vote_average" v-model="ratingCount" />
         <p v-if="data.vote_average" class="carousel-card__text">
@@ -37,6 +41,10 @@ const props = defineProps({
   type: {
     type: String,
     required: true,
+  },
+  headingLevel: {
+    type: Number,
+    default: 3,
   },
 });
 
@@ -129,6 +137,8 @@ const computedTitle = computed(() => {
   }
 
   &__title {
+    font-size: 18px;
+
     @media (width <= 600px) {
       font-size: 16px;
     }

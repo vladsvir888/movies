@@ -6,9 +6,9 @@
       :description="$t('This page could not be found')"
     />
     <div class="error-page__content">
-      <h1 class="error-page__title">
+      <TheHeading class="error-page__title">
         {{ $t("This page could not be found") }}
-      </h1>
+      </TheHeading>
       <p class="error-page__text">
         {{
           $t(

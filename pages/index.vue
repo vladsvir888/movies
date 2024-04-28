@@ -1,5 +1,9 @@
 <template>
   <div class="page">
+    <TheHeading class="visually-hidden">
+      {{ $t("Home • Movies") }}
+    </TheHeading>
+
     <PageSeoData
       :lang="$t('lang')"
       :title="$t('Home • Movies')"

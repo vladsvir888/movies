@@ -1,7 +1,7 @@
 <template>
   <dialog ref="dialog" class="dialog">
     <div class="dialog__wrapper">
-      <h2 class="dialog__title">{{ title }}</h2>
+      <TheHeading :level="2" class="dialog__title">{{ title }}</TheHeading>
       <slot />
       <TheButton
         class="dialog__close"

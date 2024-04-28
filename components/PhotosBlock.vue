@@ -5,10 +5,10 @@
       :key="categoryName"
       class="photos-block__section"
     >
-      <h2 class="photos-block__title">
+      <TheHeading :level="2" class="photos-block__title">
         {{ transformCategory(categoryName) }}
         <span>{{ categoryData.length }} {{ $t("Images") }}</span>
-      </h2>
+      </TheHeading>
 
       <ul class="photos-block__list">
         <li

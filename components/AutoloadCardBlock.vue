@@ -1,9 +1,9 @@
 <template>
   <div class="autoload-card-block">
     <div class="autoload-card-block__container">
-      <h1 v-if="title" class="autoload-card-block__title">
+      <TheHeading v-if="title" class="autoload-card-block__title">
         {{ $t(title) }}
-      </h1>
+      </TheHeading>
       <TheButton
         v-if="isBackButton"
         @click="$router.back()"
@@ -15,7 +15,7 @@
       </TheButton>
       <ul class="autoload-card-block__list">
         <li v-for="item in data" :key="item.id">
-          <CarouselCard :data="item" :type="type" />
+          <CarouselCard :data="item" :type="type" :heading-level="2" />
         </li>
       </ul>
       <TheLoader v-show="isPending" class="autoload-card-block__loader" />

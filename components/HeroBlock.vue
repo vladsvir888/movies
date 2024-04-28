@@ -6,9 +6,9 @@
     }"
   >
     <div class="hero__content">
-      <h1 v-if="computedTitle" class="hero__title">
+      <p v-if="computedTitle" class="hero__title">
         {{ computedTitle }}
-      </h1>
+      </p>
       <div class="hero__wrapper">
         <TheRating v-if="data.vote_average" v-model="ratingCount" />
         <p v-if="data.vote_average" class="hero__rating-count">
@@ -94,6 +94,8 @@ watch(
 
   &__title {
     margin-bottom: 12px;
+    font-size: 32px;
+    font-weight: 700;
   }
 
   &__wrapper {

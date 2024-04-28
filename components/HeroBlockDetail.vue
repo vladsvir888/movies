@@ -7,9 +7,9 @@
   >
     <div class="container hero-block-detail__container">
       <div class="hero-block-detail__content">
-        <h1 v-if="computedTitle" class="hero-block-detail__title">
+        <TheHeading v-if="computedTitle" class="hero-block-detail__title">
           {{ computedTitle }}
-        </h1>
+        </TheHeading>
         <p v-if="data.text" class="hero-block-detail__text">{{ data.text }}</p>
         <p class="hero-block-detail__date">
           <b v-if="data.date">{{ data.date }}</b>
