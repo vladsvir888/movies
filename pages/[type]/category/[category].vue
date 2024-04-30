@@ -17,7 +17,7 @@
 </template>
 
 <script setup>
-import { lists } from "~/constants";
+import { LISTS } from "~/constants";
 
 const route = useRoute();
 const { locale } = useI18n();
@@ -35,7 +35,7 @@ const category = computed(() => {
   return route.params.category;
 });
 
-const listItem = lists[type.value].find(
+const listItem = LISTS[type.value].find(
   (item) => item.category === category.value
 );
 

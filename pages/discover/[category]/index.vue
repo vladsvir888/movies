@@ -21,17 +21,17 @@
 </template>
 
 <script setup>
-import qs from "qs";
+import { FILTER_VALUES } from "~/constants";
 
 const route = useRoute();
 const { t, locale } = useI18n();
 
 const params = ref({
-  with_genres: "",
-  sort_by: "",
-  "vote_average.gte": "",
-  "release_date.gte": "",
-  "release_date.lte": "",
+  [FILTER_VALUES["with_genres"]]: "",
+  [FILTER_VALUES["sort_by"]]: "",
+  [FILTER_VALUES["vote_average.gte"]]: "",
+  [FILTER_VALUES["release_date.gte"]]: "",
+  [FILTER_VALUES["release_date.lte"]]: "",
 });
 
 const page = ref(1);
@@ -53,7 +53,7 @@ const title = computed(() => {
   return "";
 });
 
-useApi(() => `/discover/${category.value}?${qs.stringify(params.value)}`, {
+useApi(() => `/discover/${category.value}?${buildQuery(params.value)}`, {
   query: {
     page,
     include_adult: false,
@@ -78,6 +78,16 @@ watch(
     params.value = route.query;
   }
 );
+
+onMounted(() => {
+  const { query } = route;
+
+  if (isEmptyObject(query)) {
+    return;
+  }
+
+  params.value = route.query;
+});
 </script>
 
 <style lang="scss">

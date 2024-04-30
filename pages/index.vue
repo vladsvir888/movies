@@ -23,12 +23,12 @@
 </template>
 
 <script setup>
-import { lists } from "~/constants";
+import { LISTS } from "~/constants";
 
 const store = useStore();
 
 const computedLists = computed(() => {
-  return [lists.movie[0], lists.tv[0]];
+  return [LISTS.movie[0], LISTS.tv[0]];
 });
 
 useApi("/movie/popular", {

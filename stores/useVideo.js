@@ -1,5 +1,9 @@
 import YouTubePlayer from "youtube-player";
 
+const STATE_CHANGE_VALUES = {
+  playing: 1,
+};
+
 export const useVideo = defineStore("video", {
   state: () => {
     return {
@@ -14,7 +18,7 @@ export const useVideo = defineStore("video", {
       });
 
       video.on("stateChange", (event) => {
-        if (event.data === 1) {
+        if (event.data === STATE_CHANGE_VALUES.playing) {
           this.activeVideoId = videoId;
           this.stopVideo();
         }

@@ -1,4 +1,4 @@
-export const lists = {
+export const LISTS = {
   movie: [
     {
       type: "movie",
@@ -35,7 +35,7 @@ export const lists = {
   ],
 };
 
-export const sortTypes = {
+export const SORT_TYPES = {
   movie: [
     "popularity",
     "vote_count",
@@ -44,4 +44,17 @@ export const sortTypes = {
     "original_title",
   ],
   tv: ["popularity", "vote_count", "vote_average", "original_name"],
+};
+
+export const FILTER_VALUES = {
+  with_genres: "with_genres",
+  sort_by: "sort_by",
+  "vote_average.gte": "vote_average.gte",
+  "release_date.gte": "release_date.gte",
+  "release_date.lte": "release_date.lte",
+};
+
+export const SORT_ORDERS = {
+  descending: "desc",
+  ascending: "asc",
 };

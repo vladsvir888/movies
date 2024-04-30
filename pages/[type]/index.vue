@@ -9,7 +9,7 @@
     <HeroBlock :data="store[type].heroBlock" />
 
     <TheCarousel
-      v-for="item in lists[type]"
+      v-for="item in LISTS[type]"
       :key="item.category"
       :type="item.type"
       :category="item.category"
@@ -19,7 +19,7 @@
 </template>
 
 <script setup>
-import { lists } from "~/constants";
+import { LISTS } from "~/constants";
 
 const route = useRoute();
 const store = useStore();
@@ -39,7 +39,7 @@ const title = computed(() => {
   return "";
 });
 
-if (!lists[type.value]) {
+if (!LISTS[type.value]) {
   throw createError({
     statusCode: 404,
     fatal: true,

@@ -7,7 +7,7 @@
             v-model="filter.with_genres"
             :options="transformedGenres"
             wrapper-class="filter__select-block"
-            @change="setFilter"
+            @change="setFilterValuesInUrl"
           />
         </AccordionItem>
 
@@ -21,9 +21,9 @@
               :id="`filter-sort-${radio.value}`"
               :value="radio.value"
               name="filter-sort"
-              @change="setFilter"
+              @change="setFilterValuesInUrl"
             />
-            <TheSwitcher v-model="isChecked" label="Order descending" />
+            <TheSwitcher v-model="isOrderDescending" label="Order descending" />
           </div>
         </AccordionItem>
 
@@ -37,14 +37,14 @@
               v-model="filter['release_date.gte']"
               type="date"
               wrapper-class="filter__date-input-block"
-              @change="setFilter"
+              @change="setFilterValuesInUrl"
             />
             <span class="filter__date-divider">—</span>
             <InputBlock
               v-model="filter['release_date.lte']"
               type="date"
               wrapper-class="filter__date-input-block"
-              @change="setFilter"
+              @change="setFilterValuesInUrl"
             />
           </div>
         </AccordionItem>
@@ -54,7 +54,7 @@
 </template>
 
 <script setup>
-import { sortTypes } from "~/constants";
+import { SORT_TYPES, FILTER_VALUES, SORT_ORDERS } from "~/constants";
 
 const store = useStore();
 const router = useRouter();
@@ -62,8 +62,8 @@ const route = useRoute();
 const { t } = useI18n();
 
 const ratingCount = ref(0);
-const sortOrder = ref("desc");
-const isChecked = ref(true);
+const sortOrder = ref(SORT_ORDERS.descending);
+const isOrderDescending = ref(true);
 
 const category = computed(() => {
   return route.params.category;
@@ -77,7 +77,7 @@ const transformedGenres = computed(() => {
 });
 
 const sortData = computed(() => {
-  const types = sortTypes[category.value];
+  const types = SORT_TYPES[category.value];
   const data = [];
 
   const transformType = (type) =>
@@ -97,37 +97,64 @@ const sortData = computed(() => {
 });
 
 const filter = ref({
-  with_genres: "",
-  sort_by: sortData.value[0].value,
-  "vote_average.gte": "",
-  "release_date.gte": "",
-  "release_date.lte": "",
+  [FILTER_VALUES["with_genres"]]: "",
+  [FILTER_VALUES["sort_by"]]: sortData.value[0].value,
+  [FILTER_VALUES["vote_average.gte"]]: "",
+  [FILTER_VALUES["release_date.gte"]]: "",
+  [FILTER_VALUES["release_date.lte"]]: "",
 });
 
-const setFilter = () => {
+const setFilterValuesInUrl = () => {
   router.push({
     query: filter.value,
   });
 };
 
-watch(isChecked, (newValue) => {
-  if (!newValue) {
-    sortOrder.value = "asc";
+const toggleSortOrder = (value) => {
+  if (!value) {
+    sortOrder.value = SORT_ORDERS.ascending;
   } else {
-    sortOrder.value = "desc";
+    sortOrder.value = SORT_ORDERS.descending;
   }
+};
 
-  filter.value.sort_by = `${filter.value.sort_by.split(".")[0]}.${
+const updateFilterSortBy = (value) => {
+  filter.value[FILTER_VALUES["sort_by"]] = `${value.split(".")[0]}.${
     sortOrder.value
   }`;
+};
 
-  setFilter();
+const updateFilterValues = () => {
+  const { query } = route;
+
+  if (isEmptyObject(query)) {
+    return;
+  }
+
+  for (let key in query) {
+    if (key === FILTER_VALUES["vote_average.gte"]) {
+      ratingCount.value = divideByTwoAndRound(Number(query[key])); // trigger watch ratingCount
+    } else if (key === FILTER_VALUES["sort_by"]) {
+      isOrderDescending.value = query[key].split(".")[1] === sortOrder.value;
+
+      toggleSortOrder(isOrderDescending.value);
+      updateFilterSortBy(route.query[FILTER_VALUES["sort_by"]]);
+    } else {
+      filter.value[key] = query[key];
+    }
+  }
+};
+
+watch(isOrderDescending, (newValue) => {
+  toggleSortOrder(newValue);
+  updateFilterSortBy(filter.value[FILTER_VALUES["sort_by"]]);
+  setFilterValuesInUrl();
 });
 
 watch(ratingCount, (newValue) => {
-  filter.value["vote_average.gte"] = newValue * 2;
+  filter.value[FILTER_VALUES["vote_average.gte"]] = newValue * 2;
 
-  setFilter();
+  setFilterValuesInUrl();
 });
 
 useApi(`/genre/${category.value}/list`, {
@@ -135,6 +162,8 @@ useApi(`/genre/${category.value}/list`, {
     store[category.value].genres = response._data.genres;
   },
 });
+
+onMounted(updateFilterValues);
 </script>
 
 <style lang="scss">
