@@ -66,12 +66,12 @@ const uid = ref(getCurrentInstance().uid);
   &__input {
     &:checked + .rating__label,
     &:focus + .rating__label {
-      color: var(--primary-color);
+      color: var(--palette-puerto-rico);
     }
   }
 
   &__label {
-    color: #d4d4d8;
+    color: var(--palette-iron);
     cursor: pointer;
     transition: color var(--transition300ms);
 
@@ -80,15 +80,15 @@ const uid = ref(getCurrentInstance().uid);
     }
 
     &:has(~ .rating__label:hover) {
-      color: var(--primary-color);
+      color: var(--palette-puerto-rico);
     }
 
     &:has(~ .rating__input:checked) {
-      color: var(--primary-color);
+      color: var(--palette-puerto-rico);
     }
 
     @include hover {
-      color: var(--primary-color);
+      color: var(--palette-puerto-rico);
     }
   }
 }

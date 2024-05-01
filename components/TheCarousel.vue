@@ -150,14 +150,14 @@ const data = computed(() => {
   &__button {
     width: 50px;
     height: 30px;
-    color: #fff;
-    background-color: #3a3b3f;
+    color: var(--palette-white);
+    background-color: var(--palette-tuna);
     border-radius: 10px;
     transition: background-color var(--transition300ms);
 
     &:not(:disabled) {
       @include hover {
-        background-color: rgb(0 0 0 / 80%);
+        background-color: rgb(var(--palette-black--rgb) / 80%);
       }
     }
 
@@ -184,11 +184,11 @@ const data = computed(() => {
     width: 6px;
     height: 6px;
     border-radius: 50%;
-    background-color: #797585;
+    background-color: var(--palette-topaz);
     border: none;
 
     &.is-active {
-      background-color: #fff;
+      background-color: var(--palette-white);
     }
   }
 

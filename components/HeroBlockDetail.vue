@@ -17,8 +17,12 @@
         </p>
         <ul v-if="data.genres?.length" class="hero-block-detail__genres">
           <li v-for="genre in data.genres" :key="genre.id">
-            <TheTag>
-              {{ genre.name }}
+            <TheTag :is-link="true">
+              <TheButton
+                :to="`/discover/${type}?${FILTER_VALUES['with_genres']}=${genre.id}`"
+              >
+                {{ genre.name }}
+              </TheButton>
             </TheTag>
           </li>
         </ul>
@@ -43,6 +47,8 @@
 </template>
 
 <script setup>
+import { FILTER_VALUES } from "~/constants";
+
 const config = useRuntimeConfig();
 
 const props = defineProps({
@@ -55,7 +61,9 @@ const props = defineProps({
 
 const ratingCount = ref(divideByTwoAndRound(props.data.voteAverage));
 
-const preparedTitle = getTitleOrName(props.data);
+const preparedTitle = computed(() => getTitleOrName(props.data));
+
+const type = useRouteParam("type");
 
 watch(
   () => props.data.voteAverage,
@@ -77,7 +85,7 @@ watch(
   &::before {
     position: absolute;
     inset: 0;
-    background-color: rgb(0 0 0 / 80%);
+    background-color: rgb(var(--palette-black--rgb) / 80%);
     backdrop-filter: blur(5px);
     content: "";
   }

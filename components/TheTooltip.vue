@@ -83,9 +83,9 @@ const position = computed(() => {
   &__text {
     position: absolute;
     padding: 5px 10px;
-    background-color: #fff;
+    background-color: var(--palette-white);
     border-radius: 4px;
-    color: #000;
+    color: var(--palette-black);
     font-size: 14px;
     opacity: 0;
     visibility: hidden;

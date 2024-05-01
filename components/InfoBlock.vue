@@ -156,7 +156,7 @@ const transformedRevenue = computed(() => {
 
   &__cell {
     padding: 20px 10px 20px 0;
-    border-bottom: 1px solid #fff;
+    border-bottom: 1px solid var(--palette-white);
 
     &:first-child {
       font-weight: 700;
@@ -180,7 +180,7 @@ const transformedRevenue = computed(() => {
       height: 30px;
       object-fit: contain;
       padding: 5px;
-      background-color: #fff;
+      background-color: var(--palette-white);
       border-radius: 5px;
     }
   }

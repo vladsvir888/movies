@@ -62,12 +62,12 @@ const clearEntry = () => (model.value = "");
 .input-block {
   $this: &;
 
-  background-color: #fff;
+  background-color: var(--palette-white);
   border: 1px solid #e0ded7;
   border-radius: 8px;
 
   &:focus-within {
-    outline: 2px solid var(--primary-color);
+    outline: 2px solid var(--palette-puerto-rico);
     border-color: transparent;
   }
 
@@ -83,7 +83,7 @@ const clearEntry = () => (model.value = "");
     flex: 1 0 auto;
     border: none;
     font: inherit;
-    color: #000;
+    color: var(--palette-black);
 
     &:focus {
       outline: none;
@@ -108,7 +108,7 @@ const clearEntry = () => (model.value = "");
     transition: color var(--transition300ms);
 
     @include hover {
-      color: var(--primary-color);
+      color: var(--palette-puerto-rico);
     }
   }
 }

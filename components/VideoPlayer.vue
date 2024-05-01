@@ -78,7 +78,7 @@ function createIframe() {
     &::before {
       position: absolute;
       inset: 0;
-      background-color: rgb(255 0 0 / 70%);
+      background-color: rgb(var(--palette-red--rgb) / 70%);
       backdrop-filter: blur(5px);
       opacity: 0;
       transition: opacity var(--transition300ms);
@@ -109,7 +109,6 @@ function createIframe() {
   &__button {
     position: absolute;
     inset: 0;
-    color: #fff;
     outline: none;
     opacity: 0;
     transition: opacity var(--transition300ms);

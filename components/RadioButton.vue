@@ -46,12 +46,12 @@ const model = defineModel({
   transition: background-color var(--transition300ms);
 
   @include hover {
-    background-color: #000;
+    background-color: var(--palette-black);
   }
 
   &__input {
     margin: 8px 0 8px 8px;
-    accent-color: var(--primary-color);
+    accent-color: var(--palette-puerto-rico);
   }
 
   &__label {

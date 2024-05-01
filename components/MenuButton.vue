@@ -36,7 +36,6 @@ const isMenuExpanded = defineModel("isMenuExpanded", {
   top: 10px;
   display: none;
   column-gap: 5px;
-  color: #fff;
 
   @media (width <= 600px) {
     display: flex;

@@ -144,7 +144,7 @@ useApi("/search/multi", {
 
     @include hover {
       &:not(:disabled) {
-        color: var(--primary-color);
+        color: var(--palette-puerto-rico);
       }
     }
   }

@@ -42,7 +42,7 @@
     font-weight: 700;
 
     &-icon {
-      color: #fff;
+      color: var(--palette-white);
 
       svg {
         width: 25px;

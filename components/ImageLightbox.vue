@@ -131,12 +131,11 @@ const toPreviousImage = (event) => {
   display: flex;
   justify-content: center;
   align-items: center;
-  color: #fff;
 
   &__overlay {
     position: absolute;
     inset: 0;
-    background-color: rgb(0 0 0 / 80%);
+    background-color: rgb(var(--palette-black--rgb) / 80%);
   }
 
   &__list {
@@ -171,7 +170,6 @@ const toPreviousImage = (event) => {
 
   &__button,
   &__close {
-    color: currentColor;
     transition: color var(--transition300ms);
 
     &:disabled {
@@ -180,7 +178,7 @@ const toPreviousImage = (event) => {
 
     @include hover {
       &:not(:disabled) {
-        color: var(--primary-color);
+        color: var(--palette-puerto-rico);
       }
     }
 

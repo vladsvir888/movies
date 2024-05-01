@@ -92,7 +92,6 @@ const setSelectedToNextTab = () => {
     margin: 2px 0;
     padding: 0;
     font-size: 24px;
-    color: #fff;
     border: none;
     background-color: transparent;
     cursor: pointer;
@@ -103,12 +102,12 @@ const setSelectedToNextTab = () => {
     }
 
     &[aria-selected="true"] {
-      color: var(--primary-color);
+      color: var(--palette-puerto-rico);
     }
 
     @include hover {
       &:not([aria-selected="true"]) {
-        color: var(--primary-color);
+        color: var(--palette-puerto-rico);
       }
     }
   }

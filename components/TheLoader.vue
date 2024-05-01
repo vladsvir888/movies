@@ -9,7 +9,7 @@
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  border: 3px solid var(--primary-color);
+  border: 3px solid var(--palette-puerto-rico);
   border-top-color: transparent;
   animation: rotate 1s linear infinite;
 

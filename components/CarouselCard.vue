@@ -50,7 +50,7 @@ const props = defineProps({
 
 const ratingCount = ref(divideByTwoAndRound(props.data.vote_average));
 
-const preparedTitle = getTitleOrName(props.data);
+const preparedTitle = computed(() => getTitleOrName(props.data));
 </script>
 
 <style lang="scss">
@@ -67,14 +67,14 @@ const preparedTitle = getTitleOrName(props.data);
     position: absolute;
     inset: 0;
     z-index: 1;
-    background-color: rgb(0 0 0 / 0%);
+    background-color: rgb(var(--palette-black--rgb) / 0%);
     transition: background-color var(--transition300ms);
     content: "";
   }
 
   @include hover {
     &::before {
-      background-color: rgb(0 0 0 / 80%);
+      background-color: rgb(var(--palette-black--rgb) / 80%);
     }
 
     #{$this}__content {
@@ -85,7 +85,7 @@ const preparedTitle = getTitleOrName(props.data);
 
   &:focus-within {
     &::before {
-      background-color: rgb(0 0 0 / 80%);
+      background-color: rgb(var(--palette-black--rgb) / 80%);
     }
 
     #{$this}__content {

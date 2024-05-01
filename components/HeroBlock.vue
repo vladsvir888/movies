@@ -53,7 +53,7 @@ const props = defineProps({
 
 const ratingCount = ref(divideByTwoAndRound(props.data.vote_average));
 
-const preparedTitle = getTitleOrName(props.data);
+const preparedTitle = computed(() => getTitleOrName(props.data));
 
 const type = computed(() => {
   return props.data.title ? "movie" : "tv";
@@ -84,7 +84,7 @@ watch(
   &::before {
     position: absolute;
     inset: 0;
-    background-color: rgb(0 0 0 / 80%);
+    background-color: rgb(var(--palette-black--rgb) / 80%);
     content: "";
   }
 

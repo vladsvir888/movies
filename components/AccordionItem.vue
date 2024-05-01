@@ -52,7 +52,7 @@ onMounted(() => {
 @import "~/assets/styles/helpers/mixins/hover.scss";
 
 .accordion-item {
-  border-bottom: 1px solid #fff;
+  border-bottom: 1px solid var(--palette-white);
 
   &:last-child {
     border-bottom: 0;
@@ -74,15 +74,14 @@ onMounted(() => {
     justify-content: space-between;
     width: 100%;
     padding: 20px 0;
-    color: #fff;
     transition: color var(--transition300ms);
 
     @include hover {
-      color: var(--primary-color);
+      color: var(--palette-puerto-rico);
     }
 
     &[aria-expanded="true"] {
-      color: var(--primary-color);
+      color: var(--palette-puerto-rico);
 
       > .icon svg {
         rotate: -90deg;

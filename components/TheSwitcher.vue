@@ -48,14 +48,14 @@ const toggle = () => (isChecked.value = !isChecked.value);
   transition: background-color var(--transition300ms);
 
   @include hover {
-    background-color: #000;
+    background-color: var(--palette-black);
   }
 
   &[aria-checked="true"] {
     #{$this}__switch {
       > span {
         left: 20px;
-        background-color: var(--primary-color);
+        background-color: var(--palette-puerto-rico);
       }
     }
   }
@@ -64,7 +64,7 @@ const toggle = () => (isChecked.value = !isChecked.value);
     position: relative;
     width: 40px;
     height: 22px;
-    border: 2px solid #fff;
+    border: 2px solid var(--palette-white);
     border-radius: 12px;
 
     > span {
@@ -74,7 +74,7 @@ const toggle = () => (isChecked.value = !isChecked.value);
       translate: 0 -50%;
       width: 12px;
       height: 12px;
-      background-color: #fff;
+      background-color: var(--palette-white);
       border-radius: 50%;
       transition: left var(--transition300ms);
     }

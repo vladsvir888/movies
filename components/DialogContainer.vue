@@ -91,7 +91,7 @@ onUnmounted(() => {
   border-radius: 8px;
 
   &::backdrop {
-    background-color: rgb(0 0 0 / 50%);
+    background-color: rgb(var(--palette-black--rgb) / 50%);
   }
 
   &__wrapper {
@@ -108,7 +108,7 @@ onUnmounted(() => {
     transition: color var(--transition300ms);
 
     @include hover {
-      color: var(--primary-color);
+      color: var(--palette-puerto-rico);
     }
   }
 }

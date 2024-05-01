@@ -74,7 +74,7 @@ const model = defineModel({
       width: 10px;
       height: 7px;
       margin-right: 6px;
-      background-color: #fff;
+      background-color: var(--palette-white);
       clip-path: polygon(0% 0%, 100% 0%, 50% 100%);
       pointer-events: none;
       content: "";
@@ -84,16 +84,16 @@ const model = defineModel({
   &__select {
     grid-area: select;
     padding: 5px;
-    background-color: #000;
+    background-color: var(--palette-black);
     border-radius: 8px;
-    color: #fff;
+    color: var(--palette-white);
     font-family: inherit;
     cursor: pointer;
     appearance: none;
     transition: border-color var(--transition300ms);
 
     @include hover {
-      border-color: var(--primary-color);
+      border-color: var(--palette-puerto-rico);
     }
   }
 }

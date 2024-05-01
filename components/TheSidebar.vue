@@ -95,7 +95,7 @@ watch(() => route.path, closeMenu);
       &__wrapper {
         visibility: visible;
         width: 100vw;
-        background-color: rgb(0 0 0 / 50%);
+        background-color: rgb(var(--palette-black--rgb) / 50%);
       }
 
       &__aside {
@@ -124,7 +124,7 @@ watch(() => route.path, closeMenu);
     align-items: center;
     justify-content: center;
     padding: 10px;
-    background-color: #000;
+    background-color: var(--palette-black);
     transition: all var(--transition300ms);
 
     @media (width <= 600px) {
@@ -139,11 +139,11 @@ watch(() => route.path, closeMenu);
   }
 
   &__link {
-    color: #fff;
     transition: color var(--transition300ms);
+    outline: none;
 
     @include hover {
-      color: var(--primary-color);
+      color: var(--palette-puerto-rico);
     }
 
     svg {
@@ -154,12 +154,16 @@ watch(() => route.path, closeMenu);
     }
 
     &[aria-current="page"] {
-      color: var(--primary-color);
+      color: var(--palette-puerto-rico);
     }
 
-    &:focus-visible + .tooltip__text {
-      opacity: 1;
-      visibility: visible;
+    &:focus-visible {
+      color: var(--palette-puerto-rico);
+
+      + .tooltip__text {
+        opacity: 1;
+        visibility: visible;
+      }
     }
   }
 }

@@ -94,7 +94,6 @@ const callback = (entries) => {
 
   &__back {
     width: max-content;
-    color: #fff;
     justify-content: flex-start;
     column-gap: 5px;
 

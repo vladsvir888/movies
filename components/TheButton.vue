@@ -60,6 +60,7 @@ defineExpose({
   border: none;
   background-color: transparent;
   cursor: pointer;
+  color: currentColor;
 
   &:disabled {
     cursor: default;
@@ -67,12 +68,12 @@ defineExpose({
 
   &--primary {
     padding: 12px 24px;
-    background-color: #9ca3af26;
-    color: #fff;
+    background-color: var(--palette-tuna);
+    color: var(--palette-white);
     transition: background-color var(--transition300ms);
 
     @include hover {
-      background-color: #9ca3af33;
+      background-color: var(--palette-topaz);
     }
   }
 
@@ -85,7 +86,7 @@ defineExpose({
       left: 0;
       width: 0;
       height: 1px;
-      background-color: var(--primary-color);
+      background-color: var(--palette-puerto-rico);
       content: "";
       transition: width var(--transition300ms);
     }

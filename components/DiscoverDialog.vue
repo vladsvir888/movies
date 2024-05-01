@@ -53,7 +53,7 @@ const hideDiscoverDialog = () => (isDiscoverDialogShow.value = false);
 
     &::before,
     &::after {
-      background-color: rgb(0 0 0 / 50%);
+      background-color: rgb(var(--palette-black--rgb) / 50%);
       width: 50px;
       height: 1px;
       content: "";
