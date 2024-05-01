@@ -14,7 +14,7 @@
         <AccordionItem :title="$t('Sort by')" id="filter-sort">
           <div class="filter__sort-wrapper">
             <RadioButton
-              v-for="radio in sortData"
+              v-for="radio in sortedData"
               :key="`filter-sort-${radio.value}`"
               v-model="filter.sort_by"
               :label="radio.label"
@@ -74,7 +74,7 @@ const transformedGenres = computed(() => {
   }));
 });
 
-const sortData = computed(() => {
+const sortedData = computed(() => {
   const types = SORT_TYPES[category.value];
   const data = [];
 
@@ -96,7 +96,7 @@ const sortData = computed(() => {
 
 const filter = ref({
   [FILTER_VALUES["with_genres"]]: "",
-  [FILTER_VALUES["sort_by"]]: sortData.value[0].value,
+  [FILTER_VALUES["sort_by"]]: sortedData.value[0].value,
   [FILTER_VALUES["vote_average.gte"]]: "",
   [FILTER_VALUES["release_date.gte"]]: "",
   [FILTER_VALUES["release_date.lte"]]: "",

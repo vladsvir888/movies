@@ -3,7 +3,7 @@
     v-model="locale"
     :options="transformedLocales"
     :label="$t('Language:')"
-    id="languageSwitcher"
+    id="language-switcher"
     wrapper-class="language-switcher"
     @change="updateLocale"
   />

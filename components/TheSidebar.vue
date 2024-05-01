@@ -12,13 +12,13 @@
           <TheTooltip
             v-for="(link, index) in links"
             :key="link.value"
-            :id="`sidebarItem${index}`"
+            :id="`sidebar-item-${index}`"
             :text="link.value"
           >
             <TheButton
               :to="link.to"
               class="sidebar__link"
-              :aria-labelledby="`sidebarItem${index}`"
+              :aria-labelledby="`sidebar-item-${index}`"
               v-on="link.handlers ?? {}"
             >
               <TheIcon :icon="link.icon" />

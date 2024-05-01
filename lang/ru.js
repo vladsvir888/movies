@@ -68,4 +68,5 @@ export default {
   On: "Вкл",
   Off: "Выкл",
   Rating: "Рейтинг",
+  All: "Все",
 };

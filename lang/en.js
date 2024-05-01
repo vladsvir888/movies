@@ -68,4 +68,5 @@ export default {
   On: "On",
   Off: "Off",
   Rating: "Rating",
+  All: "All",
 };
