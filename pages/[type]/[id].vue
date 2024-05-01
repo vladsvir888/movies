@@ -34,9 +34,7 @@ import {
   SimilarBlock,
 } from "#components";
 
-const { t } = useI18n();
-const route = useRoute();
-const { locale } = useI18n();
+const { t, locale } = useI18n();
 
 const tabPanels = ref({
   info: {
@@ -94,13 +92,8 @@ const transformReviews = (items) => {
   }));
 };
 
-const type = computed(() => {
-  return route.params.type;
-});
-
-const id = computed(() => {
-  return route.params.id;
-});
+const type = useRouteParam("type");
+const id = useRouteParam("id");
 
 const data = await useApi(`/${type.value}/${id.value}`, {
   query: {

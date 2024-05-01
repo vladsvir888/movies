@@ -39,9 +39,7 @@ const totalPages = ref(0);
 const totalResults = ref([]);
 const isPendingAutoload = ref(false);
 
-const category = computed(() => {
-  return route.params.category;
-});
+const category = useRouteParam("category");
 
 const title = computed(() => {
   if (category.value === "movie") {

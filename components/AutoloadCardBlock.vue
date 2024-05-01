@@ -15,7 +15,7 @@
       </TheButton>
       <ul class="autoload-card-block__list">
         <li v-for="item in data" :key="item.id">
-          <CarouselCard :data="item" :type="type" :heading-level="2" />
+          <CarouselCard :data="item" :type="preparedType" :heading-level="2" />
         </li>
       </ul>
       <TheLoader v-show="isPending" class="autoload-card-block__loader" />
@@ -25,8 +25,6 @@
 </template>
 
 <script setup>
-const route = useRoute();
-
 const props = defineProps({
   data: {
     type: Array,
@@ -57,9 +55,10 @@ const page = defineModel("page", {
   default: 1,
 });
 
-const type = computed(() => {
-  return route.params.type || route.params.category;
-});
+const type = useRouteParam("type");
+const category = useRouteParam("category");
+
+const preparedType = computed(() => type.value || category.value);
 
 const options = {
   rootMargin: "-150px 0px 0px 0px",

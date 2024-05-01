@@ -21,13 +21,10 @@
 <script setup>
 import { LISTS } from "~/constants";
 
-const route = useRoute();
 const store = useStore();
 const { t } = useI18n();
 
-const type = computed(() => {
-  return route.params.type;
-});
+const type = useRouteParam("type");
 
 const title = computed(() => {
   if (type.value === "movie") {

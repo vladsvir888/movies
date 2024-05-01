@@ -65,9 +65,7 @@ const ratingCount = ref(0);
 const sortOrder = ref(SORT_ORDERS.descending);
 const isOrderDescending = ref(true);
 
-const category = computed(() => {
-  return route.params.category;
-});
+const category = useRouteParam("category");
 
 const transformedGenres = computed(() => {
   return store[category.value].genres.map(({ id, name }) => ({

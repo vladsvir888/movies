@@ -11,12 +11,12 @@
     />
     <div class="carousel-card__content">
       <TheHeading
-        v-if="computedTitle"
+        v-if="preparedTitle"
         :level="headingLevel"
         class="carousel-card__title"
       >
         <TheButton :to="`/${type}/${data.id}`" class="carousel-card__link">
-          {{ computedTitle }}
+          {{ preparedTitle }}
         </TheButton>
       </TheHeading>
       <div class="carousel-card__wrapper">
@@ -50,13 +50,7 @@ const props = defineProps({
 
 const ratingCount = ref(divideByTwoAndRound(props.data.vote_average));
 
-const computedTitle = computed(() => {
-  if (props.data.title) {
-    return props.data.title;
-  }
-
-  return props.data.name;
-});
+const preparedTitle = getTitleOrName(props.data);
 </script>
 
 <style lang="scss">

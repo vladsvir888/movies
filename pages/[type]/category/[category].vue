@@ -19,7 +19,6 @@
 <script setup>
 import { LISTS } from "~/constants";
 
-const route = useRoute();
 const { locale } = useI18n();
 
 const page = ref(1);
@@ -27,13 +26,8 @@ const totalPages = ref(0);
 const totalResults = ref([]);
 const isPendingAutoload = ref(false);
 
-const type = computed(() => {
-  return route.params.type;
-});
-
-const category = computed(() => {
-  return route.params.category;
-});
+const type = useRouteParam("type");
+const category = useRouteParam("category");
 
 const listItem = LISTS[type.value].find(
   (item) => item.category === category.value

@@ -7,8 +7,8 @@
   >
     <div class="container hero-block-detail__container">
       <div class="hero-block-detail__content">
-        <TheHeading v-if="computedTitle" class="hero-block-detail__title">
-          {{ computedTitle }}
+        <TheHeading v-if="preparedTitle" class="hero-block-detail__title">
+          {{ preparedTitle }}
         </TheHeading>
         <p v-if="data.text" class="hero-block-detail__text">{{ data.text }}</p>
         <p class="hero-block-detail__date">
@@ -55,13 +55,7 @@ const props = defineProps({
 
 const ratingCount = ref(divideByTwoAndRound(props.data.voteAverage));
 
-const computedTitle = computed(() => {
-  if (props.data.title) {
-    return props.data.title;
-  }
-
-  return props.data.name;
-});
+const preparedTitle = getTitleOrName(props.data);
 
 watch(
   () => props.data.voteAverage,

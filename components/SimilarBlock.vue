@@ -21,7 +21,6 @@ const props = defineProps({
   },
 });
 
-const route = useRoute();
 const { locale } = useI18n();
 
 const page = ref(props.data.page);
@@ -29,9 +28,7 @@ const totalPages = ref(props.data.total_pages);
 const totalResults = ref(props.data.results);
 const isPendingAutoload = ref(false);
 
-const id = computed(() => {
-  return route.params.id;
-});
+const id = useRouteParam("id");
 
 useApi(`/movie/${id.value}/similar`, {
   immediate: false,

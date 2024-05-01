@@ -13,7 +13,7 @@
     <HeroBlock :data="store.movie.heroBlock" />
 
     <TheCarousel
-      v-for="item in computedLists"
+      v-for="item in preparedLists"
       :key="item.category"
       :type="item.type"
       :category="item.category"
@@ -27,7 +27,7 @@ import { LISTS } from "~/constants";
 
 const store = useStore();
 
-const computedLists = computed(() => {
+const preparedLists = computed(() => {
   return [LISTS.movie[0], LISTS.tv[0]];
 });
 

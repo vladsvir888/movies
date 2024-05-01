@@ -5,26 +5,37 @@
       backgroundImage: `url('${config.public.apiImgUrl}original${data.backdrop_path}')`,
     }"
   >
-    <div class="hero__content">
-      <p v-if="computedTitle" class="hero__title">
-        {{ computedTitle }}
-      </p>
-      <div class="hero__wrapper">
-        <TheRating v-if="data.vote_average" v-model="ratingCount" />
-        <p v-if="data.vote_average" class="hero__rating-count">
-          {{ data.vote_average }} / 10
+    <div class="container">
+      <div class="hero__content">
+        <p v-if="preparedTitle" class="hero__title">
+          {{ preparedTitle }}
         </p>
-        <p v-if="data.vote_count" class="hero__reviews">
-          {{ $t("Reviews") }}: {{ data.vote_count }}
+        <div class="hero__wrapper">
+          <TheRating v-if="data.vote_average" v-model="ratingCount" />
+          <p v-if="data.vote_average" class="hero__rating-count">
+            {{ data.vote_average }} / 10
+          </p>
+          <p v-if="data.vote_count" class="hero__reviews">
+            {{ $t("Reviews") }}: {{ data.vote_count }}
+          </p>
+          <p v-if="data.release_date" class="hero__date">
+            {{ $t("Release Date") }}:
+            {{ transformDate(data.release_date) }}
+          </p>
+        </div>
+        <p v-if="data.overview" class="hero__text">
+          {{ data.overview }}
         </p>
-        <p v-if="data.release_date" class="hero__date">
-          {{ $t("Release Date") }}:
-          {{ transformDate(data.release_date) }}
-        </p>
+        <TheButton
+          v-if="data.id"
+          :to="`/${type}/${data.id}`"
+          class="hero__more"
+          variant="decoration"
+        >
+          {{ $t("Explore more") }}
+          <TheIcon icon="arrow-next" />
+        </TheButton>
       </div>
-      <p v-if="data.overview" class="hero__text">
-        {{ data.overview }}
-      </p>
     </div>
   </div>
 </template>
@@ -42,12 +53,10 @@ const props = defineProps({
 
 const ratingCount = ref(divideByTwoAndRound(props.data.vote_average));
 
-const computedTitle = computed(() => {
-  if (props.data.title) {
-    return props.data.title;
-  }
+const preparedTitle = getTitleOrName(props.data);
 
-  return props.data.name;
+const type = computed(() => {
+  return props.data.title ? "movie" : "tv";
 });
 
 watch(
@@ -81,15 +90,12 @@ watch(
 
   &__content {
     position: relative;
-    padding: 20px 100px;
+    padding: 20px 0;
     display: flex;
     flex-direction: column;
+    align-items: flex-start;
     row-gap: 10px;
     max-width: 1000px;
-
-    @media (width <= 600px) {
-      padding: 20px;
-    }
   }
 
   &__title {
@@ -116,6 +122,10 @@ watch(
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
+  }
+
+  &__more {
+    column-gap: 5px;
   }
 }
 </style>
