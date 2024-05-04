@@ -61,6 +61,10 @@ const router = useRouter();
 const route = useRoute();
 const { t } = useI18n();
 
+const removedVariant = defineModel("removedVariant", {
+  default: null,
+});
+
 const ratingCount = ref(0);
 const sortOrder = ref(SORT_ORDERS.descending);
 const isOrderDescending = ref(true);
@@ -96,7 +100,7 @@ const sortedData = computed(() => {
 
 const filter = ref({
   [FILTER_VALUES["with_genres"]]: "",
-  [FILTER_VALUES["sort_by"]]: sortedData.value[0].value,
+  [FILTER_VALUES["sort_by"]]: "",
   [FILTER_VALUES["vote_average.gte"]]: "",
   [FILTER_VALUES["release_date.gte"]]: "",
   [FILTER_VALUES["release_date.lte"]]: "",
@@ -150,7 +154,21 @@ watch(isOrderDescending, (newValue) => {
 });
 
 watch(ratingCount, (newValue) => {
+  if (!newValue) {
+    return;
+  }
+
   filter.value[FILTER_VALUES["vote_average.gte"]] = newValue * 2;
+
+  setFilterValuesInUrl();
+});
+
+watch(removedVariant, (newValue) => {
+  if (newValue === FILTER_VALUES["vote_average.gte"]) {
+    ratingCount.value = 0;
+  }
+
+  filter.value[newValue] = "";
 
   setFilterValuesInUrl();
 });

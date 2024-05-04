@@ -7,15 +7,33 @@
     </TheHeading>
 
     <div class="page-discover__wrapper">
-      <TheFilter />
-
-      <AutoloadCardBlock
-        :data="totalResults"
-        v-model:page="page"
-        :total-pages="totalPages"
-        :is-pending="isPendingAutoload"
-        :is-back-button="false"
-      />
+      <TheFilter v-model:removed-variant="removedVariant" />
+      <div class="page-discover__cards">
+        <ul class="page-discover__variants">
+          <template
+            v-for="(variantValue, variantKey) in params"
+            :key="variantKey"
+          >
+            <li v-if="variantValue" class="page-discover__variant">
+              <TheButton
+                variant="primary"
+                class="page-discover__variant-button"
+                @click="removedVariant = variantKey"
+              >
+                {{ variantValue }}
+                <TheIcon icon="close" />
+              </TheButton>
+            </li>
+          </template>
+        </ul>
+        <AutoloadCardBlock
+          :data="totalResults"
+          v-model:page="page"
+          :total-pages="totalPages"
+          :is-pending="isPendingAutoload"
+          :is-back-button="false"
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -33,6 +51,7 @@ const params = ref({
   [FILTER_VALUES["release_date.gte"]]: "",
   [FILTER_VALUES["release_date.lte"]]: "",
 });
+const removedVariant = ref(null);
 
 const page = ref(1);
 const totalPages = ref(0);
@@ -102,6 +121,29 @@ onMounted(() => {
 
     @media (width <= 1200px) {
       grid-template-columns: 1fr;
+    }
+  }
+
+  &__variants {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--grid-gap);
+
+    &:not(:empty) {
+      margin-bottom: 20px;
+    }
+  }
+
+  &__variant-button {
+    padding: 6px 12px;
+    column-gap: 6px;
+    border-radius: 12px;
+
+    .icon > svg {
+      margin-top: 1px;
+      width: 18px;
+      height: 18px;
     }
   }
 }
