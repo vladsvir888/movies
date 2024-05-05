@@ -6,36 +6,43 @@
     @keydown.esc="closeMenu"
   >
     <MenuButton v-model:is-menu-expanded="isMenuExpanded" />
-    <div class="sidebar__wrapper" @click="closeMenu">
-      <aside id="sidebar" class="sidebar__aside" @click.stop>
-        <nav class="sidebar__nav">
-          <TheTooltip
-            v-for="(link, index) in links"
-            :key="link.value"
-            :id="`sidebar-item-${index}`"
-            :text="link.value"
+    <aside id="sidebar" class="sidebar__aside">
+      <nav class="sidebar__nav">
+        <template v-for="link in links" :key="link.value">
+          <TheButton
+            v-if="!link.dropdown"
+            :to="link.to"
+            :title="link.value"
+            class="sidebar__link"
+            v-on="link.handlers ?? {}"
           >
-            <TheButton
-              :to="link.to"
-              class="sidebar__link"
-              :aria-labelledby="`sidebar-item-${index}`"
-              v-on="link.handlers ?? {}"
-            >
+            <TheIcon :icon="link.icon" />
+          </TheButton>
+
+          <TheDropdown
+            v-else
+            v-model:selected-item="dropdownSelectedItem"
+            toggle-class="sidebar__link"
+            :toggle-title-attr="link.value"
+            :items="link.dropdown.items"
+          >
+            <template #toggle>
               <TheIcon :icon="link.icon" />
-            </TheButton>
-          </TheTooltip>
-        </nav>
-      </aside>
-    </div>
+            </template>
+          </TheDropdown>
+        </template>
+      </nav>
+    </aside>
+    <div class="sidebar__overlay" @click="closeMenu"></div>
   </div>
 </template>
 
 <script setup>
 const { t } = useI18n();
+const router = useRouter();
 const route = useRoute();
 
 const isSearchDialogShow = inject("isSearchDialogShow");
-const isDiscoverDialogShow = inject("isDiscoverDialogShow");
 
 const links = ref([
   {
@@ -64,17 +71,24 @@ const links = ref([
     },
   },
   {
+    dropdown: {
+      items: [
+        {
+          text: t("Movies"),
+          value: "movie",
+        },
+        {
+          text: t("TV Shows"),
+          value: "tv",
+        },
+      ],
+    },
     value: t("Discover"),
     icon: "filter",
-    handlers: {
-      click: () => {
-        isDiscoverDialogShow.value = true;
-        isMenuExpanded.value = false;
-      },
-    },
   },
 ]);
 const isMenuExpanded = ref(false);
+const dropdownSelectedItem = ref(null);
 
 const closeMenu = () => {
   isMenuExpanded.value = false;
@@ -82,6 +96,9 @@ const closeMenu = () => {
 };
 
 watch(() => route.path, closeMenu);
+watch(dropdownSelectedItem, () => {
+  router.push(`/discover/${dropdownSelectedItem.value}`);
+});
 </script>
 
 <style lang="scss">
@@ -92,44 +109,46 @@ watch(() => route.path, closeMenu);
 
   &.expanded {
     #{$this} {
-      &__wrapper {
-        visibility: visible;
-        width: 100vw;
-        background-color: rgb(var(--palette-black--rgb) / 50%);
-      }
-
       &__aside {
+        visibility: visible;
         translate: 0 0;
       }
-    }
-  }
 
-  &__wrapper {
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 3;
-    min-height: 100vh;
-    transition: background-color var(--transition300ms);
-
-    @media (width <= 600px) {
-      visibility: hidden;
+      &__overlay {
+        visibility: visible;
+        opacity: 1;
+      }
     }
   }
 
   &__aside {
-    min-height: inherit;
-    width: var(--sidebar-width);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 2;
     display: flex;
     align-items: center;
     justify-content: center;
+    min-height: 100vh;
+    width: var(--sidebar-width);
     padding: 10px;
     background-color: var(--palette-black);
     transition: all var(--transition300ms);
 
     @media (width <= 600px) {
+      visibility: hidden;
       translate: -100% 0;
     }
+  }
+
+  &__overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    background-color: rgb(var(--palette-black--rgb) / 50%);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity var(--transition300ms);
   }
 
   &__nav {
@@ -159,11 +178,6 @@ watch(() => route.path, closeMenu);
 
     &:focus-visible {
       color: var(--palette-puerto-rico);
-
-      + .tooltip__text {
-        opacity: 1;
-        visibility: visible;
-      }
     }
   }
 }

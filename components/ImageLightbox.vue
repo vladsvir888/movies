@@ -127,7 +127,7 @@ const toPreviousImage = (event) => {
 .image-lightbox {
   position: fixed;
   inset: 0;
-  z-index: 5;
+  z-index: 3;
   display: flex;
   justify-content: center;
   align-items: center;

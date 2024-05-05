@@ -31,7 +31,7 @@ const isMenuExpanded = defineModel("isMenuExpanded", {
 <style lang="scss">
 .menu-button {
   position: absolute;
-  z-index: 4;
+  z-index: 2;
   right: 10px;
   top: 10px;
   display: none;

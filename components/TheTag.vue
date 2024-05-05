@@ -38,7 +38,7 @@ defineProps({
     }
 
     @include hover {
-      background-color: var(--palette-black);
+      background-color: var(--palette-puerto-rico);
       color: var(--palette-white);
     }
   }

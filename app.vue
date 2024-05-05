@@ -6,15 +6,11 @@
     <TheFooter />
   </div>
   <SearchDialog />
-  <DiscoverDialog />
 </template>
 
 <script setup>
 const isSearchDialogShow = ref(false);
-const isDiscoverDialogShow = ref(false);
-
 provide("isSearchDialogShow", isSearchDialogShow);
-provide("isDiscoverDialogShow", isDiscoverDialogShow);
 </script>
 
 <style lang="scss">
