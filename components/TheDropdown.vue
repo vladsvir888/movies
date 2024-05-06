@@ -10,8 +10,11 @@
       :title="toggleTitleAttr"
       type="button"
       @click="toggleMenu"
-      @keydown.esc="hideMenu"
+      @keydown.esc="onKeydownEsc"
+      @keydown.shift.tab="hideMenu"
       @keydown.down.prevent="setFocus"
+      @keydown.home.prevent="setSelectedToFirstMenuItem"
+      @keydown.end.prevent="setSelectedToLastMenuItem"
     >
       <slot name="toggle" />
     </TheButton>
@@ -36,7 +39,10 @@
           @keydown.space.prevent="onClickMenuItem(item.value)"
           @keydown.down.prevent="setSelectedToNextMenuItem"
           @keydown.up.prevent="setSelectedToPreviousMenuItem"
-          @keydown.esc="hideMenu"
+          @keydown.esc="onKeydownEsc"
+          @keydown.tab="hideMenu"
+          @keydown.home.prevent="setSelectedToFirstMenuItem"
+          @keydown.end.prevent="setSelectedToLastMenuItem"
         >
           {{ item.text }}
         </li>
@@ -83,18 +89,21 @@ const { floatingStyles, update } = useFloating(reference, floating, {
   middleware: [offset(10)],
 });
 
-const hideMenu = () => (isShowMenu.value = false);
-
-const onClickMenuItem = (value) => {
-  selectedItem.value = value;
-
-  hideMenu();
+const hideMenu = () => {
+  isShowMenu.value = false;
+  activeIndexMenuItem.value = 0;
 };
 
 const toggleMenu = () => {
   isShowMenu.value = !isShowMenu.value;
 
   update();
+};
+
+const onClickMenuItem = (value) => {
+  selectedItem.value = value;
+
+  hideMenu();
 };
 
 const setFocus = () => menuItems.value[activeIndexMenuItem.value].focus();
@@ -115,6 +124,21 @@ const setSelectedToNextMenuItem = () => {
 
   activeIndexMenuItem.value += 1;
   setFocus();
+};
+
+const setSelectedToFirstMenuItem = () => {
+  activeIndexMenuItem.value = 0;
+  setFocus();
+};
+
+const setSelectedToLastMenuItem = () => {
+  activeIndexMenuItem.value = menuItems.value.length - 1;
+  setFocus();
+};
+
+const onKeydownEsc = () => {
+  hideMenu();
+  reference.value.button.focus();
 };
 </script>
 
