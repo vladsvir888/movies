@@ -70,11 +70,13 @@ const props = defineProps({
     required: true,
     default: () => [],
   },
+  selectedItem: {
+    type: String,
+    default: null,
+  },
 });
 
-const selectedItem = defineModel("selectedItem", {
-  default: null,
-});
+const emit = defineEmits(["update:selected-item"]);
 
 const menuItems = ref([]);
 const activeIndexMenuItem = ref(0);
@@ -101,8 +103,7 @@ const toggleMenu = () => {
 };
 
 const onClickMenuItem = (value) => {
-  selectedItem.value = value;
-
+  emit("update:selected-item", value);
   hideMenu();
 };
 

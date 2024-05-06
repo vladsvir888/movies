@@ -21,7 +21,8 @@
 
           <TheDropdown
             v-else
-            v-model:selected-item="dropdownSelectedItem"
+            :selected-item="dropdownSelectedItem"
+            @update:selected-item="onUpdateSelectedItem"
             toggle-class="sidebar__link"
             :toggle-title-attr="link.value"
             :items="link.dropdown.items"
@@ -95,10 +96,12 @@ const closeMenu = () => {
   document.body.classList.remove("no-scroll");
 };
 
+const onUpdateSelectedItem = ($event) => {
+  router.push(`/discover/${$event}`);
+  dropdownSelectedItem.value = $event;
+};
+
 watch(() => route.path, closeMenu);
-watch(dropdownSelectedItem, () => {
-  router.push(`/discover/${dropdownSelectedItem.value}`);
-});
 </script>
 
 <style lang="scss">
