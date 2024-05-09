@@ -69,4 +69,5 @@ export default {
   Off: "Off",
   Rating: "Rating",
   All: "All",
+  Loading: "Loading",
 };

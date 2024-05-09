@@ -1,8 +1,19 @@
 <template>
   <div class="loader" role="alert">
-    <p class="visually-hidden">{{ $t("This content is loading...") }}</p>
+    <p v-if="isShowAccessibleText" class="visually-hidden">
+      {{ $t("This content is loading...") }}
+    </p>
   </div>
 </template>
+
+<script setup>
+defineProps({
+  isShowAccessibleText: {
+    type: Boolean,
+    default: true,
+  },
+});
+</script>
 
 <style lang="scss">
 .loader {

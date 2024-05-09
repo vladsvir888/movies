@@ -1,4 +1,5 @@
 <template>
+  <FirstScreenBlock v-if="isShowFirstScreenBlock" />
   <NuxtLoadingIndicator color="var(--palette-puerto-rico)" />
   <TheSidebar />
   <div class="page-wrapper">
@@ -11,6 +12,11 @@
 <script setup>
 const isSearchDialogShow = ref(false);
 provide("isSearchDialogShow", isSearchDialogShow);
+
+const nuxtApp = useNuxtApp();
+const isShowFirstScreenBlock = ref(true);
+
+nuxtApp.hook("app:mounted", () => (isShowFirstScreenBlock.value = false));
 </script>
 
 <style lang="scss">

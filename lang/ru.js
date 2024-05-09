@@ -69,4 +69,5 @@ export default {
   Off: "Выкл",
   Rating: "Рейтинг",
   All: "Все",
+  Loading: "Загрузка",
 };
