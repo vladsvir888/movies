@@ -70,4 +70,5 @@ export default {
   Rating: "Рейтинг",
   All: "Все",
   Loading: "Загрузка",
+  "Order descending": "Порядок по убыванию",
 };

@@ -23,7 +23,10 @@
               name="filter-sort"
               @change="setFilterValuesInUrl"
             />
-            <TheSwitcher v-model="isOrderDescending" label="Order descending" />
+            <TheSwitcher
+              v-model="isOrderDescending"
+              :label="$t('Order descending')"
+            />
           </div>
         </AccordionItem>
 

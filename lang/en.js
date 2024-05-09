@@ -70,4 +70,5 @@ export default {
   Rating: "Rating",
   All: "All",
   Loading: "Loading",
+  "Order descending": "Order descending",
 };
