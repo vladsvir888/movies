@@ -1,7 +1,7 @@
 <template>
   <component
     :is="component"
-    :to="to"
+    :to="localePath(to)"
     class="button"
     :class="variant"
     :target="target"
@@ -24,6 +24,8 @@ const props = defineProps({
     type: String,
   },
 });
+
+const localePath = useLocalePath();
 
 const button = ref(null);
 

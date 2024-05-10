@@ -50,6 +50,10 @@ export default defineNuxtConfig({
     "@pinia/nuxt",
   ],
 
+  routeRules: {
+    "/": { redirect: "/en" },
+  },
+
   i18n: {
     locales: [
       {
@@ -61,9 +65,8 @@ export default defineNuxtConfig({
         file: "ru.js",
       },
     ],
-    lazy: true,
     langDir: "lang",
-    strategy: "no_prefix",
+    strategy: "prefix",
     defaultLocale: "en",
     detectBrowserLanguage: false,
     vueI18n: "./i18n.config.ts",

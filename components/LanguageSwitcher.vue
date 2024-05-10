@@ -23,7 +23,6 @@ const transformedLocales = computed(() => {
 const updateLocale = (event) => {
   setLocale(event.target.value);
   setItemInLocalStorage(config.public.appLangKey, event.target.value);
-  window.location.reload();
 };
 
 onBeforeMount(() => {

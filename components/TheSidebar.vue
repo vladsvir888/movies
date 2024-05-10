@@ -40,54 +40,56 @@
 
 <script setup>
 const { t } = useI18n();
-const router = useRouter();
 const route = useRoute();
+const localePath = useLocalePath();
 
 const isSearchDialogShow = inject("isSearchDialogShow");
 
-const links = ref([
-  {
-    to: "/",
-    value: t("Home"),
-    icon: "home",
-  },
-  {
-    to: "/movie",
-    value: t("Movies"),
-    icon: "movie",
-  },
-  {
-    to: "/tv",
-    value: t("TV Shows"),
-    icon: "tv",
-  },
-  {
-    value: t("Search"),
-    icon: "search",
-    handlers: {
-      click: () => {
-        isSearchDialogShow.value = true;
-        isMenuExpanded.value = false;
+const links = computed(() => {
+  return [
+    {
+      to: "/",
+      value: t("Home"),
+      icon: "home",
+    },
+    {
+      to: "/movie",
+      value: t("Movies"),
+      icon: "movie",
+    },
+    {
+      to: "/tv",
+      value: t("TV Shows"),
+      icon: "tv",
+    },
+    {
+      value: t("Search"),
+      icon: "search",
+      handlers: {
+        click: () => {
+          isSearchDialogShow.value = true;
+          isMenuExpanded.value = false;
+        },
       },
     },
-  },
-  {
-    dropdown: {
-      items: [
-        {
-          text: t("Movies"),
-          value: "movie",
-        },
-        {
-          text: t("TV Shows"),
-          value: "tv",
-        },
-      ],
+    {
+      dropdown: {
+        items: [
+          {
+            text: t("Movies"),
+            value: "movie",
+          },
+          {
+            text: t("TV Shows"),
+            value: "tv",
+          },
+        ],
+      },
+      value: t("Discover"),
+      icon: "filter",
     },
-    value: t("Discover"),
-    icon: "filter",
-  },
-]);
+  ];
+});
 const isMenuExpanded = ref(false);
 const dropdownSelectedItem = ref(null);
 
@@ -96,9 +98,9 @@ const closeMenu = () => {
   document.body.classList.remove("no-scroll");
 };
 
-const onUpdateSelectedItem = ($event) => {
-  router.push(`/discover/${$event}`);
+const onUpdateSelectedItem = async ($event) => {
   dropdownSelectedItem.value = $event;
+  await navigateTo(localePath(`/discover/${$event}`));
 };
 
 watch(() => route.path, closeMenu);
