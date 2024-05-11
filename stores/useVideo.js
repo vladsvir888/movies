@@ -1,16 +1,19 @@
 import YouTubePlayer from "youtube-player";
 
+const getDefaultState = () => {
+  return {
+    videos: [],
+    activeVideoId: null,
+  };
+};
+
 const STATE_CHANGE_VALUES = {
   playing: 1,
 };
 
 export const useVideo = defineStore("video", {
-  state: () => {
-    return {
-      videos: [],
-      activeVideoId: null,
-    };
-  },
+  state: () => getDefaultState(),
+
   actions: {
     createVideo(element, videoId) {
       const video = YouTubePlayer(element, {
@@ -45,8 +48,7 @@ export const useVideo = defineStore("video", {
     },
 
     resetState() {
-      this.videos = [];
-      this.activeVideoId = null;
+      Object.assign(this, getDefaultState());
     },
   },
 });

@@ -139,11 +139,11 @@ const updateFilterValues = () => {
   for (let key in query) {
     if (key === FILTER_VALUES["vote_average.gte"]) {
       ratingCount.value = divideByTwoAndRound(Number(query[key])); // trigger watch ratingCount
-    } else if (key === FILTER_VALUES["sort_by"]) {
+    } else if (key === FILTER_VALUES["sort_by"] && query[key] !== "") {
       isOrderDescending.value = query[key].split(".")[1] === sortOrder.value;
 
       toggleSortOrder(isOrderDescending.value);
-      updateFilterSortBy(route.query[FILTER_VALUES["sort_by"]]);
+      updateFilterSortBy(query[key]);
     } else {
       filter.value[key] = query[key];
     }
