@@ -124,9 +124,9 @@ const toggleSortOrder = (value) => {
 };
 
 const updateFilterSortBy = (value) => {
-  filter.value[FILTER_VALUES["sort_by"]] = `${value.split(".")[0]}.${
-    sortOrder.value
-  }`;
+  filter.value[FILTER_VALUES["sort_by"]] = value
+    ? `${value.split(".")[0]}.${sortOrder.value}`
+    : sortedData.value[0].value;
 };
 
 const updateFilterValues = () => {
