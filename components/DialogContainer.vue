@@ -54,14 +54,14 @@ const onClickOutsideDialog = (event) => {
 const toggleIsShow = (value) => {
   if (value) {
     dialog.value.showModal();
-    document.body.classList.add("no-scroll");
     dialog.value.animate(ANIMATION[0], ANIMATION_DURATION);
   } else {
     dialog.value.animate(ANIMATION[1], ANIMATION_DURATION).onfinish = () => {
       dialog.value?.close();
-      document.body.classList.remove("no-scroll");
     };
   }
+
+  toggleScrollbar(value);
 };
 
 watch(isShow, (newValue) => toggleIsShow(newValue));

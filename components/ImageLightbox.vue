@@ -89,13 +89,7 @@ const isLastImage = computed(() => {
   return index.value === props.items.length - 1;
 });
 
-watch(isShow, (newValue) => {
-  if (newValue) {
-    document.body.classList.add("no-scroll");
-  } else {
-    document.body.classList.remove("no-scroll");
-  }
-});
+watch(isShow, (newValue) => toggleScrollbar(newValue));
 
 const closeLightbox = () => {
   isShow.value = false;

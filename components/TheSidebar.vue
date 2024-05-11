@@ -95,7 +95,7 @@ const dropdownSelectedItem = ref(null);
 
 const closeMenu = () => {
   isMenuExpanded.value = false;
-  document.body.classList.remove("no-scroll");
+  toggleScrollbar(false);
 };
 
 const onUpdateSelectedItem = async ($event) => {
@@ -104,6 +104,13 @@ const onUpdateSelectedItem = async ($event) => {
 };
 
 watch(() => route.path, closeMenu);
+watch(isMenuExpanded, (newValue) => {
+  if (isSearchDialogShow.value) {
+    return;
+  }
+
+  toggleScrollbar(newValue);
+});
 </script>
 
 <style lang="scss">
