@@ -2,7 +2,7 @@
   <DialogContainer
     class="search-dialog"
     :title="$t('Search')"
-    v-model:is-show="isSearchDialogShow"
+    v-model:is-show="isSearchDialogVisible"
   >
     <InputBlock
       v-model="searchQuery"
@@ -25,7 +25,7 @@
           @click="hideSearchDialog"
           class="search-dialog__results-button"
           :to="`/${result.media_type}/${result.id}`"
-          variant="decoration"
+          variant="underline"
         >
           {{ result.title ?? result.name }}
         </TheButton>
@@ -81,7 +81,7 @@ const page = ref(1);
 const totalPages = ref(null);
 const totalResultsCount = ref(null);
 
-const isSearchDialogShow = inject("isSearchDialogShow");
+const isSearchDialogVisible = defineModel("isSearchDialogVisible");
 
 const toPreviousPage = () => {
   page.value -= 1;
@@ -92,7 +92,7 @@ const toNextPage = () => {
 };
 
 const hideSearchDialog = () => {
-  isSearchDialogShow.value = false;
+  isSearchDialogVisible.value = false;
 };
 
 const isFirstPage = computed(() => {

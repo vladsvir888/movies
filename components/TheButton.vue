@@ -1,9 +1,9 @@
 <template>
   <component
     :is="component"
-    :to="localePath(to)"
+    :to="to ? localePath(to) : null"
     class="button"
-    :class="variant"
+    :class="classObject"
     :target="target"
     ref="button"
   >
@@ -18,7 +18,19 @@ const props = defineProps({
   },
   variant: {
     type: String,
-    validator: (value) => ["primary", "decoration"].includes(value),
+    validator: (value) => {
+      return ["primary", "secondary", "underline"].includes(value);
+    },
+  },
+  size: {
+    type: String,
+    validator: (value) => {
+      return ["small", "medium", "large"].includes(value);
+    },
+  },
+  pill: {
+    type: Boolean,
+    default: false,
   },
   target: {
     type: String,
@@ -31,11 +43,26 @@ const button = ref(null);
 
 const variants = ref({
   primary: "button--primary",
-  decoration: "button--decoration",
+  secondary: "button--secondary",
+  underline: "button--underline",
+});
+
+const sizes = ref({
+  small: "button--small",
+  medium: "button--medium",
+  large: "button--large",
 });
 
 const variant = computed(() => {
   return variants.value[props.variant];
+});
+
+const size = computed(() => {
+  return sizes.value[props.size];
+});
+
+const classObject = computed(() => {
+  return [variant.value, size.value, { "button--pill": props.pill }];
 });
 
 const component = computed(() => {
@@ -68,8 +95,19 @@ defineExpose({
     cursor: default;
   }
 
-  &--primary {
+  &--small {
+    padding: 3px 6px;
+  }
+
+  &--medium {
+    padding: 6px 12px;
+  }
+
+  &--large {
     padding: 12px 24px;
+  }
+
+  &--primary {
     background-color: var(--palette-tuna);
     color: var(--palette-white);
     transition: background-color var(--transition300ms);
@@ -79,7 +117,19 @@ defineExpose({
     }
   }
 
-  &--decoration {
+  &--secondary {
+    color: var(--palette-black);
+    background-color: var(--palette-white);
+    transition: background-color var(--transition300ms),
+      color var(--transition300ms);
+
+    @include hover {
+      color: var(--palette-white);
+      background-color: var(--palette-puerto-rico);
+    }
+  }
+
+  &--underline {
     position: relative;
 
     &::before {
@@ -98,6 +148,10 @@ defineExpose({
         width: 100%;
       }
     }
+  }
+
+  &--pill {
+    border-radius: 12px;
   }
 }
 </style>

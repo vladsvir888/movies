@@ -22,14 +22,14 @@
   >
     <div class="container">
       <header class="carousel__header">
-        <TheHeading :level="2" class="carousel__title">
+        <TheHeading :level="2" variant="underline" class="carousel__title">
           {{ $t(title) }}
         </TheHeading>
 
         <TheButton
           :to="`/${type}/category/${category}`"
           class="carousel__more"
-          variant="decoration"
+          variant="underline"
         >
           {{ $t("Explore more") }}
           <TheIcon icon="arrow-next" />

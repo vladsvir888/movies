@@ -71,4 +71,6 @@ export default {
   All: "All",
   Loading: "Loading",
   "Order descending": "Order descending",
+  "Sign In": "Sign In",
+  "Login to your account": "Login to your account",
 };

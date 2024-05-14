@@ -1,11 +1,10 @@
 <template>
   <div
-    v-trap="isMenuExpanded"
+    v-trap="{ value: isMenuVisible, fallbackElement: '.sidebar__overlay' }"
     class="sidebar"
-    :class="{ expanded: isMenuExpanded }"
+    :class="{ expanded: isMenuVisible }"
     @keydown.esc="closeMenu"
   >
-    <MenuButton v-model:is-menu-expanded="isMenuExpanded" />
     <aside id="sidebar" class="sidebar__aside">
       <nav class="sidebar__nav">
         <template v-for="link in links" :key="link.value">
@@ -34,7 +33,7 @@
         </template>
       </nav>
     </aside>
-    <div class="sidebar__overlay" @click="closeMenu"></div>
+    <div class="sidebar__overlay" tabindex="-1" @click="closeMenu"></div>
   </div>
 </template>
 
@@ -43,7 +42,8 @@ const { t } = useI18n();
 const route = useRoute();
 const localePath = useLocalePath();
 
-const isSearchDialogShow = inject("isSearchDialogShow");
+const isSearchDialogVisible = defineModel("isSearchDialogVisible");
+const isMenuVisible = defineModel("isMenuVisible");
 
 const links = computed(() => {
   return [
@@ -67,8 +67,8 @@ const links = computed(() => {
       icon: "search",
       handlers: {
         click: () => {
-          isSearchDialogShow.value = true;
-          isMenuExpanded.value = false;
+          isSearchDialogVisible.value = true;
+          isMenuVisible.value = false;
         },
       },
     },
@@ -88,13 +88,17 @@ const links = computed(() => {
       value: t("Discover"),
       icon: "filter",
     },
+    // {
+    //   to: "/sign-in",
+    //   value: t("Sign In"),
+    //   icon: "right-to-bracket",
+    // },
   ];
 });
-const isMenuExpanded = ref(false);
 const dropdownSelectedItem = ref(null);
 
 const closeMenu = () => {
-  isMenuExpanded.value = false;
+  isMenuVisible.value = false;
   toggleScrollbar(false);
 };
 
@@ -104,8 +108,8 @@ const onUpdateSelectedItem = async ($event) => {
 };
 
 watch(() => route.path, closeMenu);
-watch(isMenuExpanded, (newValue) => {
-  if (isSearchDialogShow.value) {
+watch(isMenuVisible, (newValue) => {
+  if (isSearchDialogVisible.value) {
     return;
   }
 
@@ -137,7 +141,7 @@ watch(isMenuExpanded, (newValue) => {
     position: fixed;
     top: 0;
     left: 0;
-    z-index: 2;
+    z-index: 4;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -156,7 +160,7 @@ watch(isMenuExpanded, (newValue) => {
   &__overlay {
     position: fixed;
     inset: 0;
-    z-index: 1;
+    z-index: 3;
     background-color: rgb(var(--palette-black--rgb) / 50%);
     opacity: 0;
     visibility: hidden;
@@ -166,7 +170,7 @@ watch(isMenuExpanded, (newValue) => {
   &__nav {
     display: flex;
     flex-direction: column;
-    row-gap: 80px;
+    row-gap: 70px;
   }
 
   &__link {

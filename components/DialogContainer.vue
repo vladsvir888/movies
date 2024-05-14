@@ -1,7 +1,9 @@
 <template>
   <dialog ref="dialog" class="dialog">
     <div class="dialog__wrapper">
-      <TheHeading :level="2" class="dialog__title">{{ title }}</TheHeading>
+      <TheHeading :level="2" variant="underline" class="dialog__title">{{
+        title
+      }}</TheHeading>
       <slot />
       <TheButton
         class="dialog__close"

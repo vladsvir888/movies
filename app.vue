@@ -1,22 +1,26 @@
 <template>
-  <FirstScreenBlock v-if="isShowFirstScreenBlock" />
   <NuxtLoadingIndicator color="var(--palette-puerto-rico)" />
-  <TheSidebar />
-  <div class="page-wrapper">
+  <FirstScreenBlock v-if="isFirstScreenBlockVisible" />
+  <TheHeader v-model:is-menu-visible="isMenuVisible" />
+  <TheSidebar
+    v-model:is-menu-visible="isMenuVisible"
+    v-model:is-search-dialog-visible="isSearchDialogVisible"
+  />
+  <main class="page-wrapper">
     <NuxtPage />
-    <TheFooter />
-  </div>
-  <SearchDialog />
+  </main>
+  <TheFooter />
+  <SearchDialog v-model:is-search-dialog-visible="isSearchDialogVisible" />
 </template>
 
 <script setup>
-const isSearchDialogShow = ref(false);
-provide("isSearchDialogShow", isSearchDialogShow);
-
 const nuxtApp = useNuxtApp();
-const isShowFirstScreenBlock = ref(true);
 
-nuxtApp.hook("app:mounted", () => (isShowFirstScreenBlock.value = false));
+const isSearchDialogVisible = ref(false);
+const isMenuVisible = ref(false);
+const isFirstScreenBlockVisible = ref(true);
+
+nuxtApp.hook("app:mounted", () => (isFirstScreenBlockVisible.value = false));
 </script>
 
 <style lang="scss">

@@ -71,4 +71,6 @@ export default {
   All: "Все",
   Loading: "Загрузка",
   "Order descending": "Порядок по убыванию",
+  "Sign In": "Войти",
+  "Login to your account": "Войдите в свой аккаунт",
 };

@@ -1,3 +1,3 @@
-export default (value) => {
-  return Math.ceil(value / 2);
+export default (number) => {
+  return Math.ceil(number / 2);
 };

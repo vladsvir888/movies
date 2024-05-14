@@ -1,3 +1,3 @@
-export default (value) => {
-  return new Date(value).toLocaleDateString().split(".").join(" / ");
+export default (dateString) => {
+  return new Date(dateString).toLocaleDateString().split(".").join(" / ");
 };

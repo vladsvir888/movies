@@ -3,7 +3,7 @@
     <Transition name="image-lightbox">
       <div
         v-show="isShow"
-        v-trap="isShow"
+        v-trap="{ value: isShow }"
         class="image-lightbox"
         role="dialog"
         aria-modal="true"
@@ -121,7 +121,7 @@ const toPreviousImage = (event) => {
 .image-lightbox {
   position: fixed;
   inset: 0;
-  z-index: 3;
+  z-index: 4;
   display: flex;
   justify-content: center;
   align-items: center;

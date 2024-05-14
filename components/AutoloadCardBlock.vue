@@ -1,13 +1,17 @@
 <template>
   <div class="autoload-card-block">
     <div class="autoload-card-block__container">
-      <TheHeading v-if="title" class="autoload-card-block__title">
+      <TheHeading
+        v-if="title"
+        variant="underline"
+        class="autoload-card-block__title"
+      >
         {{ $t(title) }}
       </TheHeading>
       <TheButton
         v-if="isBackButton"
         @click="$router.back()"
-        variant="decoration"
+        variant="underline"
         class="autoload-card-block__back"
       >
         <TheIcon icon="arrow-prev" />

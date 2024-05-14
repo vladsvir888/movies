@@ -1,6 +1,6 @@
-export default (value) => {
-  const hours = Math.floor(value / 60);
-  const minutes = value % 60;
+export default (min) => {
+  const hours = Math.floor(min / 60);
+  const minutes = min % 60;
 
   return {
     hours,

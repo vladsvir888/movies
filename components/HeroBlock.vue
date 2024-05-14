@@ -30,7 +30,7 @@
           v-if="data.id"
           :to="`/${type}/${data.id}`"
           class="hero__more"
-          variant="decoration"
+          variant="underline"
         >
           {{ $t("Explore more") }}
           <TheIcon icon="arrow-next" />

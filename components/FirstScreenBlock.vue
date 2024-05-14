@@ -11,7 +11,7 @@
 .first-screen-block {
   position: fixed;
   inset: 0;
-  z-index: 3;
+  z-index: 5;
   display: flex;
   justify-content: center;
   align-items: center;

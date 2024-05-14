@@ -1,16 +1,15 @@
 <template>
   <footer class="footer">
     <div class="container footer__container">
-      <p class="footer__logo">
+      <TheButton to="/">
         <NuxtImg
-          src="/images/movies-sm.webp"
-          width="25"
-          height="25"
-          alt=""
+          src="/images/logo.png"
+          width="160"
+          height="21"
+          :alt="$t('Home')"
           loading="lazy"
         />
-        {{ $t("Movies") }}
-      </p>
+      </TheButton>
 
       <p class="footer__data">
         {{ $t("Data provided by") }}
@@ -26,30 +25,18 @@
 
 <style lang="scss">
 .footer {
-  padding: 20px 0;
+  padding: 20px 0 20px var(--sidebar-width);
   margin-top: auto;
+
+  @media (width <= 600px) {
+    padding: 20px 0;
+  }
 
   &__container {
     display: flex;
     flex-direction: column;
+    align-items: flex-start;
     row-gap: 15px;
-  }
-
-  &__logo {
-    display: flex;
-    align-items: center;
-    column-gap: 10px;
-    font-weight: 700;
-
-    &-icon {
-      color: var(--palette-white);
-
-      svg {
-        width: 25px;
-        height: 25px;
-        fill: currentColor;
-      }
-    }
   }
 
   &__data {

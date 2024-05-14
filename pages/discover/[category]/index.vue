@@ -2,7 +2,7 @@
   <div class="page page-discover container">
     <PageSeoData :lang="$t('lang')" :title="title" :description="title" />
 
-    <TheHeading class="page-discover__title">
+    <TheHeading class="page-discover__title" variant="underline">
       {{ title }}
     </TheHeading>
 
@@ -18,6 +18,8 @@
               <TheButton
                 variant="primary"
                 class="page-discover__variant-button"
+                :pill="true"
+                size="medium"
                 @click="removedVariant = variantKey"
               >
                 {{ variantValue }}
@@ -112,7 +114,7 @@ onMounted(() => {
   display: flex;
   flex-direction: column;
   row-gap: 20px;
-  padding: 50px var(--container-padding) 20px;
+  padding: var(--header-margin) var(--container-padding) 20px;
 
   &__wrapper {
     display: grid;
@@ -136,9 +138,7 @@ onMounted(() => {
   }
 
   &__variant-button {
-    padding: 6px 12px;
     column-gap: 6px;
-    border-radius: 12px;
 
     .icon > svg {
       margin-top: 1px;

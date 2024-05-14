@@ -17,13 +17,14 @@
         </p>
         <ul v-if="data.genres?.length" class="hero-block-detail__genres">
           <li v-for="genre in data.genres" :key="genre.id">
-            <TheTag :is-link="true">
-              <TheButton
-                :to="`/discover/${type}?${FILTER_VALUES['with_genres']}=${genre.id}`"
-              >
-                {{ genre.name }}
-              </TheButton>
-            </TheTag>
+            <TheButton
+              :to="`/discover/${type}?${FILTER_VALUES['with_genres']}=${genre.id}`"
+              variant="secondary"
+              :pill="true"
+              size="medium"
+            >
+              {{ genre.name }}
+            </TheButton>
           </li>
         </ul>
         <div class="hero-block-detail__wrapper">
@@ -77,7 +78,7 @@ watch(
   min-height: min(100vh, 1080px);
   max-width: 1920px;
   margin: 0 auto;
-  padding: 50px 0;
+  padding: var(--header-margin) 0;
   background-position: center center;
   background-size: cover;
   background-repeat: no-repeat;

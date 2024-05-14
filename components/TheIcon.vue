@@ -20,6 +20,7 @@ import {
   IconLoupeLineThrough,
   IconYoutube,
   IconFilter,
+  IconRightToBracket,
 } from "#components";
 
 defineProps({
@@ -44,6 +45,7 @@ const icons = shallowRef({
   "loupe-line-through": IconLoupeLineThrough,
   youtube: IconYoutube,
   filter: IconFilter,
+  "right-to-bracket": IconRightToBracket,
 });
 </script>
 
