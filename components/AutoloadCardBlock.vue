@@ -88,6 +88,7 @@ const callback = (entries) => {
 
   &__title {
     text-align: center;
+    margin: 0 auto;
   }
 
   &__list {

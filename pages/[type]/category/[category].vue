@@ -63,7 +63,7 @@ useApi(`/${type.value}/${category.value}`, {
 <style lang="scss">
 .page-category {
   &__card-block {
-    padding: 40px 0 20px;
+    padding: var(--header-margin) 0 20px;
   }
 }
 </style>
