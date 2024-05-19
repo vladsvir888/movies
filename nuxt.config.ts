@@ -9,6 +9,7 @@ export default defineNuxtConfig({
       apiUrl: process.env.NUXT_API_URL || "",
       apiImgUrl: process.env.NUXT_API_IMG_URL || "",
       appLangKey: process.env.NUXT_APP_LANG_KEY || "",
+      appTokenDataKey: process.env.NUXT_APP_TOKEN_DATA || "",
     },
   },
 

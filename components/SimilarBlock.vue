@@ -30,7 +30,7 @@ const isPendingAutoload = ref(false);
 
 const id = useRouteParam("id");
 
-useApi(`/movie/${id.value}/similar`, {
+useCustomFetch(`/movie/${id.value}/similar`, {
   immediate: false,
   query: {
     page,

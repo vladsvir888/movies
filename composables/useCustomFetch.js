@@ -1,21 +1,16 @@
 import { hash as ohash } from "ohash";
 
 export default async (url, options = {}) => {
-  const config = useRuntimeConfig();
-  const { locale } = useI18n();
+  const nuxtApp = useNuxtApp();
+  const { $i18n } = nuxtApp;
   const hash = ohash([url, options]);
   const state = useState(hash, () => null);
 
   if (!state.value) {
     const { data, error } = await useFetch(url, {
-      baseURL: config.public.apiUrl,
-      method: "GET",
-      headers: {
-        accept: "application/json",
-        Authorization: `Bearer ${config.public.apiToken}`,
-      },
+      ...getBaseOptions(),
       query: {
-        language: locale,
+        language: $i18n.locale,
       },
       server: false, // todo: разобраться, почему происходит какая-то ошибка с themoviedb при получении данных на сервере
       ...options,

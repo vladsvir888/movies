@@ -1,37 +1,53 @@
 <template>
   <header class="header">
     <div class="container header__container">
-      <TheButton to="/">
+      <TheButton to="/" class="header__logo">
         <NuxtImg
           src="/images/logo.png"
           width="160"
           height="21"
           :alt="$t('Home')"
           loading="lazy"
+          class="header__logo-img"
         />
       </TheButton>
 
-      <div class="header__language-switcher">
-        <LanguageSwitcher />
-      </div>
+      <div class="header__wrapper">
+        <div class="header__language-switcher">
+          <LanguageSwitcher />
+        </div>
 
-      <TheButton
-        class="header__burger"
-        :aria-expanded="isMenuVisible"
-        aria-controls="sidebar"
-        @click="isMenuVisible = true"
-      >
-        <span class="header__burger-icon">
-          <TheIcon icon="menu" />
-        </span>
-        <span class="header__burger-text">{{ $t("Menu") }}</span>
-      </TheButton>
+        <TheButton
+          v-if="authStore.sessionId"
+          variant="primary"
+          size="small"
+          :pill="true"
+          class="header__sign-out"
+          @click="authStore.logout()"
+        >
+          {{ $t("Sign out") }}
+        </TheButton>
+
+        <TheButton
+          class="header__burger"
+          :aria-expanded="isMenuVisible"
+          aria-controls="sidebar"
+          @click="isMenuVisible = true"
+        >
+          <span class="header__burger-icon">
+            <TheIcon icon="menu" />
+          </span>
+          <span class="header__burger-text">{{ $t("Menu") }}</span>
+        </TheButton>
+      </div>
     </div>
   </header>
 </template>
 
 <script setup>
 const isMenuVisible = defineModel("isMenuVisible");
+
+const authStore = useAuth();
 </script>
 
 <style lang="scss">
@@ -50,15 +66,26 @@ const isMenuVisible = defineModel("isMenuVisible");
   }
 
   &__container {
-    display: grid;
-    grid-template-columns: max-content auto max-content;
+    display: flex;
+    justify-content: space-between;
+    column-gap: 10px;
+  }
+
+  &__wrapper {
+    display: flex;
+    align-items: center;
+    column-gap: 10px;
+  }
+
+  &__logo {
+    &-img {
+      @media (width <= 375px) {
+        width: 110px;
+      }
+    }
   }
 
   &__language-switcher {
-    display: flex;
-    justify-content: flex-end;
-    margin-left: 10px;
-
     .select-block {
       &__label {
         @media (width <= 600px) {
@@ -71,7 +98,6 @@ const isMenuVisible = defineModel("isMenuVisible");
   &__burger {
     display: none;
     column-gap: 5px;
-    margin-left: 10px;
 
     @media (width <= 600px) {
       display: flex;

@@ -31,7 +31,7 @@ const preparedLists = computed(() => {
   return [LISTS.movie[0], LISTS.tv[0]];
 });
 
-useApi("/movie/popular", {
+useCustomFetch("/movie/popular", {
   onResponse({ response }) {
     store.movie.heroBlock = response._data.results[0];
   },

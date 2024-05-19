@@ -9,7 +9,7 @@
       <nav class="sidebar__nav">
         <template v-for="link in links" :key="link.value">
           <TheButton
-            v-if="!link.dropdown"
+            v-if="!link.dropdown && !link.auth"
             :to="link.to"
             :title="link.value"
             class="sidebar__link"
@@ -19,7 +19,7 @@
           </TheButton>
 
           <TheDropdown
-            v-else
+            v-else-if="!link.auth"
             :selected-item="dropdownSelectedItem"
             @update:selected-item="onUpdateSelectedItem"
             toggle-class="sidebar__link"
@@ -41,6 +41,7 @@
 const { t } = useI18n();
 const route = useRoute();
 const localePath = useLocalePath();
+const authStore = useAuth();
 
 const isSearchDialogVisible = defineModel("isSearchDialogVisible");
 const isMenuVisible = defineModel("isMenuVisible");
@@ -88,11 +89,12 @@ const links = computed(() => {
       value: t("Discover"),
       icon: "filter",
     },
-    // {
-    //   to: "/sign-in",
-    //   value: t("Sign In"),
-    //   icon: "right-to-bracket",
-    // },
+    {
+      auth: authStore.sessionId,
+      to: "/sign-in",
+      value: t("Sign In"),
+      icon: "right-to-bracket",
+    },
   ];
 });
 const dropdownSelectedItem = ref(null);

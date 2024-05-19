@@ -18,3 +18,7 @@ export const useStore = defineStore("store", {
     };
   },
 });
+
+if (import.meta.hot) {
+  import.meta.hot.accept(acceptHMRUpdate(useStore, import.meta.hot));
+}

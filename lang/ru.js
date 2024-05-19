@@ -73,4 +73,11 @@ export default {
   "Order descending": "Порядок по убыванию",
   "Sign In": "Войти",
   "Login to your account": "Войдите в свой аккаунт",
+  Username: "Имя пользователя",
+  Password: "Пароль",
+  "Please login using your TMDB username and password.":
+    "Пожалуйста, войдите, используя свое имя пользователя и пароль TMDB.",
+  "An error occurred as a result of the request":
+    "Произошла ошибка в результате запроса",
+  "Sign out": "Выйти",
 };

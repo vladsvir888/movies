@@ -103,7 +103,7 @@ const isLastPage = computed(() => {
   return page.value === totalPages.value;
 });
 
-useApi("/search/multi", {
+useCustomFetch("/search/multi", {
   immediate: false,
   query: {
     query: searchQueryDebounced,

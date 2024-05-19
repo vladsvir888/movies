@@ -44,7 +44,7 @@ if (!listItem) {
   });
 }
 
-useApi(`/${type.value}/${category.value}`, {
+useCustomFetch(`/${type.value}/${category.value}`, {
   query: {
     page,
     language: locale,

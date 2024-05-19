@@ -99,7 +99,7 @@ const transformCategory = (value) => {
     .join("");
 };
 
-useApi(`/${props.type}/${props.category}`, {
+useCustomFetch(`/${props.type}/${props.category}`, {
   onResponse({ response }) {
     store[props.type][transformCategory(props.category)] =
       response._data.results;

@@ -4,6 +4,8 @@
     xmlns:xlink="http://www.w3.org/1999/xlink"
     viewBox="0 0 273.42 35.52"
     aria-hidden="true"
+    width="120"
+    height="16"
   >
     <defs>
       <linearGradient

@@ -16,12 +16,21 @@
           )
         }}
       </p>
-      <TheButton to="/" class="error-page__button" variant="primary">
+      <TheButton
+        class="error-page__button"
+        variant="primary"
+        size="large"
+        @click="handleError"
+      >
         {{ $t("Go Home") }}
       </TheButton>
     </div>
   </div>
 </template>
+
+<script setup>
+const handleError = () => clearError({ redirect: "/" });
+</script>
 
 <style lang="scss">
 .error-page {

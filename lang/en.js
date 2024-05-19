@@ -73,4 +73,11 @@ export default {
   "Order descending": "Order descending",
   "Sign In": "Sign In",
   "Login to your account": "Login to your account",
+  Username: "Username",
+  Password: "Password",
+  "Please login using your TMDB username and password.":
+    "Please login using your TMDB username and password.",
+  "An error occurred as a result of the request":
+    "An error occurred as a result of the request",
+  "Sign out": "Sign out",
 };

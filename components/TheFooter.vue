@@ -44,13 +44,6 @@
     align-items: center;
     flex-wrap: wrap;
     gap: 6px;
-
-    &-icon {
-      svg {
-        width: 120px;
-        height: 16px;
-      }
-    }
   }
 }
 </style>

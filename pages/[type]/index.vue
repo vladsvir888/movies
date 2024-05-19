@@ -43,7 +43,7 @@ if (!LISTS[type.value]) {
   });
 }
 
-useApi(`/${type.value}/popular`, {
+useCustomFetch(`/${type.value}/popular`, {
   onResponse({ response }) {
     store[type.value].heroBlock = response._data.results[0];
   },

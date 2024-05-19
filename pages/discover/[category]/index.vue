@@ -72,21 +72,24 @@ const title = computed(() => {
   return "";
 });
 
-useApi(() => `/discover/${category.value}?${buildQuery(params.value)}`, {
-  query: {
-    page,
-    include_adult: false,
-    language: locale,
-  },
-  onRequest() {
-    isPendingAutoload.value = true;
-  },
-  onResponse({ response }) {
-    isPendingAutoload.value = false;
-    totalResults.value = [...totalResults.value, ...response._data.results];
-    totalPages.value = response._data.total_pages;
-  },
-});
+useCustomFetch(
+  () => `/discover/${category.value}?${buildQuery(params.value)}`,
+  {
+    query: {
+      page,
+      include_adult: false,
+      language: locale,
+    },
+    onRequest() {
+      isPendingAutoload.value = true;
+    },
+    onResponse({ response }) {
+      isPendingAutoload.value = false;
+      totalResults.value = [...totalResults.value, ...response._data.results];
+      totalPages.value = response._data.total_pages;
+    },
+  }
+);
 
 watch(
   () => route.query,

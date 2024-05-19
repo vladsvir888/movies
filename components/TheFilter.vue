@@ -176,7 +176,7 @@ watch(removedVariant, (newValue) => {
   setFilterValuesInUrl();
 });
 
-useApi(`/genre/${category.value}/list`, {
+useCustomFetch(`/genre/${category.value}/list`, {
   onResponse({ response }) {
     store[category.value].genres = response._data.genres;
   },

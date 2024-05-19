@@ -95,7 +95,7 @@ const transformReviews = (items) => {
 const type = useRouteParam("type");
 const id = useRouteParam("id");
 
-const data = await useApi(`/${type.value}/${id.value}`, {
+const data = await useCustomFetch(`/${type.value}/${id.value}`, {
   query: {
     language: locale,
     append_to_response: "videos,images,reviews,similar",
