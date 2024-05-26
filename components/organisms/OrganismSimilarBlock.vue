@@ -1,6 +1,6 @@
 <template>
   <div class="similar-block">
-    <AutoloadCardBlock
+    <OrganismAutoloadCardBlock
       v-if="data.results.length"
       :data="totalResults"
       v-model:page="page"

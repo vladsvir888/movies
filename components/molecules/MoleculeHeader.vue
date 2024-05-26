@@ -1,7 +1,7 @@
 <template>
   <header class="header">
     <div class="container header__container">
-      <TheButton to="/" class="header__logo">
+      <AtomButton to="/" class="header__logo">
         <NuxtImg
           src="/images/logo.png"
           width="160"
@@ -10,14 +10,14 @@
           loading="lazy"
           class="header__logo-img"
         />
-      </TheButton>
+      </AtomButton>
 
       <div class="header__wrapper">
         <div class="header__language-switcher">
-          <LanguageSwitcher />
+          <AtomLanguageSwitcher />
         </div>
 
-        <TheButton
+        <AtomButton
           v-if="authStore.sessionId"
           variant="primary"
           size="small"
@@ -26,19 +26,19 @@
           @click="authStore.logout()"
         >
           {{ $t("Sign out") }}
-        </TheButton>
+        </AtomButton>
 
-        <TheButton
+        <AtomButton
           class="header__burger"
           :aria-expanded="isMenuVisible"
           aria-controls="sidebar"
           @click="isMenuVisible = true"
         >
           <span class="header__burger-icon">
-            <TheIcon icon="menu" />
+            <AtomIcon icon="menu" />
           </span>
           <span class="header__burger-text">{{ $t("Menu") }}</span>
-        </TheButton>
+        </AtomButton>
       </div>
     </div>
   </header>

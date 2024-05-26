@@ -1,11 +1,11 @@
 <template>
   <div class="page page-category container">
-    <PageSeoData
+    <MoleculePageSeoData
       :lang="$t('lang')"
       :title="$t(title)"
       :description="$t(title)"
     />
-    <AutoloadCardBlock
+    <OrganismAutoloadCardBlock
       :data="totalResults"
       v-model:page="page"
       :total-pages="totalPages"

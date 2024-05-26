@@ -1,18 +1,18 @@
 <template>
   <dialog ref="dialog" class="dialog">
     <div class="dialog__wrapper">
-      <TheHeading :level="2" variant="underline" class="dialog__title">{{
+      <AtomHeading :level="2" variant="underline" class="dialog__title">{{
         title
-      }}</TheHeading>
+      }}</AtomHeading>
       <slot />
-      <TheButton
+      <AtomButton
         class="dialog__close"
         :aria-label="$t('Close')"
         type="button"
         @click="hideDialog"
       >
-        <TheIcon icon="close" />
-      </TheButton>
+        <AtomIcon icon="close" />
+      </AtomButton>
     </div>
   </dialog>
 </template>

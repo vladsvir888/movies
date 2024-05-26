@@ -11,7 +11,7 @@
           {{ preparedTitle }}
         </p>
         <div class="hero__wrapper">
-          <TheRating v-if="data.vote_average" v-model="ratingCount" />
+          <AtomRating v-if="data.vote_average" v-model="ratingCount" />
           <p v-if="data.vote_average" class="hero__rating-count">
             {{ data.vote_average }} / 10
           </p>
@@ -26,15 +26,15 @@
         <p v-if="data.overview" class="hero__text">
           {{ data.overview }}
         </p>
-        <TheButton
+        <AtomButton
           v-if="data.id"
           :to="`/${type}/${data.id}`"
           class="hero__more"
           variant="underline"
         >
           {{ $t("Explore more") }}
-          <TheIcon icon="arrow-next" />
-        </TheButton>
+          <AtomIcon icon="arrow-next" />
+        </AtomButton>
       </div>
     </div>
   </div>

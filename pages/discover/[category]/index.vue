@@ -1,13 +1,17 @@
 <template>
   <div class="page page-discover container">
-    <PageSeoData :lang="$t('lang')" :title="title" :description="title" />
+    <MoleculePageSeoData
+      :lang="$t('lang')"
+      :title="title"
+      :description="title"
+    />
 
-    <TheHeading class="page-discover__title" variant="underline">
+    <AtomHeading class="page-discover__title" variant="underline">
       {{ title }}
-    </TheHeading>
+    </AtomHeading>
 
     <div class="page-discover__wrapper">
-      <TheFilter v-model:removed-variant="removedVariant" />
+      <OrganismFilter v-model:removed-variant="removedVariant" />
       <div class="page-discover__cards">
         <ul class="page-discover__variants">
           <template
@@ -15,7 +19,7 @@
             :key="variantKey"
           >
             <li v-if="variantValue" class="page-discover__variant">
-              <TheButton
+              <AtomButton
                 variant="primary"
                 class="page-discover__variant-button"
                 :pill="true"
@@ -23,12 +27,12 @@
                 @click="removedVariant = variantKey"
               >
                 {{ variantValue }}
-                <TheIcon icon="close" />
-              </TheButton>
+                <AtomIcon icon="close" />
+              </AtomButton>
             </li>
           </template>
         </ul>
-        <AutoloadCardBlock
+        <OrganismAutoloadCardBlock
           :data="totalResults"
           v-model:page="page"
           :total-pages="totalPages"

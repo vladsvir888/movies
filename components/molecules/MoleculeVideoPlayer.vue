@@ -8,17 +8,17 @@
         alt=""
         class="video-player__img"
       />
-      <TheButton
+      <AtomButton
         class="video-player__button"
         :aria-label="`Play video: ${data.name}`"
         @click="createIframe"
       >
-        <TheIcon icon="youtube" />
-      </TheButton>
+        <AtomIcon icon="youtube" />
+      </AtomButton>
     </div>
-    <TheHeading v-if="data.name" :level="2" class="video-player__title">{{
+    <AtomHeading v-if="data.name" :level="2" class="video-player__title">{{
       data.name
-    }}</TheHeading>
+    }}</AtomHeading>
     <div class="video-player__wrapper">
       <p v-if="data.type" class="video-player__type">{{ data.type }}</p>
       <p v-if="transformedDate" class="video-player__date">

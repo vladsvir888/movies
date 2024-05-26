@@ -1,28 +1,28 @@
 <template>
   <div class="autoload-card-block">
     <div class="autoload-card-block__container">
-      <TheHeading
+      <AtomHeading
         v-if="title"
         variant="underline"
         class="autoload-card-block__title"
       >
         {{ $t(title) }}
-      </TheHeading>
-      <TheButton
+      </AtomHeading>
+      <AtomButton
         v-if="isBackButton"
         @click="$router.back()"
         variant="underline"
         class="autoload-card-block__back"
       >
-        <TheIcon icon="arrow-prev" />
+        <AtomIcon icon="arrow-prev" />
         {{ $t("Go back") }}
-      </TheButton>
+      </AtomButton>
       <ul class="autoload-card-block__list">
         <li v-for="item in data" :key="item.id">
-          <CarouselCard :data="item" :type="preparedType" :heading-level="2" />
+          <MoleculeCard :data="item" :type="preparedType" :heading-level="2" />
         </li>
       </ul>
-      <TheLoader v-show="isPending" class="autoload-card-block__loader" />
+      <AtomLoader v-show="isPending" class="autoload-card-block__loader" />
       <div v-intersection-observer="{ callback, options }"></div>
     </div>
   </div>

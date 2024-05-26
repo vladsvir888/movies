@@ -1,14 +1,18 @@
 <template>
   <div class="page">
-    <TheHeading class="visually-hidden">
+    <AtomHeading class="visually-hidden">
       {{ title }}
-    </TheHeading>
+    </AtomHeading>
 
-    <PageSeoData :lang="$t('lang')" :title="title" :description="title" />
+    <MoleculePageSeoData
+      :lang="$t('lang')"
+      :title="title"
+      :description="title"
+    />
 
-    <HeroBlock :data="store[type].heroBlock" />
+    <MoleculeHeroBlock :data="store[type].heroBlock" />
 
-    <TheCarousel
+    <OrganismCarousel
       v-for="item in LISTS[type]"
       :key="item.category"
       :type="item.type"

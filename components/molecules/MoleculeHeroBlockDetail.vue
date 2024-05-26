@@ -7,9 +7,9 @@
   >
     <div class="container hero-block-detail__container">
       <div class="hero-block-detail__content">
-        <TheHeading v-if="preparedTitle" class="hero-block-detail__title">
+        <AtomHeading v-if="preparedTitle" class="hero-block-detail__title">
           {{ preparedTitle }}
-        </TheHeading>
+        </AtomHeading>
         <p v-if="data.text" class="hero-block-detail__text">{{ data.text }}</p>
         <p class="hero-block-detail__date">
           <b v-if="data.date">{{ data.date }}</b>
@@ -17,24 +17,24 @@
         </p>
         <ul v-if="data.genres?.length" class="hero-block-detail__genres">
           <li v-for="genre in data.genres" :key="genre.id">
-            <TheButton
+            <AtomButton
               :to="`/discover/${type}?${FILTER_VALUES['with_genres']}=${genre.id}`"
               variant="secondary"
               :pill="true"
               size="medium"
             >
               {{ genre.name }}
-            </TheButton>
+            </AtomButton>
           </li>
         </ul>
         <div class="hero-block-detail__wrapper">
-          <TheRating v-if="data.voteAverage" v-model="ratingCount" />
+          <AtomRating v-if="data.voteAverage" v-model="ratingCount" />
           <p v-if="data.voteAverage" class="hero-block-detail__wrapper-text">
             {{ data.voteAverage }} / 10
           </p>
         </div>
       </div>
-      <MyLazyImage
+      <AtomLazyImage
         :src="`${config.public.apiImgUrl}w500${data.posterImage}`"
         :sizes="{
           width: 550,

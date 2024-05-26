@@ -1,19 +1,19 @@
 <template>
   <aside class="filter">
     <form class="filter__form">
-      <AccordionGroup>
-        <AccordionItem :title="$t('Genres')" id="filter-genres">
-          <TheSelect
+      <OrganismAccordionGroup>
+        <MoleculeAccordionItem :title="$t('Genres')" id="filter-genres">
+          <AtomSelect
             v-model="filter.with_genres"
             :options="transformedGenres"
             wrapper-class="filter__select-block"
             @change="setFilterValuesInUrl"
           />
-        </AccordionItem>
+        </MoleculeAccordionItem>
 
-        <AccordionItem :title="$t('Sort by')" id="filter-sort">
+        <MoleculeAccordionItem :title="$t('Sort by')" id="filter-sort">
           <div class="filter__sort-wrapper">
-            <RadioButton
+            <AtomRadioButton
               v-for="radio in sortedData"
               :key="`filter-sort-${radio.value}`"
               v-model="filter.sort_by"
@@ -23,35 +23,38 @@
               name="filter-sort"
               @change="setFilterValuesInUrl"
             />
-            <TheSwitcher
+            <AtomSwitcher
               v-model="isOrderDescending"
               :label="$t('Order descending')"
             />
           </div>
-        </AccordionItem>
+        </MoleculeAccordionItem>
 
-        <AccordionItem :title="$t('Rating')" id="filter-rating">
-          <TheRating :inert="false" v-model="ratingCount" />
-        </AccordionItem>
+        <MoleculeAccordionItem :title="$t('Rating')" id="filter-rating">
+          <AtomRating :inert="false" v-model="ratingCount" />
+        </MoleculeAccordionItem>
 
-        <AccordionItem :title="$t('Release Date')" id="filter-release-date">
+        <MoleculeAccordionItem
+          :title="$t('Release Date')"
+          id="filter-release-date"
+        >
           <div class="filter__date">
-            <InputBlock
+            <MoleculeInputBlock
               v-model="filter['release_date.gte']"
               type="date"
               wrapper-class="filter__date-input-block"
               @change="setFilterValuesInUrl"
             />
             <span class="filter__date-divider">—</span>
-            <InputBlock
+            <MoleculeInputBlock
               v-model="filter['release_date.lte']"
               type="date"
               wrapper-class="filter__date-input-block"
               @change="setFilterValuesInUrl"
             />
           </div>
-        </AccordionItem>
-      </AccordionGroup>
+        </MoleculeAccordionItem>
+      </OrganismAccordionGroup>
     </form>
   </aside>
 </template>

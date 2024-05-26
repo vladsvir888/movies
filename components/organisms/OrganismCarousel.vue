@@ -22,18 +22,18 @@
   >
     <div class="container">
       <header class="carousel__header">
-        <TheHeading :level="2" variant="underline" class="carousel__title">
+        <AtomHeading :level="2" variant="underline" class="carousel__title">
           {{ $t(title) }}
-        </TheHeading>
+        </AtomHeading>
 
-        <TheButton
+        <AtomButton
           :to="`/${type}/category/${category}`"
           class="carousel__more"
           variant="underline"
         >
           {{ $t("Explore more") }}
-          <TheIcon icon="arrow-next" />
-        </TheButton>
+          <AtomIcon icon="arrow-next" />
+        </AtomButton>
       </header>
 
       <SplideTrack class="carousel__track">
@@ -42,24 +42,24 @@
           :key="item.id"
           class="carousel__slide"
         >
-          <CarouselCard :data="item" :type="type" />
+          <MoleculeCard :data="item" :type="type" />
         </SplideSlide>
       </SplideTrack>
 
       <div class="splide__arrows carousel__controls">
-        <TheButton
+        <AtomButton
           class="splide__arrow splide__arrow--prev carousel__button carousel__button--prev"
         >
           <span class="visually-hidden">{{ $t("Previous") }}</span>
-          <TheIcon icon="arrow-prev" />
-        </TheButton>
+          <AtomIcon icon="arrow-prev" />
+        </AtomButton>
         <div class="splide__pagination carousel__pagination"></div>
-        <TheButton
+        <AtomButton
           class="splide__arrow splide__arrow--next carousel__button carousel__button--next"
         >
           <span class="visually-hidden">{{ $t("Next") }}</span>
-          <TheIcon icon="arrow-next" />
-        </TheButton>
+          <AtomIcon icon="arrow-next" />
+        </AtomButton>
       </div>
     </div>
   </Splide>

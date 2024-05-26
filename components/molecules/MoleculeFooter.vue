@@ -1,7 +1,7 @@
 <template>
   <footer class="footer">
     <div class="container footer__container">
-      <TheButton to="/">
+      <AtomButton to="/">
         <NuxtImg
           src="/images/logo.png"
           width="160"
@@ -9,16 +9,16 @@
           :alt="$t('Home')"
           loading="lazy"
         />
-      </TheButton>
+      </AtomButton>
 
       <p class="footer__data">
         {{ $t("Data provided by") }}
-        <TheButton to="https://www.themoviedb.org/" target="_blank">
-          <TheIcon icon="tmdb" class="footer__data-icon" />
-        </TheButton>
+        <AtomButton to="https://www.themoviedb.org/" target="_blank">
+          <AtomIcon icon="tmdb" class="footer__data-icon" />
+        </AtomButton>
       </p>
 
-      <LanguageSwitcher />
+      <AtomLanguageSwitcher />
     </div>
   </footer>
 </template>

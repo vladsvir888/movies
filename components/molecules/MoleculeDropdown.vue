@@ -1,6 +1,6 @@
 <template>
   <div v-click-outside="hideMenu" class="dropdown">
-    <TheButton
+    <AtomButton
       ref="reference"
       class="dropdown__toggle"
       :class="toggleClass"
@@ -17,7 +17,7 @@
       @keydown.end.prevent="setSelectedToLastMenuItem"
     >
       <slot name="toggle" />
-    </TheButton>
+    </AtomButton>
     <Transition name="dropdown">
       <ul
         v-show="isShowMenu"

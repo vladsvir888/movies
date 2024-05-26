@@ -5,10 +5,10 @@
       :key="categoryName"
       class="photos-block__section"
     >
-      <TheHeading :level="2" class="photos-block__title">
+      <AtomHeading :level="2" class="photos-block__title">
         {{ transformCategory(categoryName) }}
         <span>{{ categoryData.length }} {{ $t("Images") }}</span>
-      </TheHeading>
+      </AtomHeading>
 
       <ul class="photos-block__list">
         <li
@@ -16,12 +16,12 @@
           :key="path"
           class="photos-block__list-item"
         >
-          <TheButton
+          <AtomButton
             class="photos-block__list-button"
             :aria-label="$t('Open gallery images')"
             @click="onClickButton(categoryName, index)"
           >
-            <MyLazyImage
+            <AtomLazyImage
               :src="`${config.public.apiImgUrl}w500${path}`"
               :sizes="{
                 width: 400,
@@ -30,12 +30,12 @@
               loading="lazy"
               class="photos-block__image"
             />
-          </TheButton>
+          </AtomButton>
         </li>
       </ul>
     </section>
 
-    <ImageLightbox
+    <MoleculeImageLightbox
       :items="items"
       v-model:index="indexActiveItem"
       v-model:is-show="isShow"

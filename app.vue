@@ -1,16 +1,18 @@
 <template>
   <NuxtLoadingIndicator color="var(--palette-puerto-rico)" />
-  <FirstScreenBlock v-if="isFirstScreenBlockVisible" />
-  <TheHeader v-model:is-menu-visible="isMenuVisible" />
-  <TheSidebar
+  <AtomFirstScreenBlock v-if="isFirstScreenBlockVisible" />
+  <MoleculeHeader v-model:is-menu-visible="isMenuVisible" />
+  <OrganismSidebar
     v-model:is-menu-visible="isMenuVisible"
     v-model:is-search-dialog-visible="isSearchDialogVisible"
   />
   <main class="page-wrapper">
     <NuxtPage />
   </main>
-  <TheFooter />
-  <SearchDialog v-model:is-search-dialog-visible="isSearchDialogVisible" />
+  <MoleculeFooter />
+  <OrganismSearchDialog
+    v-model:is-search-dialog-visible="isSearchDialogVisible"
+  />
 </template>
 
 <script setup>

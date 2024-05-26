@@ -8,17 +8,17 @@
     <aside id="sidebar" class="sidebar__aside">
       <nav class="sidebar__nav">
         <template v-for="link in links" :key="link.value">
-          <TheButton
+          <AtomButton
             v-if="!link.dropdown && !link.auth"
             :to="link.to"
             :title="link.value"
             class="sidebar__link"
             v-on="link.handlers ?? {}"
           >
-            <TheIcon :icon="link.icon" />
-          </TheButton>
+            <AtomIcon :icon="link.icon" />
+          </AtomButton>
 
-          <TheDropdown
+          <MoleculeDropdown
             v-else-if="!link.auth"
             :selected-item="dropdownSelectedItem"
             @update:selected-item="onUpdateSelectedItem"
@@ -27,9 +27,9 @@
             :items="link.dropdown.items"
           >
             <template #toggle>
-              <TheIcon :icon="link.icon" />
+              <AtomIcon :icon="link.icon" />
             </template>
-          </TheDropdown>
+          </MoleculeDropdown>
         </template>
       </nav>
     </aside>

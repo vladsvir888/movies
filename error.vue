@@ -1,14 +1,14 @@
 <template>
   <div class="page error-page">
-    <PageSeoData
+    <MoleculePageSeoData
       :lang="$t('lang')"
       :title="$t('This page could not be found')"
       :description="$t('This page could not be found')"
     />
     <div class="error-page__content">
-      <TheHeading class="error-page__title">
+      <AtomHeading class="error-page__title">
         {{ $t("This page could not be found") }}
-      </TheHeading>
+      </AtomHeading>
       <p class="error-page__text">
         {{
           $t(
@@ -16,14 +16,14 @@
           )
         }}
       </p>
-      <TheButton
+      <AtomButton
         class="error-page__button"
         variant="primary"
         size="large"
         @click="handleError"
       >
         {{ $t("Go Home") }}
-      </TheButton>
+      </AtomButton>
     </div>
   </div>
 </template>

@@ -1,16 +1,16 @@
 <template>
   <div class="reviews-block-wrapper">
     <div v-if="data.length" class="reviews-block">
-      <AccordionGroup>
-        <AccordionItem
+      <OrganismAccordionGroup>
+        <MoleculeAccordionItem
           v-for="item in data"
           :key="item.id"
           :title="item.author"
           :id="item.id"
         >
           {{ item.content }}
-        </AccordionItem>
-      </AccordionGroup>
+        </MoleculeAccordionItem>
+      </OrganismAccordionGroup>
     </div>
     <p v-else class="reviews-block-wrapper__text">{{ $t("No reviews") }}</p>
   </div>

@@ -1,19 +1,19 @@
 <template>
   <div class="page page-sign-in">
-    <PageSeoData
+    <MoleculePageSeoData
       :lang="$t('lang')"
       :title="$t('Login to your account')"
       :description="$t('Login to your account')"
     />
     <div class="container">
       <div class="page-sign-in__wrapper">
-        <TheHeading class="page-sign-in__title" variant="underline">
+        <AtomHeading class="page-sign-in__title" variant="underline">
           {{ $t("Login to your account") }}
-        </TheHeading>
+        </AtomHeading>
         <div class="page-sign-in__form-wrapper">
-          <TheButton to="https://www.themoviedb.org/" target="_blank">
-            <TheIcon icon="tmdb" />
-          </TheButton>
+          <AtomButton to="https://www.themoviedb.org/" target="_blank">
+            <AtomIcon icon="tmdb" />
+          </AtomButton>
           <p>
             {{ $t("Please login using your TMDB username and password.") }}
           </p>
@@ -22,29 +22,29 @@
             :class="{ disabled: authStore.loading }"
             @submit.prevent="onSubmitForm"
           >
-            <InputBlock
+            <MoleculeInputBlock
               v-model="state.username"
               :placeholder="$t('Username')"
               class="page-sign-in__form-input"
               required
             />
-            <InputBlock
+            <MoleculeInputBlock
               v-model="state.password"
               :placeholder="$t('Password')"
               type="password"
               class="page-sign-in__form-input"
               required
             />
-            <TheButton
+            <AtomButton
               class="page-sign-in__form-submit"
               variant="secondary"
               size="large"
               :pill="true"
             >
               {{ $t("Sign In") }}
-            </TheButton>
+            </AtomButton>
           </form>
-          <TheLoader
+          <AtomLoader
             v-if="authStore.loading"
             class="page-sign-in__form-loader"
           />

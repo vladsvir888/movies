@@ -1,6 +1,6 @@
 <template>
   <div class="videos-block">
-    <TheSelect
+    <AtomSelect
       v-if="selectedVariantSortedData"
       v-model="selectedVariantSortedData"
       :options="sortedData"
@@ -9,7 +9,11 @@
       wrapper-class="videos-block__select"
     />
     <div v-if="filteredData.length" class="videos-block__wrapper">
-      <VideoPlayer v-for="item in filteredData" :key="item.id" :data="item" />
+      <MoleculeVideoPlayer
+        v-for="item in filteredData"
+        :key="item.id"
+        :data="item"
+      />
     </div>
     <p v-else class="videos-block__text">{{ $t("No videos") }}</p>
   </div>

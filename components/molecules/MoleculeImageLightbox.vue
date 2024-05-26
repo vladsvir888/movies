@@ -32,29 +32,29 @@
             />
           </li>
         </ul>
-        <TheButton
+        <AtomButton
           class="image-lightbox__close"
           :aria-label="$t('Close')"
           @click="closeLightbox"
         >
-          <TheIcon icon="close" />
-        </TheButton>
-        <TheButton
+          <AtomIcon icon="close" />
+        </AtomButton>
+        <AtomButton
           class="image-lightbox__button image-lightbox__button--prev"
           :aria-label="$t('Previous')"
           :disabled="isFirstImage"
           @click="toPreviousImage"
         >
-          <TheIcon icon="arrow-prev" />
-        </TheButton>
-        <TheButton
+          <AtomIcon icon="arrow-prev" />
+        </AtomButton>
+        <AtomButton
           class="image-lightbox__button image-lightbox__button--next"
           :aria-label="$t('Next')"
           :disabled="isLastImage"
           @click="toNextImage"
         >
-          <TheIcon icon="arrow-next" />
-        </TheButton>
+          <AtomIcon icon="arrow-next" />
+        </AtomButton>
         <div class="image-lightbox__counter">
           {{ index + 1 }} / {{ items.length }}
         </div>

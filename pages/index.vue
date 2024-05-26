@@ -1,18 +1,18 @@
 <template>
   <div class="page">
-    <TheHeading class="visually-hidden">
+    <AtomHeading class="visually-hidden">
       {{ $t("Home • Movies") }}
-    </TheHeading>
+    </AtomHeading>
 
-    <PageSeoData
+    <MoleculePageSeoData
       :lang="$t('lang')"
       :title="$t('Home • Movies')"
       :description="$t('Home • Movies')"
     />
 
-    <HeroBlock :data="store.movie.heroBlock" />
+    <MoleculeHeroBlock :data="store.movie.heroBlock" />
 
-    <TheCarousel
+    <OrganismCarousel
       v-for="item in preparedLists"
       :key="item.category"
       :type="item.type"

@@ -1,5 +1,5 @@
 <template>
-  <TheSelect
+  <AtomSelect
     v-model="locale"
     :options="transformedLocales"
     :label="$t('Language:')"

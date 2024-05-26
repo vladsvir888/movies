@@ -1,6 +1,6 @@
 <template>
   <article class="carousel-card">
-    <MyLazyImage
+    <AtomLazyImage
       :src="`${config.public.apiImgUrl}w400${data.poster_path}`"
       :sizes="{
         width: 400,
@@ -10,17 +10,17 @@
       class="carousel-card__img"
     />
     <div class="carousel-card__content">
-      <TheHeading
+      <AtomHeading
         v-if="preparedTitle"
         :level="headingLevel"
         class="carousel-card__title"
       >
-        <TheButton :to="`/${type}/${data.id}`" class="carousel-card__link">
+        <AtomButton :to="`/${type}/${data.id}`" class="carousel-card__link">
           {{ preparedTitle }}
-        </TheButton>
-      </TheHeading>
+        </AtomButton>
+      </AtomHeading>
       <div class="carousel-card__wrapper">
-        <TheRating v-if="data.vote_average" v-model="ratingCount" />
+        <AtomRating v-if="data.vote_average" v-model="ratingCount" />
         <p v-if="data.vote_average" class="carousel-card__text">
           {{ data.vote_average }}
         </p>

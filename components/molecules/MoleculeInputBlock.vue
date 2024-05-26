@@ -14,15 +14,15 @@
         class="input-block__input"
         v-bind="$attrs"
       />
-      <TheButton
+      <AtomButton
         v-if="clearable && model.length"
         @click="clearEntry"
         class="input-block__clear"
         :aria-label="$t('Clear entry')"
         type="button"
       >
-        <TheIcon icon="close" />
-      </TheButton>
+        <AtomIcon icon="close" />
+      </AtomButton>
     </div>
   </div>
 </template>

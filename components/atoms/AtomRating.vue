@@ -13,7 +13,7 @@
         <span class="visually-hidden"
           >{{ star.value }} {{ $t("star | stars", star.value) }}</span
         >
-        <TheIcon icon="star" />
+        <AtomIcon icon="star" />
       </label>
     </template>
   </div>

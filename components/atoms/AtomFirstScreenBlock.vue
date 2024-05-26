@@ -1,6 +1,6 @@
 <template>
   <div class="first-screen-block">
-    <TheLoader :is-show-accessible-text="false" />
+    <AtomLoader :is-show-accessible-text="false" />
     <p class="first-screen-block__text">{{ $t("Loading") }}<span></span></p>
   </div>
 </template>

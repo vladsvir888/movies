@@ -1,7 +1,7 @@
 <template>
   <div class="tab-group">
     <div class="tab-group__nav" role="tablist">
-      <TheButton
+      <AtomButton
         v-for="(title, index) in tabTitles"
         :key="title"
         :id="`tab-${title}`"
@@ -19,7 +19,7 @@
         @keydown.end.prevent="setSelectedTab(tabTitles.length - 1)"
       >
         {{ title }}
-      </TheButton>
+      </AtomButton>
     </div>
     <div class="tab-group__panels">
       <slot />

@@ -1,10 +1,10 @@
 <template>
-  <DialogContainer
+  <OrganismDialogContainer
     class="search-dialog"
     :title="$t('Search')"
     v-model:is-show="isSearchDialogVisible"
   >
-    <InputBlock
+    <MoleculeInputBlock
       v-model="searchQuery"
       :placeholder="$t('Type to search...')"
       :clearable="true"
@@ -12,23 +12,23 @@
       class="search-dialog__input"
     >
       <template #prefix-icon>
-        <TheIcon icon="loupe" />
+        <AtomIcon icon="loupe" />
       </template>
-    </InputBlock>
-    <TheLoader v-if="isPendingSearch" class="search-dialog__loader" />
+    </MoleculeInputBlock>
+    <AtomLoader v-if="isPendingSearch" class="search-dialog__loader" />
     <ul
       v-else-if="totalResults.length && !isPendingSearch"
       class="search-dialog__results"
     >
       <li v-for="result in totalResults" :key="result.id">
-        <TheButton
+        <AtomButton
           @click="hideSearchDialog"
           class="search-dialog__results-button"
           :to="`/${result.media_type}/${result.id}`"
           variant="underline"
         >
           {{ result.title ?? result.name }}
-        </TheButton>
+        </AtomButton>
       </li>
     </ul>
     <div
@@ -37,7 +37,7 @@
       "
       class="search-dialog__no-results"
     >
-      <TheIcon icon="loupe-line-through" />
+      <AtomIcon icon="loupe-line-through" />
       <p class="search-dialog__no-results-text">
         {{ $t("No results for") }}
         <b>"{{ searchQueryDebounced }}"</b>
@@ -47,27 +47,27 @@
       v-if="totalResults.length && !isPendingSearch"
       class="search-dialog__pagination"
     >
-      <TheButton
+      <AtomButton
         class="search-dialog__pagination-button search-dialog__pagination-button--prev"
         :aria-label="$t('Previous')"
         @click="toPreviousPage"
         :disabled="isFirstPage"
       >
-        <TheIcon icon="arrow-prev" />
-      </TheButton>
+        <AtomIcon icon="arrow-prev" />
+      </AtomButton>
       <p class="search-dialog__pagination-text">
         {{ page }} / {{ totalPages }}
       </p>
-      <TheButton
+      <AtomButton
         class="search-dialog__pagination-button search-dialog__pagination-button--next"
         :aria-label="$t('Next')"
         @click="toNextPage"
         :disabled="isLastPage"
       >
-        <TheIcon icon="arrow-next" />
-      </TheButton>
+        <AtomIcon icon="arrow-next" />
+      </AtomButton>
     </div>
-  </DialogContainer>
+  </OrganismDialogContainer>
 </template>
 
 <script setup>

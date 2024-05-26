@@ -1,7 +1,7 @@
 <template>
   <div class="accordion-item">
-    <TheHeading :level="2" class="accordion-item__title">
-      <TheButton
+    <AtomHeading :level="2" class="accordion-item__title">
+      <AtomButton
         :id="`accordion-header-${id}`"
         :aria-controls="`accordion-panel-${id}`"
         :aria-expanded="isShow"
@@ -10,9 +10,9 @@
         type="button"
       >
         {{ title }}
-        <TheIcon icon="arrow-prev" />
-      </TheButton>
-    </TheHeading>
+        <AtomIcon icon="arrow-prev" />
+      </AtomButton>
+    </AtomHeading>
     <div
       :id="`accordion-panel-${id}`"
       :aria-labelledby="`accordion-header-${id}`"

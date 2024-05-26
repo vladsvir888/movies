@@ -1,15 +1,15 @@
 <template>
   <div class="page page-detail">
-    <PageSeoData
+    <MoleculePageSeoData
       :lang="$t('lang')"
       :title="`${(heroBlockDetail.title || heroBlockDetail.name) ?? ''}`"
       :description="`${heroBlockDetail.text ?? ''}`"
     />
-    <HeroBlockDetail :data="heroBlockDetail" />
+    <MoleculeHeroBlockDetail :data="heroBlockDetail" />
 
     <div class="page-detail__tabs container">
-      <TabGroup>
-        <TabPanel
+      <OrganismTabGroup>
+        <MoleculeTabPanel
           v-for="(tabPanelsValue, tabPanelsKey) in tabPanels"
           :key="tabPanelsKey"
           :title="tabPanelsValue.title"
@@ -19,19 +19,19 @@
             :is="tabPanelsValue.component"
             :data="tabPanelsValue.data"
           />
-        </TabPanel>
-      </TabGroup>
+        </MoleculeTabPanel>
+      </OrganismTabGroup>
     </div>
   </div>
 </template>
 
 <script setup>
 import {
-  VideosBlock,
-  PhotosBlock,
-  ReviewsBlock,
-  InfoBlock,
-  SimilarBlock,
+  OrganismVideosBlock,
+  OrganismPhotosBlock,
+  OrganismReviewsBlock,
+  AtomInfo,
+  OrganismSimilarBlock,
 } from "#components";
 
 const { t, locale } = useI18n();
@@ -39,27 +39,27 @@ const { t, locale } = useI18n();
 const tabPanels = ref({
   info: {
     title: t("Info"),
-    component: markRaw(InfoBlock),
+    component: markRaw(AtomInfo),
     data: ref(null),
   },
   videos: {
     title: t("Videos"),
-    component: markRaw(VideosBlock),
+    component: markRaw(OrganismVideosBlock),
     data: ref(null),
   },
   photos: {
     title: t("Photos"),
-    component: markRaw(PhotosBlock),
+    component: markRaw(OrganismPhotosBlock),
     data: ref(null),
   },
   reviews: {
     title: t("Reviews"),
-    component: markRaw(ReviewsBlock),
+    component: markRaw(OrganismReviewsBlock),
     data: ref(null),
   },
   similar: {
     title: t("Similar"),
-    component: markRaw(SimilarBlock),
+    component: markRaw(OrganismSimilarBlock),
     data: ref(null),
   },
 });
