@@ -1,3 +1,5 @@
+import i18n from "./src/shared/i18n";
+
 export default defineNuxtConfig({
   devtools: {
     enabled: false,
@@ -42,7 +44,7 @@ export default defineNuxtConfig({
     },
   ],
 
-  css: ["~/assets/styles/styles.scss"],
+  css: ["~/src/shared/ui/styles/index.scss"],
 
   modules: [
     "@nuxtjs/google-fonts",
@@ -55,23 +57,7 @@ export default defineNuxtConfig({
     "/": { redirect: "/en" },
   },
 
-  i18n: {
-    locales: [
-      {
-        code: "en",
-        file: "en.js",
-      },
-      {
-        code: "ru",
-        file: "ru.js",
-      },
-    ],
-    langDir: "lang",
-    strategy: "prefix",
-    defaultLocale: "en",
-    detectBrowserLanguage: false,
-    vueI18n: "./i18n.config.ts",
-  },
+  i18n,
 
   googleFonts: {
     families: {

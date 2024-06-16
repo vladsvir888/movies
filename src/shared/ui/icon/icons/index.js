@@ -1,0 +1,15 @@
+export { default as IconArrowNext } from "./IconArrowNext.vue";
+export { default as IconArrowPrev } from "./IconArrowPrev.vue";
+export { default as IconClose } from "./IconClose.vue";
+export { default as IconFilter } from "./IconFilter.vue";
+export { default as IconHome } from "./IconHome.vue";
+export { default as IconLoupe } from "./IconLoupe.vue";
+export { default as IconLoupeLineThrough } from "./IconLoupeLineThrough.vue";
+export { default as IconMenu } from "./IconMenu.vue";
+export { default as IconMovie } from "./IconMovie.vue";
+export { default as IconRightToBracket } from "./IconRightToBracket.vue";
+export { default as IconSearch } from "./IconSearch.vue";
+export { default as IconStar } from "./IconStar.vue";
+export { default as IconTMDB } from "./IconTMDB.vue";
+export { default as IconTV } from "./IconTV.vue";
+export { default as IconYoutube } from "./IconYoutube.vue";
