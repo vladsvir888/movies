@@ -19,7 +19,7 @@
         </li>
       </ul>
       <BaseLoader v-show="isPending" class="card-list__loader" />
-      <div v-intersection-observer="{ callback, options }"></div>
+      <div ref="observer"></div>
     </div>
   </div>
 </template>
@@ -30,7 +30,7 @@ import Icon from "~/src/shared/ui/icon";
 import Heading from "~/src/shared/ui/heading";
 import Button from "~/src/shared/ui/button";
 import { BaseLoader } from "~/src/shared/ui/loaders";
-import { useRouteParam } from "~/src/shared/lib/use";
+import { useIntersectionObserver, useRouteParam } from "~/src/shared/lib/use";
 
 const props = defineProps({
   data: {
@@ -67,18 +67,29 @@ const category = useRouteParam("category");
 
 const preparedType = computed(() => type.value || category.value);
 
+const observer = ref(null);
+
 const options = {
   rootMargin: "-150px 0px 0px 0px",
 };
-const callback = (entries) => {
-  if (
-    entries[0].isIntersecting &&
-    props.page < props.totalPages &&
-    !props.isPending
-  ) {
+const callback = () => {
+  if (props.page < props.totalPages && !props.isPending) {
     page.value += 1;
   }
 };
+
+const { observer: observerCardList } = useIntersectionObserver(
+  callback,
+  options
+);
+
+onMounted(() => {
+  observerCardList.observe(observer.value);
+});
+
+onUnmounted(() => {
+  observerCardList.disconnect();
+});
 </script>
 
 <style lang="scss">

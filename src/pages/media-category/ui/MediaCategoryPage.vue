@@ -2,6 +2,7 @@
   <div class="page page-category container">
     <PageSeoData :title="$t(title)" :description="$t(title)" />
     <CardList
+      v-if="totalResults.length"
       :data="totalResults"
       v-model:page="page"
       :total-pages="totalPages"
@@ -44,7 +45,7 @@ if (!listItem) {
   });
 }
 
-useCustomFetch(`/${type.value}/${category.value}`, {
+await useCustomFetch(`/${type.value}/${category.value}`, {
   query: {
     page,
     language: locale,
