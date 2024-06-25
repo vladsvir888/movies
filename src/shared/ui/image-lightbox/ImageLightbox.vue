@@ -102,10 +102,8 @@ const isLastImage = computed(() => {
 
 watch(isShow, (newValue) => {
   if (newValue) {
-    console.log(activate, "activate");
     activate();
   } else {
-    console.log(deactivate, "deactivate");
     deactivate();
   }
 
