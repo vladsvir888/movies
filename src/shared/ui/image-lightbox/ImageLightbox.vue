@@ -2,8 +2,8 @@
   <Teleport to="body">
     <Transition name="image-lightbox">
       <div
+        ref="lightbox"
         v-show="isShow"
-        v-trap="{ value: isShow }"
         class="image-lightbox"
         role="dialog"
         aria-modal="true"
@@ -67,6 +67,7 @@
 import Icon from "~/src/shared/ui/icon";
 import Button from "~/src/shared/ui/button";
 import { toggleScrollbar } from "~/src/shared/lib/dom";
+import { useFocusTrap } from "~/src/shared/lib/use";
 
 const config = useRuntimeConfig();
 
@@ -85,6 +86,12 @@ const index = defineModel("index", {
   default: null,
 });
 
+const lightbox = ref(null);
+
+const { activate, deactivate } = useFocusTrap(lightbox, {
+  fallbackFocus: ".image-lightbox",
+});
+
 const isFirstImage = computed(() => {
   return index.value === 0;
 });
@@ -93,11 +100,22 @@ const isLastImage = computed(() => {
   return index.value === props.items.length - 1;
 });
 
-watch(isShow, (newValue) => toggleScrollbar(newValue));
+watch(isShow, (newValue) => {
+  if (newValue) {
+    console.log(activate, "activate");
+    activate();
+  } else {
+    console.log(deactivate, "deactivate");
+    deactivate();
+  }
+
+  toggleScrollbar(newValue);
+});
 
 const closeLightbox = () => {
   isShow.value = false;
   index.value = null;
+  deactivate();
 };
 
 const toNextImage = (event) => {

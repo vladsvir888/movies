@@ -1,6 +1,6 @@
 <template>
   <div
-    v-trap="{ value: isMenuVisible, fallbackElement: '.sidebar__overlay' }"
+    ref="sidebar"
     class="sidebar"
     :class="{ expanded: isMenuVisible }"
     @keydown.esc="closeMenu"
@@ -42,11 +42,17 @@ import Dropdown from "~/src/shared/ui/dropdown";
 import Icon from "~/src/shared/ui/icon";
 import Button from "~/src/shared/ui/button";
 import { toggleScrollbar } from "~/src/shared/lib/dom";
+import { useFocusTrap } from "~/src/shared/lib/use";
+
+const sidebar = ref(null);
 
 const { t } = useI18n();
 const route = useRoute();
 const localePath = useLocalePath();
 const authStore = useAuth();
+const { activate, deactivate } = useFocusTrap(sidebar, {
+  fallbackFocus: ".sidebar__overlay",
+});
 
 const isSearchDialogVisible = defineModel("isSearchDialogVisible");
 const isMenuVisible = defineModel("isMenuVisible");
@@ -75,6 +81,7 @@ const links = computed(() => {
         click: () => {
           isSearchDialogVisible.value = true;
           isMenuVisible.value = false;
+          deactivate();
         },
       },
     },
@@ -107,6 +114,7 @@ const dropdownSelectedItem = ref(null);
 const closeMenu = () => {
   isMenuVisible.value = false;
   toggleScrollbar(false);
+  deactivate();
 };
 
 const onUpdateSelectedItem = async ($event) => {
@@ -118,6 +126,12 @@ watch(() => route.path, closeMenu);
 watch(isMenuVisible, (newValue) => {
   if (isSearchDialogVisible.value) {
     return;
+  }
+
+  if (newValue) {
+    activate();
+  } else {
+    deactivate();
   }
 
   toggleScrollbar(newValue);
