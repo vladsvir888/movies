@@ -1,5 +1,5 @@
 <template>
-  <div v-click-outside="hideMenu" class="dropdown">
+  <div ref="dropdown" class="dropdown">
     <Button
       ref="reference"
       class="dropdown__toggle"
@@ -54,6 +54,7 @@
 <script setup>
 import Button from "~/src/shared/ui/button";
 import { useFloating, offset } from "@floating-ui/vue";
+import { useClickOutside } from "~/src/shared/lib/use";
 
 const props = defineProps({
   toggleClass: {
@@ -86,6 +87,7 @@ const uid = ref(getCurrentInstance().uid);
 const isShowMenu = ref(false);
 const reference = ref(null);
 const floating = ref(null);
+const dropdown = ref(null);
 
 const { floatingStyles, update } = useFloating(reference, floating, {
   placement: props.placementMenu,
@@ -142,6 +144,8 @@ const onKeydownEsc = () => {
   hideMenu();
   reference.value.button.focus();
 };
+
+useClickOutside(dropdown, hideMenu);
 </script>
 
 <style lang="scss">
