@@ -52,8 +52,8 @@
 </template>
 
 <script setup>
-import Button from "~/src/shared/ui/button";
 import { useFloating, offset } from "@floating-ui/vue";
+import Button from "~/src/shared/ui/button";
 import { useClickOutside } from "~/src/shared/lib/use";
 
 const props = defineProps({

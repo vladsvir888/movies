@@ -9,14 +9,14 @@
       wrapper-class="videos__select"
     />
     <div v-if="filteredData.length" class="videos__wrapper">
-      <MoviePlayer v-for="item in filteredData" :key="item.id" :data="item" />
+      <Video v-for="item in filteredData" :key="item.id" :data="item" />
     </div>
     <p v-else class="videos__text">{{ $t("No videos") }}</p>
   </div>
 </template>
 
 <script setup>
-import { MoviePlayer } from "~/src/entities/movie";
+import { Video, useVideo } from "~/src/entities/movie";
 import Select from "~/src/shared/ui/select";
 
 const { t } = useI18n();

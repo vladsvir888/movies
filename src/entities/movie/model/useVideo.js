@@ -1,5 +1,7 @@
 import YouTubePlayer from "youtube-player";
 
+const NAMESPACE = "video";
+
 const getDefaultState = () => {
   return {
     videos: [],
@@ -11,7 +13,7 @@ const STATE_CHANGE_VALUES = {
   playing: 1,
 };
 
-export const useVideo = defineStore("video", {
+export const useVideo = defineStore(NAMESPACE, {
   state: () => getDefaultState(),
 
   actions: {

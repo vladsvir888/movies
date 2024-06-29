@@ -33,6 +33,7 @@ import Icon from "~/src/shared/ui/icon";
 import Heading from "~/src/shared/ui/heading";
 import Button from "~/src/shared/ui/button";
 import { formatDate } from "~/src/shared/lib/format";
+import { useVideo } from "~/src/entities/movie";
 
 const videoStore = useVideo();
 

@@ -30,7 +30,7 @@
 <script setup>
 import Button from "~/src/shared/ui/button";
 
-const videoStore = useVideo();
+const emit = defineEmits(["update:selected-tab"]);
 
 const tabRefs = ref([]);
 const tabTitles = ref(
@@ -50,7 +50,7 @@ const setSelectedTab = (index) => {
   tabRefs.value[index].button.focus();
   activeTab.value = tabTitles.value[index];
 
-  videoStore.stopAllVideos();
+  emit("update:selected-tab", activeTab);
 };
 
 const setSelectedToPreviousTab = () => {

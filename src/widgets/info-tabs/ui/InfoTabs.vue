@@ -1,6 +1,6 @@
 <template>
   <div class="info-tabs">
-    <TabGroup>
+    <TabGroup @update:selected-tab="onUpdateSelectedTab">
       <TabPanel
         v-for="(tabPanelsValue, tabPanelsKey) in tabPanels"
         :key="tabPanelsKey"
@@ -21,6 +21,7 @@ import { Info, Videos, Photos, Reviews, Similar } from "./blocks";
 import { TabGroup, TabPanel } from "~/src/shared/ui/tabs";
 import { useCustomFetch } from "~/src/shared/api";
 import { useRouteParam } from "~/src/shared/lib/use";
+import { useVideo } from "~/src/entities/movie";
 
 const heroDetail = defineModel("heroDetail", {
   required: true,
@@ -28,6 +29,7 @@ const heroDetail = defineModel("heroDetail", {
 });
 
 const { t, locale } = useI18n();
+const videoStore = useVideo();
 
 const tabPanels = ref({
   info: {
@@ -83,6 +85,8 @@ const transformReviews = (items) => {
     content,
   }));
 };
+
+const onUpdateSelectedTab = () => videoStore.stopAllVideos();
 
 const type = useRouteParam("type");
 const id = useRouteParam("id");

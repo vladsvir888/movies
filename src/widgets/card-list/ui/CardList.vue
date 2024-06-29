@@ -15,7 +15,7 @@
       </Button>
       <ul class="card-list__list">
         <li v-for="item in data" :key="item.id">
-          <MovieCard :data="item" :type="preparedType" :heading-level="2" />
+          <Card :data="item" :type="preparedType" :heading-level="2" />
         </li>
       </ul>
       <BaseLoader v-show="isPending" class="card-list__loader" />
@@ -25,7 +25,7 @@
 </template>
 
 <script setup>
-import { MovieCard } from "~/src/entities/movie";
+import { Card } from "~/src/entities/movie";
 import Icon from "~/src/shared/ui/icon";
 import Heading from "~/src/shared/ui/heading";
 import Button from "~/src/shared/ui/button";

@@ -30,7 +30,7 @@
 
       <SplideTrack class="carousel__track">
         <SplideSlide
-          v-for="item in data"
+          v-for="item in items"
           :key="item.id"
           class="carousel__slide"
         >
@@ -58,12 +58,11 @@
 </template>
 
 <script setup>
+import { Splide, SplideSlide, SplideTrack } from "@splidejs/vue-splide";
+import "@splidejs/vue-splide/css/core";
 import Icon from "~/src/shared/ui/icon";
 import Heading from "~/src/shared/ui/heading";
 import Button from "~/src/shared/ui/button";
-import { useCustomFetch } from "~/src/shared/api";
-import { Splide, SplideSlide, SplideTrack } from "@splidejs/vue-splide";
-import "@splidejs/vue-splide/css/core";
 
 const { t } = useI18n();
 
@@ -82,8 +81,6 @@ const DEFAULT_OPTIONS = {
     slideLabel: `%s ${t("of")} %s`,
   },
 };
-
-const store = useStore();
 
 const props = defineProps({
   type: {
@@ -110,30 +107,11 @@ const props = defineProps({
     type: String,
     default: "section",
   },
-});
-
-const transformCategory = (value) => {
-  return value
-    .split("_")
-    .map((item, index) => {
-      if (index !== 0) {
-        item = item[0].toUpperCase() + item.slice(1);
-      }
-
-      return item;
-    })
-    .join("");
-};
-
-useCustomFetch(`/${props.type}/${props.category}`, {
-  onResponse({ response }) {
-    store[props.type][transformCategory(props.category)] =
-      response._data.results;
+  items: {
+    type: Array,
+    required: true,
+    default: () => [],
   },
-});
-
-const data = computed(() => {
-  return store[props.type][transformCategory(props.category)];
 });
 
 const preparedOptions = computed(() => {

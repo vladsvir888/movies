@@ -67,9 +67,11 @@ import { useCustomFetch } from "~/src/shared/api";
 import { divideByTwoAndRound } from "~/src/shared/lib/format";
 import { useRouteParam } from "~/src/shared/lib/use";
 import { isEmptyObject } from "~/src/shared/lib/is";
-import { SORT_TYPES, SORT_ORDERS, FILTER_VALUES } from "~/src/shared/config";
+import { FILTER_VALUES } from "~/src/shared/config";
+import { SORT_ORDERS, SORT_TYPES } from "../config";
+import { useMovie } from "~/src/entities/movie";
 
-const store = useStore();
+const movieStore = useMovie();
 const router = useRouter();
 const route = useRoute();
 const { t } = useI18n();
@@ -85,7 +87,7 @@ const isOrderDescending = ref(true);
 const category = useRouteParam("category");
 
 const transformedGenres = computed(() => {
-  return store[category.value].genres.map(({ id, name }) => ({
+  return movieStore[category.value].genres.map(({ id, name }) => ({
     value: id,
     text: name,
   }));
@@ -188,7 +190,7 @@ watch(removedVariant, (newValue) => {
 
 useCustomFetch(`/genre/${category.value}/list`, {
   onResponse({ response }) {
-    store[category.value].genres = response._data.genres;
+    movieStore[category.value].genres = response._data.genres;
   },
 });
 
