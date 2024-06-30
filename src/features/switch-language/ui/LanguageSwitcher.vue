@@ -11,36 +11,14 @@
 
 <script setup>
 import Select from "~/src/shared/ui/select";
-import {
-  setItemInLocalStorage,
-  getItemFromLocalStorage,
-} from "~/src/shared/lib/browser";
+import { useLanguageSwitcherStore } from "../model";
 
-const config = useRuntimeConfig();
-const { locale, locales, setLocale } = useI18n();
+const { locale } = useI18n();
 
-const transformedLocales = computed(() => {
-  return locales.value.map(({ code }) => ({
-    value: code,
-    text: code.toUpperCase(),
-  }));
-});
+const languageSwitcherStore = useLanguageSwitcherStore();
+const { checkLocale, updateLocale, transformedLocales } = languageSwitcherStore;
 
-const updateLocale = (event) => {
-  setLocale(event.target.value);
-  setItemInLocalStorage(config.public.appLangKey, event.target.value);
-  window.location.reload(); // because of caching data in store
-};
-
-onBeforeMount(() => {
-  const value = getItemFromLocalStorage(config.public.appLangKey);
-
-  if (!value) {
-    return;
-  }
-
-  setLocale(value);
-});
+onBeforeMount(checkLocale);
 </script>
 
 <style lang="scss">

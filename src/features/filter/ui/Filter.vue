@@ -69,9 +69,9 @@ import { useRouteParam } from "~/src/shared/lib/use";
 import { isEmptyObject } from "~/src/shared/lib/is";
 import { FILTER_VALUES } from "~/src/shared/config";
 import { SORT_ORDERS, SORT_TYPES } from "../config";
-import { useMovie } from "~/src/entities/movie";
+import { useMovieStore } from "~/src/entities/movie";
 
-const movieStore = useMovie();
+const movieStore = useMovieStore();
 const router = useRouter();
 const route = useRoute();
 const { t } = useI18n();

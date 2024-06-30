@@ -1,12 +1,9 @@
 <template>
   <div class="page">
-    <PageSeoData
-      :title="$t('Home • Movies')"
-      :description="$t('Home • Movies')"
-    />
+    <PageSeoData :title="$t('Home')" :description="$t('Home')" />
 
     <Heading class="visually-hidden">
-      {{ $t("Home • Movies") }}
+      {{ $t("Home") }}
     </Heading>
 
     <Hero :data="movieStore.movie.heroBlock" />
@@ -24,13 +21,13 @@
 <script setup>
 import Hero from "~/src/widgets/hero";
 import MediaCarousel from "~/src/widgets/media-carousel";
-import { useMovie } from "~/src/entities/movie";
+import { useMovieStore } from "~/src/entities/movie";
 import PageSeoData from "~/src/shared/ui/page-seo-data";
 import Heading from "~/src/shared/ui/heading";
 import { useCustomFetch } from "~/src/shared/api";
 import { LISTS } from "~/src/shared/config";
 
-const movieStore = useMovie();
+const movieStore = useMovieStore();
 
 const preparedLists = computed(() => {
   return [LISTS.movie[0], LISTS.tv[0]];

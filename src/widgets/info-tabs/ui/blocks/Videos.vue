@@ -16,11 +16,11 @@
 </template>
 
 <script setup>
-import { Video, useVideo } from "~/src/entities/movie";
+import { Video, useVideoStore } from "~/src/entities/movie";
 import Select from "~/src/shared/ui/select";
 
 const { t } = useI18n();
-const videoStore = useVideo();
+const videoStore = useVideoStore();
 
 const props = defineProps({
   data: {

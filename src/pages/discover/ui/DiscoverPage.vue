@@ -29,6 +29,7 @@
           </template>
         </ul>
         <CardList
+          v-if="totalResults.length"
           :data="totalResults"
           v-model:page="page"
           :total-pages="totalPages"

@@ -1,6 +1,6 @@
 const NAMESPACE = "movie";
 
-export const useMovie = defineStore(NAMESPACE, {
+export const useMovieStore = defineStore(NAMESPACE, {
   state: () => {
     return {
       movie: {
@@ -22,5 +22,5 @@ export const useMovie = defineStore(NAMESPACE, {
 });
 
 if (import.meta.hot) {
-  import.meta.hot.accept(acceptHMRUpdate(useMovie, import.meta.hot));
+  import.meta.hot.accept(acceptHMRUpdate(useMovieStore, import.meta.hot));
 }

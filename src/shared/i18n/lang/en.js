@@ -1,8 +1,5 @@
 export default {
   lang: "en",
-  "Home • Movies": "Home • Movies",
-  "Movie • Movies": "Movie • Movies",
-  "TV Shows • Movies": "TV Shows • Movies",
   "This page could not be found": "This page could not be found",
   "Looks like you've followed a broken link or entered a URL that doesn't exist on this site.":
     "Looks like you've followed a broken link or entered a URL that doesn't exist on this site.",

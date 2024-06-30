@@ -2,7 +2,10 @@ import { useRequest } from "~/src/shared/api";
 import {
   setItemInLocalStorage,
   removeItemFromLocalStorage,
+  getItemFromLocalStorage,
 } from "~/src/shared/lib/browser";
+
+const NAMESPACE = "auth";
 
 const getDefaultState = () => {
   return {
@@ -16,14 +19,10 @@ const getDefaultState = () => {
   };
 };
 
-export const useAuth = defineStore("auth", {
+export const useAuthStore = defineStore(NAMESPACE, {
   state: () => getDefaultState(),
 
   actions: {
-    resetState() {
-      Object.assign(this, getDefaultState());
-    },
-
     async auth(data) {
       const config = useRuntimeConfig();
 
@@ -94,13 +93,41 @@ export const useAuth = defineStore("auth", {
       removeItemFromLocalStorage(config.public.appTokenDataKey);
     },
 
+    getDataFromLSAndSetInStore() {
+      const config = useRuntimeConfig();
+      const authData = getItemFromLocalStorage(config.public.appTokenDataKey);
+
+      if (!authData) {
+        return;
+      }
+
+      const currentDate = new Date();
+      const expireTokenDate = new Date(authData.expiresAt);
+
+      if (currentDate > expireTokenDate) {
+        removeItemFromLocalStorage(config.public.appTokenDataKey);
+      } else {
+        this.token = authData.token;
+        this.expiresAt = authData.expiresAt;
+        this.sessionId = authData.sessionId;
+      }
+    },
+
     setError(err) {
       this.resetState();
       this.error = err;
+    },
+
+    resetError() {
+      this.error = "";
+    },
+
+    resetState() {
+      Object.assign(this, getDefaultState());
     },
   },
 });
 
 if (import.meta.hot) {
-  import.meta.hot.accept(acceptHMRUpdate(useAuth, import.meta.hot));
+  import.meta.hot.accept(acceptHMRUpdate(useAuthStore, import.meta.hot));
 }

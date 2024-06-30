@@ -21,7 +21,7 @@ import { Info, Videos, Photos, Reviews, Similar } from "./blocks";
 import { TabGroup, TabPanel } from "~/src/shared/ui/tabs";
 import { useCustomFetch } from "~/src/shared/api";
 import { useRouteParam } from "~/src/shared/lib/use";
-import { useVideo } from "~/src/entities/movie";
+import { useVideoStore } from "~/src/entities/movie";
 
 const heroDetail = defineModel("heroDetail", {
   required: true,
@@ -29,7 +29,7 @@ const heroDetail = defineModel("heroDetail", {
 });
 
 const { t, locale } = useI18n();
-const videoStore = useVideo();
+const videoStore = useVideoStore();
 
 const tabPanels = ref({
   info: {

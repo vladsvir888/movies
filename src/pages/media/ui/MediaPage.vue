@@ -21,23 +21,23 @@
 <script setup>
 import Hero from "~/src/widgets/hero";
 import MediaCarousel from "~/src/widgets/media-carousel";
-import { useMovie } from "~/src/entities/movie";
+import { useMovieStore } from "~/src/entities/movie";
 import PageSeoData from "~/src/shared/ui/page-seo-data";
 import Heading from "~/src/shared/ui/heading";
 import { useCustomFetch } from "~/src/shared/api";
 import { useRouteParam } from "~/src/shared/lib/use";
 import { LISTS } from "~/src/shared/config";
 
-const movieStore = useMovie();
+const movieStore = useMovieStore();
 const { t } = useI18n();
 
 const type = useRouteParam("type");
 
 const title = computed(() => {
   if (type.value === "movie") {
-    return t("Movie • Movies");
+    return t("Movies");
   } else if (type.value === "tv") {
-    return t("TV Shows • Movies");
+    return t("TV Shows");
   }
 
   return "";

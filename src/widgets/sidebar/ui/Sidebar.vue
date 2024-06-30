@@ -43,13 +43,14 @@ import Icon from "~/src/shared/ui/icon";
 import Button from "~/src/shared/ui/button";
 import { toggleScrollbar } from "~/src/shared/lib/dom";
 import { useFocusTrap } from "~/src/shared/lib/use";
+import { useAuthStore } from "~/src/features/auth";
 
 const sidebar = ref(null);
 
 const { t } = useI18n();
 const route = useRoute();
 const localePath = useLocalePath();
-const authStore = useAuth();
+const authStore = useAuthStore();
 const { activate, deactivate } = useFocusTrap(sidebar, {
   fallbackFocus: ".sidebar__overlay",
 });

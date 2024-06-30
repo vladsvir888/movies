@@ -13,7 +13,7 @@ const STATE_CHANGE_VALUES = {
   playing: 1,
 };
 
-export const useVideo = defineStore(NAMESPACE, {
+export const useVideoStore = defineStore(NAMESPACE, {
   state: () => getDefaultState(),
 
   actions: {
@@ -56,5 +56,5 @@ export const useVideo = defineStore(NAMESPACE, {
 });
 
 if (import.meta.hot) {
-  import.meta.hot.accept(acceptHMRUpdate(useVideo, import.meta.hot));
+  import.meta.hot.accept(acceptHMRUpdate(useVideoStore, import.meta.hot));
 }

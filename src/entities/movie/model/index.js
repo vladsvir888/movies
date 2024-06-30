@@ -1,2 +1,2 @@
-export { useVideo } from "./useVideo.js";
-export { useMovie } from "./useMovie.js";
+export { useVideoStore } from "./useVideo.js";
+export { useMovieStore } from "./useMovie.js";

@@ -48,10 +48,11 @@
 import LanguageSwitcher from "~/src/features/switch-language";
 import Icon from "~/src/shared/ui/icon";
 import Button from "~/src/shared/ui/button";
+import { useAuthStore } from "~/src/features/auth";
 
 const isMenuVisible = defineModel("isMenuVisible");
 
-const authStore = useAuth();
+const authStore = useAuthStore();
 </script>
 
 <style lang="scss">

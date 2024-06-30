@@ -5,6 +5,14 @@ export default defineNuxtConfig({
     enabled: false,
   },
 
+  dir: {
+    pages: "./src/app/routes",
+  },
+
+  plugins: [
+    { src: "~/src/features/auth/model/auth-middleware.js", mode: "client" }
+  ],
+
   runtimeConfig: {
     public: {
       apiToken: process.env.NUXT_ACCESS_TOKEN_AUTH || "",

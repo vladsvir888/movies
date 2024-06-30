@@ -12,7 +12,7 @@
 
 <script setup>
 import Carousel from "~/src/shared/ui/carousel";
-import { useMovie, Card } from "~/src/entities/movie";
+import { useMovieStore, Card } from "~/src/entities/movie";
 import { useCustomFetch } from "~/src/shared/api";
 import { transformCategory } from "../lib";
 
@@ -31,7 +31,7 @@ const props = defineProps({
   },
 });
 
-const movieStore = useMovie();
+const movieStore = useMovieStore();
 
 useCustomFetch(`/${props.type}/${props.category}`, {
   onResponse({ response }) {
