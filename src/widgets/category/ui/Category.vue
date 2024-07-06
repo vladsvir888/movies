@@ -12,7 +12,7 @@
 
 <script setup>
 import Carousel from "~/src/shared/ui/carousel";
-import { useMovieStore, Card } from "~/src/entities/movie";
+import { useMediaStore, Card } from "~/src/entities/media";
 import { useCustomFetch } from "~/src/shared/api";
 import { transformCategory } from "../lib";
 
@@ -31,16 +31,16 @@ const props = defineProps({
   },
 });
 
-const movieStore = useMovieStore();
+const mediaStore = useMediaStore();
 
 useCustomFetch(`/${props.type}/${props.category}`, {
   onResponse({ response }) {
-    movieStore[props.type][transformCategory(props.category)] =
+    mediaStore[props.type][transformCategory(props.category)] =
       response._data.results;
   },
 });
 
 const data = computed(() => {
-  return movieStore[props.type][transformCategory(props.category)];
+  return mediaStore[props.type][transformCategory(props.category)];
 });
 </script>

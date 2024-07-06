@@ -4,7 +4,7 @@
       :title="`${(heroDetail.title || heroDetail.name) ?? ''}`"
       :description="`${heroDetail.text ?? ''}`"
     />
-    <HeroDetail :data="heroDetail" />
+    <HeroSectionDetail :data="heroDetail" />
 
     <div class="page-detail__tabs container">
       <InfoTabs v-model:hero-detail="heroDetail" />
@@ -13,7 +13,7 @@
 </template>
 
 <script setup>
-import HeroDetail from "./hero";
+import HeroSectionDetail from "./hero-section";
 import PageSeoData from "~/src/shared/ui/page-seo-data";
 import InfoTabs from "~/src/widgets/info-tabs";
 

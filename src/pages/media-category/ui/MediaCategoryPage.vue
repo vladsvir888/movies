@@ -1,7 +1,7 @@
 <template>
   <div class="page page-category container">
     <PageSeoData :title="$t(title)" :description="$t(title)" />
-    <CardList
+    <Catalog
       v-if="totalResults.length"
       :data="totalResults"
       v-model:page="page"
@@ -15,7 +15,7 @@
 
 <script setup>
 import PageSeoData from "~/src/shared/ui/page-seo-data";
-import CardList from "~/src/widgets/card-list";
+import Catalog from "~/src/widgets/catalog";
 import { useCustomFetch } from "~/src/shared/api";
 import { useRouteParam } from "~/src/shared/lib/use";
 import { LISTS } from "~/src/shared/config";

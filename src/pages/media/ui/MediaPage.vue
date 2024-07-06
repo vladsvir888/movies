@@ -6,9 +6,9 @@
 
     <PageSeoData :title="title" :description="title" />
 
-    <Hero :data="movieStore[type].heroBlock" />
+    <HeroSection :data="mediaStore[type].heroBlock" />
 
-    <MediaCarousel
+    <Category
       v-for="item in LISTS[type]"
       :key="item.category"
       :type="item.type"
@@ -19,16 +19,16 @@
 </template>
 
 <script setup>
-import Hero from "~/src/widgets/hero";
-import MediaCarousel from "~/src/widgets/media-carousel";
-import { useMovieStore } from "~/src/entities/movie";
+import HeroSection from "~/src/widgets/hero-section";
+import Category from "~/src/widgets/category";
+import { useMediaStore } from "~/src/entities/media";
 import PageSeoData from "~/src/shared/ui/page-seo-data";
 import Heading from "~/src/shared/ui/heading";
 import { useCustomFetch } from "~/src/shared/api";
 import { useRouteParam } from "~/src/shared/lib/use";
 import { LISTS } from "~/src/shared/config";
 
-const movieStore = useMovieStore();
+const mediaStore = useMediaStore();
 const { t } = useI18n();
 
 const type = useRouteParam("type");
@@ -52,7 +52,7 @@ if (!LISTS[type.value]) {
 
 useCustomFetch(`/${type.value}/popular`, {
   onResponse({ response }) {
-    movieStore[type.value].heroBlock = response._data.results[0];
+    mediaStore[type.value].heroBlock = response._data.results[0];
   },
 });
 </script>

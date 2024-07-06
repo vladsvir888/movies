@@ -16,7 +16,7 @@
 </template>
 
 <script setup>
-import { Video, useVideoStore } from "~/src/entities/movie";
+import { Video, useVideoStore } from "~/src/entities/media";
 import Select from "~/src/shared/ui/select";
 
 const { t } = useI18n();

@@ -28,7 +28,7 @@
             </li>
           </template>
         </ul>
-        <CardList
+        <Catalog
           v-if="totalResults.length"
           :data="totalResults"
           v-model:page="page"
@@ -46,7 +46,7 @@ import PageSeoData from "~/src/shared/ui/page-seo-data";
 import Icon from "~/src/shared/ui/icon";
 import Heading from "~/src/shared/ui/heading";
 import Button from "~/src/shared/ui/button";
-import CardList from "~/src/widgets/card-list";
+import Catalog from "~/src/widgets/catalog";
 import Filter from "~/src/features/filter";
 import { useCustomFetch } from "~/src/shared/api";
 import { buildQuery } from "~/src/shared/lib/format";

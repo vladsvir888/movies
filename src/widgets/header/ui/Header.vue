@@ -45,7 +45,7 @@
 </template>
 
 <script setup>
-import LanguageSwitcher from "~/src/features/switch-language";
+import LanguageSwitcher from "~/src/entities/language";
 import Icon from "~/src/shared/ui/icon";
 import Button from "~/src/shared/ui/button";
 import { useAuthStore } from "~/src/features/auth";

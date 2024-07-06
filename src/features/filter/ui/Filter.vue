@@ -69,9 +69,9 @@ import { useRouteParam } from "~/src/shared/lib/use";
 import { isEmptyObject } from "~/src/shared/lib/is";
 import { FILTER_VALUES } from "~/src/shared/config";
 import { SORT_ORDERS, SORT_TYPES } from "../config";
-import { useMovieStore } from "~/src/entities/movie";
+import { useMediaStore } from "~/src/entities/media";
 
-const movieStore = useMovieStore();
+const mediaStore = useMediaStore();
 const router = useRouter();
 const route = useRoute();
 const { t } = useI18n();
@@ -87,7 +87,7 @@ const isOrderDescending = ref(true);
 const category = useRouteParam("category");
 
 const transformedGenres = computed(() => {
-  return movieStore[category.value].genres.map(({ id, name }) => ({
+  return mediaStore[category.value].genres.map(({ id, name }) => ({
     value: id,
     text: name,
   }));
@@ -190,7 +190,7 @@ watch(removedVariant, (newValue) => {
 
 useCustomFetch(`/genre/${category.value}/list`, {
   onResponse({ response }) {
-    movieStore[category.value].genres = response._data.genres;
+    mediaStore[category.value].genres = response._data.genres;
   },
 });
 

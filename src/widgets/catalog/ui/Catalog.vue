@@ -25,7 +25,7 @@
 </template>
 
 <script setup>
-import { Card } from "~/src/entities/movie";
+import { Card } from "~/src/entities/media";
 import Icon from "~/src/shared/ui/icon";
 import Heading from "~/src/shared/ui/heading";
 import Button from "~/src/shared/ui/button";

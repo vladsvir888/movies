@@ -6,9 +6,9 @@
       {{ $t("Home") }}
     </Heading>
 
-    <Hero :data="movieStore.movie.heroBlock" />
+    <HeroSection :data="mediaStore.movie.heroBlock" />
 
-    <MediaCarousel
+    <Category
       v-for="item in preparedLists"
       :key="item.category"
       :type="item.type"
@@ -19,15 +19,15 @@
 </template>
 
 <script setup>
-import Hero from "~/src/widgets/hero";
-import MediaCarousel from "~/src/widgets/media-carousel";
-import { useMovieStore } from "~/src/entities/movie";
+import HeroSection from "~/src/widgets/hero-section";
+import Category from "~/src/widgets/category";
+import { useMediaStore } from "~/src/entities/media";
 import PageSeoData from "~/src/shared/ui/page-seo-data";
 import Heading from "~/src/shared/ui/heading";
 import { useCustomFetch } from "~/src/shared/api";
 import { LISTS } from "~/src/shared/config";
 
-const movieStore = useMovieStore();
+const mediaStore = useMediaStore();
 
 const preparedLists = computed(() => {
   return [LISTS.movie[0], LISTS.tv[0]];
@@ -35,7 +35,7 @@ const preparedLists = computed(() => {
 
 useCustomFetch("/movie/popular", {
   onResponse({ response }) {
-    movieStore.movie.heroBlock = response._data.results[0];
+    mediaStore.movie.heroBlock = response._data.results[0];
   },
 });
 </script>

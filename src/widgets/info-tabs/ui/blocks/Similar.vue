@@ -1,6 +1,6 @@
 <template>
   <div class="similar">
-    <CardList
+    <Catalog
       v-if="data.results.length"
       :data="totalResults"
       v-model:page="page"
@@ -13,7 +13,7 @@
 </template>
 
 <script setup>
-import CardList from "~/src/widgets/card-list";
+import Catalog from "~/src/widgets/catalog";
 import { useCustomFetch } from "~/src/shared/api";
 import { useRouteParam } from "~/src/shared/lib/use";
 
