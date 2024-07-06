@@ -1,8 +1,5 @@
-import { getBaseOptions } from "../lib/get";
-
 export const useRequest = async (url, options = {}) => {
-  const nuxtApp = useNuxtApp();
-  const { t } = nuxtApp;
+  const { t, $api } = useNuxtApp();
   const data = ref(null);
   const error = ref(null);
 
@@ -11,8 +8,7 @@ export const useRequest = async (url, options = {}) => {
       data.value = null;
       error.value = null;
 
-      data.value = await $fetch(unref(url), {
-        ...getBaseOptions(),
+      data.value = await $api(unref(url), {
         ...options,
       });
     } catch (err) {

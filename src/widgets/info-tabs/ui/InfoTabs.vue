@@ -58,6 +58,7 @@ const tabPanels = ref({
     data: ref(null),
   },
 });
+const isNotFoundMediaObject = ref(false);
 
 const transformPhotos = (items) => {
   delete items?.logos;
@@ -91,12 +92,17 @@ const onUpdateSelectedTab = () => videoStore.stopAllVideos();
 const type = useRouteParam("type");
 const id = useRouteParam("id");
 
-const data = await useCustomFetch(`/${type.value}/${id.value}`, {
+await useCustomFetch(`/${type.value}/${id.value}`, {
   query: {
     language: locale,
     append_to_response: "videos,images,reviews,similar",
   },
   onResponse({ response }) {
+    if (response.status === 404) {
+      isNotFoundMediaObject.value = true;
+      return;
+    }
+
     const {
       original_title: originalTitle,
       original_language: originalLanguage,
@@ -150,10 +156,12 @@ const data = await useCustomFetch(`/${type.value}/${id.value}`, {
   },
 });
 
-if (!data) {
-  throw createError({
-    statusCode: 404,
-    fatal: true,
-  });
-}
+watch(isNotFoundMediaObject, (newValue) => {
+  if (newValue) {
+    throw createError({
+      statusCode: 404,
+      fatal: true,
+    });
+  }
+});
 </script>

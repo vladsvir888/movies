@@ -1,7 +1,7 @@
-export const getBaseOptions = () => {
+export default defineNuxtPlugin(() => {
   const config = useRuntimeConfig();
 
-  return {
+  const api = $fetch.create({
     baseURL: config.public.apiUrl,
     method: "GET",
     headers: {
@@ -9,5 +9,11 @@ export const getBaseOptions = () => {
       "content-type": "application/json",
       Authorization: `Bearer ${config.public.apiToken}`,
     },
+  });
+
+  return {
+    provide: {
+      api,
+    },
   };
-};
+});
