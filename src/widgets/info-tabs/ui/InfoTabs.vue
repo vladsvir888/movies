@@ -18,6 +18,7 @@
 
 <script setup>
 import { Info, Videos, Photos, Reviews, Similar } from "./blocks";
+import { transformPhotos, transformVideos, transformReviews } from "../lib";
 import { TabGroup, TabPanel } from "~/src/shared/ui/tabs";
 import { useCustomFetch } from "~/src/shared/api";
 import { useRouteParam } from "~/src/shared/lib/use";
@@ -59,33 +60,6 @@ const tabPanels = ref({
   },
 });
 const isNotFoundMediaObject = ref(false);
-
-const transformPhotos = (items) => {
-  delete items?.logos;
-
-  for (let key in items) {
-    items[key] = items[key].map((item) => item.file_path);
-  }
-
-  return items;
-};
-
-const transformVideos = (items) => {
-  return items.map(({ key, name, type, published_at }) => ({
-    id: key,
-    name,
-    type,
-    date: published_at,
-  }));
-};
-
-const transformReviews = (items) => {
-  return items.map(({ id, author, content }) => ({
-    id,
-    author,
-    content,
-  }));
-};
 
 const onUpdateSelectedTab = () => videoStore.stopAllVideos();
 

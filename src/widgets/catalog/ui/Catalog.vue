@@ -78,17 +78,17 @@ const callback = () => {
   }
 };
 
-const { observer: observerCardList } = useIntersectionObserver(
+const { observer: observerCatalog } = useIntersectionObserver(
   callback,
   options
 );
 
 onMounted(() => {
-  observerCardList.observe(observer.value);
+  observerCatalog.observe(observer.value);
 });
 
 onUnmounted(() => {
-  observerCardList.disconnect();
+  observerCatalog.disconnect();
 });
 </script>
 

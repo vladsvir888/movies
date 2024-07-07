@@ -19,7 +19,7 @@
         class="error-page__button"
         variant="primary"
         size="large"
-        @click="handleError"
+        @click="() => clearError({ redirect: '/' })"
       >
         {{ $t("Go Home") }}
       </Button>
@@ -31,8 +31,6 @@
 import PageSeoData from "~/src/shared/ui/page-seo-data";
 import Heading from "~/src/shared/ui/heading";
 import Button from "~/src/shared/ui/button";
-
-const handleError = () => clearError({ redirect: "/" });
 </script>
 
 <style lang="scss">
