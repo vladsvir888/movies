@@ -18,6 +18,17 @@
         </div>
 
         <Button
+          v-if="preparedMediaType"
+          variant="primary"
+          size="small"
+          :pill="true"
+          class="header__search-button"
+          @click="isSearchDialogVisible = true"
+        >
+          {{ preparedMediaType }}
+        </Button>
+
+        <Button
           v-if="authStore.sessionId"
           variant="primary"
           size="small"
@@ -49,10 +60,25 @@ import LanguageSwitcher from "~/src/entities/language";
 import Icon from "~/src/shared/ui/icon";
 import Button from "~/src/shared/ui/button";
 import { useAuthStore } from "~/src/features/auth";
+import { useRouteParam } from "~/src/shared/lib/use";
+import { MEDIA_TYPES } from "~/src/entities/media";
 
 const isMenuVisible = defineModel("isMenuVisible");
+const isSearchDialogVisible = defineModel("isSearchDialogVisible");
 
+const mediaType = useRouteParam("type");
 const authStore = useAuthStore();
+const { t } = useI18n();
+
+const preparedMediaType = computed(() => {
+  if (mediaType.value === MEDIA_TYPES[0]) {
+    return `${t("Search")} by ${t("Movies")}`;
+  } else if (mediaType.value === MEDIA_TYPES[1]) {
+    return `${t("Search")} by ${t("TV Shows")}`;
+  }
+
+  return "";
+});
 </script>
 
 <style lang="scss">
@@ -93,7 +119,7 @@ const authStore = useAuthStore();
   &__language-switcher {
     .select-block {
       &__label {
-        @media (width <= 600px) {
+        @media (width <= 700px) {
           display: none;
         }
       }
@@ -116,6 +142,13 @@ const authStore = useAuthStore();
       @media (width <= 375px) {
         display: none;
       }
+    }
+  }
+
+  &__search-button,
+  &__sign-out {
+    @media (width <= 600px) {
+      display: none;
     }
   }
 }

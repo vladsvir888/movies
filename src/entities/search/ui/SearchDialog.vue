@@ -24,7 +24,7 @@
         <Button
           @click="hideSearchDialog"
           class="search-dialog__results-button"
-          :to="`/${result.media_type}/${result.id}`"
+          :to="`/${mediaType}/${result.id}`"
           variant="underline"
         >
           {{ result.title ?? result.name }}
@@ -76,10 +76,11 @@ import InputBlock from "~/src/shared/ui/input-block";
 import Icon from "~/src/shared/ui/icon";
 import Button from "~/src/shared/ui/button";
 import { BaseLoader } from "~/src/shared/ui/loaders";
-import { useCustomFetch } from "~/src/shared/api";
-import { useDebouncedRef } from "~/src/shared/lib/use";
+import { useDebouncedRef, useRouteParam } from "~/src/shared/lib/use";
 
 const { locale } = useI18n();
+const { $api } = useNuxtApp();
+const mediaType = useRouteParam("type");
 
 const searchQuery = ref("");
 const searchQueryDebounced = useDebouncedRef(searchQuery, 650);
@@ -103,6 +104,8 @@ const hideSearchDialog = () => {
   isSearchDialogVisible.value = false;
 };
 
+const resetSearchQuery = () => (searchQuery.value = "");
+
 const isFirstPage = computed(() => {
   return page.value === 1;
 });
@@ -111,32 +114,35 @@ const isLastPage = computed(() => {
   return page.value === totalPages.value;
 });
 
-useCustomFetch("/search/multi", {
-  immediate: false,
-  query: {
-    query: searchQueryDebounced,
-    include_adult: false,
-    page,
-    language: locale,
-  },
-  onRequest() {
-    isPendingSearch.value = true;
-  },
-  onResponse({ response }) {
-    isPendingSearch.value = false;
-    totalResults.value = response._data.results;
+watch([searchQueryDebounced, page], async () => {
+  await $api(`/search/${mediaType.value}`, {
+    onRequest({ options }) {
+      isPendingSearch.value = true;
+      options.query = {
+        query: searchQueryDebounced.value,
+        include_adult: false,
+        page: page.value,
+        language: locale.value,
+      };
+    },
+    onResponse({ response }) {
+      isPendingSearch.value = false;
+      totalResults.value = response._data.results;
 
-    if (
-      totalPages.value !== response._data.total_pages &&
-      totalResultsCount.value !== response._data.total_results
-    ) {
-      page.value = 1;
-    }
+      if (
+        totalPages.value !== response._data.total_pages &&
+        totalResultsCount.value !== response._data.total_results
+      ) {
+        page.value = 1;
+      }
 
-    totalPages.value = response._data.total_pages;
-    totalResultsCount.value = response._data.total_results;
-  },
+      totalPages.value = response._data.total_pages;
+      totalResultsCount.value = response._data.total_results;
+    },
+  });
 });
+
+watch(mediaType, resetSearchQuery);
 </script>
 
 <style lang="scss">

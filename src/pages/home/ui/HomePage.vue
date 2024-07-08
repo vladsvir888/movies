@@ -25,12 +25,12 @@ import { useMediaStore } from "~/src/entities/media";
 import PageSeoData from "~/src/shared/ui/page-seo-data";
 import Heading from "~/src/shared/ui/heading";
 import { useCustomFetch } from "~/src/shared/api";
-import { LISTS } from "~/src/shared/config";
+import { MEDIA_LIST } from "~/src/entities/media";
 
 const mediaStore = useMediaStore();
 
 const preparedLists = computed(() => {
-  return [LISTS.movie[0], LISTS.tv[0]];
+  return [MEDIA_LIST.movie[0], MEDIA_LIST.tv[0]];
 });
 
 useCustomFetch("/movie/popular", {

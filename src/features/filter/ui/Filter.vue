@@ -67,8 +67,7 @@ import { useCustomFetch } from "~/src/shared/api";
 import { divideByTwoAndRound } from "~/src/shared/lib/format";
 import { useRouteParam } from "~/src/shared/lib/use";
 import { isEmptyObject } from "~/src/shared/lib/is";
-import { FILTER_VALUES } from "~/src/shared/config";
-import { SORT_ORDERS, SORT_TYPES } from "../config";
+import { SORT_ORDERS, SORT_TYPES, FILTER_VALUES, FILTER } from "../config";
 import { useMediaStore } from "~/src/entities/media";
 
 const mediaStore = useMediaStore();
@@ -113,13 +112,7 @@ const sortedData = computed(() => {
   return data;
 });
 
-const filter = ref({
-  [FILTER_VALUES["with_genres"]]: "",
-  [FILTER_VALUES["sort_by"]]: "",
-  [FILTER_VALUES["vote_average.gte"]]: "",
-  [FILTER_VALUES["release_date.gte"]]: "",
-  [FILTER_VALUES["release_date.lte"]]: "",
-});
+const filter = ref(FILTER);
 
 const setFilterValuesInUrl = () => {
   router.push({

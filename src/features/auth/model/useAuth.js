@@ -1,15 +1,15 @@
-import { useRequest } from "~/src/shared/api";
 import {
   setItemInLocalStorage,
   removeItemFromLocalStorage,
   getItemFromLocalStorage,
 } from "~/src/shared/lib/browser";
+import { getLoginData, getSessionData, getTokenData } from "../api";
 
 const NAMESPACE = "auth";
 
 const getDefaultState = () => {
   return {
-    surname: "",
+    username: "",
     password: "",
     token: "",
     expiresAt: "",
@@ -29,61 +29,31 @@ export const useAuthStore = defineStore(NAMESPACE, {
       this.loading = true;
       this.error = "";
 
-      this.surname = data.surname;
-      this.password = data.password;
+      this.username = data.value.username;
+      this.password = data.value.password;
 
-      const { data: tokenRequest, error: tokenRequestError } = await useRequest(
-        "/authentication/token/new"
-      );
+      try {
+        const tokenRequest = await getTokenData();
+        this.token = tokenRequest.request_token;
+        this.expiresAt = tokenRequest.expires_at;
 
-      if (tokenRequestError.value) {
-        this.setError(tokenRequestError.value);
-        return;
-      }
+        await getLoginData(this.username, this.password, this.token);
 
-      this.token = tokenRequest.value.request_token;
-      this.expiresAt = tokenRequest.value.expires_at;
+        const sessionRequest = await getSessionData(this.token);
+        this.sessionId = sessionRequest.session_id;
 
-      const { error: loginRequestError } = await useRequest(
-        "/authentication/token/validate_with_login",
-        {
-          method: "POST",
-          body: JSON.stringify({
-            ...data.value,
-            request_token: this.token,
-          }),
-        }
-      );
-
-      if (loginRequestError.value) {
-        this.setError(loginRequestError.value);
-        return;
-      }
-
-      const { data: sessionRequest, error: sessionRequestError } =
-        await useRequest("/authentication/session/new", {
-          method: "POST",
-          body: JSON.stringify({
-            request_token: this.token,
-          }),
+        setItemInLocalStorage(config.public.appTokenDataKey, {
+          token: this.token,
+          expiresAt: this.expiresAt,
+          sessionId: this.sessionId,
         });
 
-      if (sessionRequestError.value) {
-        this.setError(sessionRequestError.value);
-        return;
+        this.loading = false;
+
+        await navigateTo("/");
+      } catch (error) {
+        this.setError(error.response._data.status_message);
       }
-
-      this.sessionId = sessionRequest.value.session_id;
-
-      setItemInLocalStorage(config.public.appTokenDataKey, {
-        token: this.token,
-        expiresAt: this.expiresAt,
-        sessionId: this.sessionId,
-      });
-
-      this.loading = false;
-
-      await navigateTo("/");
     },
 
     logout() {

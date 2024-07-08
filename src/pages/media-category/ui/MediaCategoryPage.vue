@@ -18,7 +18,7 @@ import PageSeoData from "~/src/shared/ui/page-seo-data";
 import Catalog from "~/src/widgets/catalog";
 import { useCustomFetch } from "~/src/shared/api";
 import { useRouteParam } from "~/src/shared/lib/use";
-import { LISTS } from "~/src/shared/config";
+import { MEDIA_LIST } from "~/src/entities/media";
 
 const { locale } = useI18n();
 
@@ -30,7 +30,7 @@ const isPendingAutoload = ref(false);
 const type = useRouteParam("type");
 const category = useRouteParam("category");
 
-const listItem = LISTS[type.value].find(
+const listItem = MEDIA_LIST[type.value].find(
   (item) => item.category === category.value
 );
 

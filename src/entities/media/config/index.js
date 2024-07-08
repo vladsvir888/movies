@@ -1,4 +1,4 @@
-export const LISTS = {
+export const MEDIA_LIST = {
   movie: [
     {
       type: "movie",
@@ -35,10 +35,4 @@ export const LISTS = {
   ],
 };
 
-export const FILTER_VALUES = {
-  with_genres: "with_genres",
-  sort_by: "sort_by",
-  "vote_average.gte": "vote_average.gte",
-  "release_date.gte": "release_date.gte",
-  "release_date.lte": "release_date.lte",
-};
+export const MEDIA_TYPES = Object.keys(MEDIA_LIST);

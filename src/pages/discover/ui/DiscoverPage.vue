@@ -52,18 +52,15 @@ import { useCustomFetch } from "~/src/shared/api";
 import { buildQuery } from "~/src/shared/lib/format";
 import { useRouteParam } from "~/src/shared/lib/use";
 import { isEmptyObject } from "~/src/shared/lib/is";
-import { FILTER_VALUES } from "~/src/shared/config";
+import { FILTER } from "~/src/features/filter";
+import { scrollUp } from "~/src/shared/lib/dom";
+import { isObjectsEqual } from "~/src/shared/lib/is";
+import { MEDIA_TYPES } from "~/src/entities/media";
 
 const route = useRoute();
 const { t, locale } = useI18n();
 
-const params = ref({
-  [FILTER_VALUES["with_genres"]]: "",
-  [FILTER_VALUES["sort_by"]]: "",
-  [FILTER_VALUES["vote_average.gte"]]: "",
-  [FILTER_VALUES["release_date.gte"]]: "",
-  [FILTER_VALUES["release_date.lte"]]: "",
-});
+const params = ref(FILTER);
 const removedVariant = ref(null);
 
 const page = ref(1);
@@ -74,9 +71,9 @@ const isPendingAutoload = ref(false);
 const category = useRouteParam("category");
 
 const title = computed(() => {
-  if (category.value === "movie") {
+  if (category.value === MEDIA_TYPES[0]) {
     return `${t("Discover")} ${t("Movies")}`;
-  } else if (category.value === "tv") {
+  } else if (category.value === MEDIA_TYPES[1]) {
     return `${t("Discover")} ${t("TV Shows")}`;
   }
 
@@ -109,6 +106,12 @@ watch(
     totalPages.value = 0;
     totalResults.value = [];
     params.value = route.query;
+
+    if (isObjectsEqual(params.value, FILTER)) {
+      removedVariant.value = null;
+    }
+
+    scrollUp();
   }
 );
 

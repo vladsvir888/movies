@@ -9,7 +9,7 @@
     <HeroSection :data="mediaStore[type].heroBlock" />
 
     <Category
-      v-for="item in LISTS[type]"
+      v-for="item in MEDIA_LIST[type]"
       :key="item.category"
       :type="item.type"
       :category="item.category"
@@ -26,7 +26,7 @@ import PageSeoData from "~/src/shared/ui/page-seo-data";
 import Heading from "~/src/shared/ui/heading";
 import { useCustomFetch } from "~/src/shared/api";
 import { useRouteParam } from "~/src/shared/lib/use";
-import { LISTS } from "~/src/shared/config";
+import { MEDIA_LIST, MEDIA_TYPES } from "~/src/entities/media";
 
 const mediaStore = useMediaStore();
 const { t } = useI18n();
@@ -34,16 +34,16 @@ const { t } = useI18n();
 const type = useRouteParam("type");
 
 const title = computed(() => {
-  if (type.value === "movie") {
+  if (type.value === MEDIA_TYPES[0]) {
     return t("Movies");
-  } else if (type.value === "tv") {
+  } else if (type.value === MEDIA_TYPES[1]) {
     return t("TV Shows");
   }
 
   return "";
 });
 
-if (!LISTS[type.value]) {
+if (!MEDIA_LIST[type.value]) {
   throw createError({
     statusCode: 404,
     fatal: true,

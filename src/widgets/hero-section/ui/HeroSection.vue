@@ -47,6 +47,7 @@ import Button from "~/src/shared/ui/button";
 import { divideByTwoAndRound } from "~/src/shared/lib/format";
 import { getTitleOrName } from "~/src/shared/lib/get";
 import { formatDate } from "~/src/shared/lib/format";
+import { MEDIA_TYPES } from "~/src/entities/media";
 
 const config = useRuntimeConfig();
 
@@ -63,7 +64,7 @@ const ratingCount = ref(divideByTwoAndRound(props.data.vote_average));
 const preparedTitle = computed(() => getTitleOrName(props.data));
 
 const type = computed(() => {
-  return props.data.title ? "movie" : "tv";
+  return props.data.title ? MEDIA_TYPES[0] : MEDIA_TYPES[1];
 });
 
 watch(

@@ -1,7 +1,10 @@
 <template>
   <NuxtLoadingIndicator color="var(--palette-puerto-rico)" />
   <FirstScreenLoader v-if="isFirstScreenBlockVisible" />
-  <Header v-model:is-menu-visible="isMenuVisible" />
+  <Header
+    v-model:is-menu-visible="isMenuVisible"
+    v-model:is-search-dialog-visible="isSearchDialogVisible"
+  />
   <Sidebar
     v-model:is-menu-visible="isMenuVisible"
     v-model:is-search-dialog-visible="isSearchDialogVisible"

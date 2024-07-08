@@ -16,6 +16,7 @@
             v-on="link.handlers ?? {}"
           >
             <Icon :icon="link.icon" />
+            <span class="sidebar__link-text"> {{ link.value }}</span>
           </Button>
 
           <Dropdown
@@ -28,9 +29,32 @@
           >
             <template #toggle>
               <Icon :icon="link.icon" />
+              <span class="sidebar__link-text">{{ link.value }}</span>
             </template>
           </Dropdown>
         </template>
+
+        <Button
+          v-if="preparedMediaType"
+          variant="primary"
+          size="small"
+          :pill="true"
+          class="sidebar__search-button"
+          @click="onClickSearchButton"
+        >
+          {{ preparedMediaType }}
+        </Button>
+
+        <Button
+          v-if="authStore.sessionId"
+          variant="primary"
+          size="small"
+          :pill="true"
+          class="sidebar__sign-out"
+          @click="authStore.logout()"
+        >
+          {{ $t("Sign out") }}
+        </Button>
       </nav>
     </aside>
     <div class="sidebar__overlay" tabindex="-1" @click="closeMenu"></div>
@@ -42,10 +66,12 @@ import Dropdown from "~/src/shared/ui/dropdown";
 import Icon from "~/src/shared/ui/icon";
 import Button from "~/src/shared/ui/button";
 import { toggleScrollbar } from "~/src/shared/lib/dom";
-import { useFocusTrap } from "~/src/shared/lib/use";
+import { useFocusTrap, useRouteParam } from "~/src/shared/lib/use";
 import { useAuthStore } from "~/src/features/auth";
+import { MEDIA_TYPES } from "~/src/entities/media";
 
 const sidebar = ref(null);
+const dropdownSelectedItem = ref(null);
 
 const { t } = useI18n();
 const route = useRoute();
@@ -54,6 +80,7 @@ const authStore = useAuthStore();
 const { activate, deactivate } = useFocusTrap(sidebar, {
   fallbackFocus: ".sidebar__overlay",
 });
+const mediaType = useRouteParam("type");
 
 const isSearchDialogVisible = defineModel("isSearchDialogVisible");
 const isMenuVisible = defineModel("isMenuVisible");
@@ -74,17 +101,6 @@ const links = computed(() => {
       to: "/tv",
       value: t("TV Shows"),
       icon: "tv",
-    },
-    {
-      value: t("Search"),
-      icon: "search",
-      handlers: {
-        click: () => {
-          isSearchDialogVisible.value = true;
-          isMenuVisible.value = false;
-          deactivate();
-        },
-      },
     },
     {
       dropdown: {
@@ -110,7 +126,23 @@ const links = computed(() => {
     },
   ];
 });
-const dropdownSelectedItem = ref(null);
+
+const preparedMediaType = computed(() => {
+  if (mediaType.value === MEDIA_TYPES[0]) {
+    return `${t("Search")} by ${t("Movies")}`;
+  } else if (mediaType.value === MEDIA_TYPES[1]) {
+    return `${t("Search")} by ${t("TV Shows")}`;
+  }
+
+  return "";
+});
+
+const onClickSearchButton = () => {
+  console.log(1);
+  isSearchDialogVisible.value = true;
+  isMenuVisible.value = false;
+  deactivate();
+};
 
 const closeMenu = () => {
   isMenuVisible.value = false;
@@ -124,6 +156,7 @@ const onUpdateSelectedItem = async ($event) => {
 };
 
 watch(() => route.path, closeMenu);
+
 watch(isMenuVisible, (newValue) => {
   if (isSearchDialogVisible.value) {
     return;
@@ -176,6 +209,7 @@ watch(isMenuVisible, (newValue) => {
     @media (width <= 600px) {
       visibility: hidden;
       translate: -100% 0;
+      width: 60vw;
     }
   }
 
@@ -193,11 +227,20 @@ watch(isMenuVisible, (newValue) => {
     display: flex;
     flex-direction: column;
     row-gap: 70px;
+
+    @media (width <= 600px) {
+      row-gap: 50px;
+      text-align: center;
+    }
   }
 
   &__link {
     transition: color var(--transition300ms);
     outline: none;
+
+    @media (width <= 600px) {
+      column-gap: 12px;
+    }
 
     @include hover {
       color: var(--palette-puerto-rico);
@@ -216,6 +259,23 @@ watch(isMenuVisible, (newValue) => {
 
     &:focus-visible {
       color: var(--palette-puerto-rico);
+    }
+
+    &-text {
+      display: none;
+
+      @media (width <= 600px) {
+        display: block;
+      }
+    }
+  }
+
+  &__search-button,
+  &__sign-out {
+    display: none;
+
+    @media (width <= 600px) {
+      display: block;
     }
   }
 }
