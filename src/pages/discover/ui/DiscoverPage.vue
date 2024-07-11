@@ -60,7 +60,9 @@ import { MEDIA_TYPES } from "~/src/entities/media";
 const route = useRoute();
 const { t, locale } = useI18n();
 
-const params = ref(FILTER);
+const params = ref({
+  ...FILTER,
+});
 const removedVariant = ref(null);
 
 const page = ref(1);

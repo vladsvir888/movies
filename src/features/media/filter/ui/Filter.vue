@@ -112,7 +112,9 @@ const sortedData = computed(() => {
   return data;
 });
 
-const filter = ref(FILTER);
+const filter = ref({
+  ...FILTER,
+});
 
 const setFilterValuesInUrl = () => {
   router.push({
