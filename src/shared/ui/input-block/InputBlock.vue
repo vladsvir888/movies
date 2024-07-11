@@ -16,10 +16,10 @@
       />
       <Button
         v-if="clearable && model.length"
-        @click="clearEntry"
         class="input-block__clear"
         :aria-label="$t('Clear entry')"
         type="button"
+        @click="clearEntry"
       >
         <Icon icon="close" />
       </Button>

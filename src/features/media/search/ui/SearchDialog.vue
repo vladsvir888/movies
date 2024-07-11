@@ -17,15 +17,15 @@
     </InputBlock>
     <BaseLoader v-if="isPendingSearch" class="search-dialog__loader" />
     <ul
-      v-else-if="totalResults.length && !isPendingSearch"
+      v-else-if="totalResults?.length && !isPendingSearch"
       class="search-dialog__results"
     >
       <li v-for="result in totalResults" :key="result.id">
         <Button
-          @click="hideSearchDialog"
           class="search-dialog__results-button"
           :to="`/${mediaType}/${result.id}`"
           variant="underline"
+          @click="hideSearchDialog"
         >
           {{ result.title ?? result.name }}
         </Button>
@@ -33,7 +33,9 @@
     </ul>
     <div
       v-else-if="
-        !totalResults.length && !isPendingSearch && searchQueryDebounced.length
+        !totalResults?.length &&
+        !isPendingSearch &&
+        searchQueryDebounced?.length
       "
       class="search-dialog__no-results"
     >
@@ -44,14 +46,14 @@
       </p>
     </div>
     <div
-      v-if="totalResults.length && !isPendingSearch"
+      v-if="totalResults?.length && !isPendingSearch"
       class="search-dialog__pagination"
     >
       <Button
         class="search-dialog__pagination-button search-dialog__pagination-button--prev"
         :aria-label="$t('Previous')"
-        @click="toPreviousPage"
         :disabled="isFirstPage"
+        @click="toPreviousPage"
       >
         <Icon icon="arrow-prev" />
       </Button>
@@ -61,8 +63,8 @@
       <Button
         class="search-dialog__pagination-button search-dialog__pagination-button--next"
         :aria-label="$t('Next')"
-        @click="toNextPage"
         :disabled="isLastPage"
+        @click="toNextPage"
       >
         <Icon icon="arrow-next" />
       </Button>
@@ -104,7 +106,13 @@ const hideSearchDialog = () => {
   isSearchDialogVisible.value = false;
 };
 
-const resetSearchQuery = () => (searchQuery.value = "");
+const resetSearchQuery = () => {
+  searchQuery.value = "";
+  totalResults.value = [];
+  page.value = 1;
+  totalPages.value = null;
+  totalResultsCount.value = null;
+};
 
 const isFirstPage = computed(() => {
   return page.value === 1;
@@ -115,6 +123,10 @@ const isLastPage = computed(() => {
 });
 
 watch([searchQueryDebounced, page], async () => {
+  if (!mediaType.value) {
+    return;
+  }
+
   await $api(`/search/${mediaType.value}`, {
     onRequest({ options }) {
       isPendingSearch.value = true;

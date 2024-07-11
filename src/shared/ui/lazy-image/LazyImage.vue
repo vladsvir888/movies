@@ -17,10 +17,10 @@
       :width="sizes?.width"
       :height="sizes?.height"
       :loading="loading"
-      @load="onLoad"
       :style="{
         opacity: isPlaceholder ? 0 : 1,
       }"
+      @load="onLoad"
     />
   </span>
 </template>

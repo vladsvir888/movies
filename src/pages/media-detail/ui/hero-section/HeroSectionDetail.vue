@@ -55,7 +55,7 @@ import Button from "~/src/shared/ui/button";
 import { divideByTwoAndRound } from "~/src/shared/lib/format";
 import { useRouteParam } from "~/src/shared/lib/use";
 import { getTitleOrName } from "~/src/shared/lib/get";
-import { FILTER_VALUES } from "~/src/features/filter";
+import { FILTER_VALUES } from "~/src/features/media";
 
 const config = useRuntimeConfig();
 

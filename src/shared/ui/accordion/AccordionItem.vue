@@ -6,8 +6,8 @@
         :aria-controls="`accordion-panel-${id}`"
         :aria-expanded="isShow"
         class="accordion-item__button"
-        @click="isShow = !isShow"
         type="button"
+        @click="isShow = !isShow"
       >
         {{ title }}
         <Icon icon="arrow-prev" />

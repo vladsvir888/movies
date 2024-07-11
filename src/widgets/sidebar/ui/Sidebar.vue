@@ -6,58 +6,68 @@
     @keydown.esc="closeMenu"
   >
     <aside id="sidebar" class="sidebar__aside">
-      <nav class="sidebar__nav">
-        <template v-for="link in links" :key="link.value">
+      <div class="sidebar__aside-wrapper">
+        <nav class="sidebar__nav">
+          <template v-for="link in links" :key="link.value">
+            <Button
+              v-if="!link.dropdown && !link.auth"
+              :to="link.to"
+              :title="link.value"
+              class="sidebar__link"
+              v-on="link.handlers ?? {}"
+            >
+              <Icon :icon="link.icon" />
+              <span class="sidebar__link-text"> {{ link.value }}</span>
+            </Button>
+
+            <Dropdown
+              v-else-if="!link.auth"
+              :selected-item="dropdownSelectedItem"
+              toggle-class="sidebar__link"
+              :toggle-title-attr="link.value"
+              :items="link.dropdown.items"
+              @update:selected-item="onUpdateSelectedItem"
+            >
+              <template #toggle>
+                <Icon :icon="link.icon" />
+                <span class="sidebar__link-text">{{ link.value }}</span>
+              </template>
+            </Dropdown>
+          </template>
+        </nav>
+        <div class="sidebar__buttons">
           <Button
-            v-if="!link.dropdown && !link.auth"
-            :to="link.to"
-            :title="link.value"
-            class="sidebar__link"
-            v-on="link.handlers ?? {}"
+            v-if="preparedMediaType"
+            variant="primary"
+            size="small"
+            :pill="true"
+            class="sidebar__search-button"
+            @click="onClickSearchButton"
           >
-            <Icon :icon="link.icon" />
-            <span class="sidebar__link-text"> {{ link.value }}</span>
+            {{ preparedMediaType }}
           </Button>
 
-          <Dropdown
-            v-else-if="!link.auth"
-            :selected-item="dropdownSelectedItem"
-            @update:selected-item="onUpdateSelectedItem"
-            toggle-class="sidebar__link"
-            :toggle-title-attr="link.value"
-            :items="link.dropdown.items"
+          <Button
+            v-if="authStore.sessionId"
+            variant="primary"
+            size="small"
+            :pill="true"
+            class="sidebar__sign-out"
+            @click="authStore.logout()"
           >
-            <template #toggle>
-              <Icon :icon="link.icon" />
-              <span class="sidebar__link-text">{{ link.value }}</span>
-            </template>
-          </Dropdown>
-        </template>
-
-        <Button
-          v-if="preparedMediaType"
-          variant="primary"
-          size="small"
-          :pill="true"
-          class="sidebar__search-button"
-          @click="onClickSearchButton"
-        >
-          {{ preparedMediaType }}
-        </Button>
-
-        <Button
-          v-if="authStore.sessionId"
-          variant="primary"
-          size="small"
-          :pill="true"
-          class="sidebar__sign-out"
-          @click="authStore.logout()"
-        >
-          {{ $t("Sign out") }}
-        </Button>
-      </nav>
+            {{ $t("Sign out") }}
+          </Button>
+        </div>
+      </div>
+      <Button
+        class="sidebar__close"
+        :aria-label="$t('Close')"
+        @click="closeMenu"
+      >
+        <Icon icon="close" />
+      </Button>
     </aside>
-    <div class="sidebar__overlay" tabindex="-1" @click="closeMenu"></div>
+    <div class="sidebar__fallback-focus"></div>
   </div>
 </template>
 
@@ -78,7 +88,7 @@ const route = useRoute();
 const localePath = useLocalePath();
 const authStore = useAuthStore();
 const { activate, deactivate } = useFocusTrap(sidebar, {
-  fallbackFocus: ".sidebar__overlay",
+  fallbackFocus: ".sidebar__fallback-focus",
 });
 const mediaType = useRouteParam("type");
 
@@ -138,7 +148,6 @@ const preparedMediaType = computed(() => {
 });
 
 const onClickSearchButton = () => {
-  console.log(1);
   isSearchDialogVisible.value = true;
   isMenuVisible.value = false;
   deactivate();
@@ -184,11 +193,6 @@ watch(isMenuVisible, (newValue) => {
         visibility: visible;
         translate: 0 0;
       }
-
-      &__overlay {
-        visibility: visible;
-        opacity: 1;
-      }
     }
   }
 
@@ -209,18 +213,18 @@ watch(isMenuVisible, (newValue) => {
     @media (width <= 600px) {
       visibility: hidden;
       translate: -100% 0;
-      width: 60vw;
+      width: 100vw;
+      align-items: unset;
+      justify-content: unset;
     }
   }
 
-  &__overlay {
-    position: fixed;
-    inset: 0;
-    z-index: 3;
-    background-color: rgb(var(--palette-black--rgb) / 50%);
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity var(--transition300ms);
+  &__aside-wrapper {
+    @media (width <= 600px) {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
   }
 
   &__nav {
@@ -230,7 +234,6 @@ watch(isMenuVisible, (newValue) => {
 
     @media (width <= 600px) {
       row-gap: 50px;
-      text-align: center;
     }
   }
 
@@ -240,6 +243,7 @@ watch(isMenuVisible, (newValue) => {
 
     @media (width <= 600px) {
       column-gap: 12px;
+      justify-content: unset;
     }
 
     @include hover {
@@ -270,12 +274,25 @@ watch(isMenuVisible, (newValue) => {
     }
   }
 
-  &__search-button,
-  &__sign-out {
+  &__buttons {
     display: none;
 
     @media (width <= 600px) {
-      display: block;
+      display: flex;
+      flex-direction: column;
+      row-gap: 20px;
+      align-items: flex-start;
+    }
+  }
+
+  &__close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    display: none;
+
+    @media (width <= 600px) {
+      display: inline-flex;
     }
   }
 }

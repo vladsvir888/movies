@@ -20,7 +20,7 @@
 import Header from "~/src/widgets/header";
 import Footer from "~/src/widgets/footer";
 import Sidebar from "~/src/widgets/sidebar";
-import SearchDialog from "~/src/entities/search";
+import { SearchDialog } from "~/src/features/media";
 import { FirstScreenLoader } from "~/src/shared/ui/loaders";
 import { useAuthStore } from "~/src/features/auth";
 

@@ -6,9 +6,9 @@
       </Heading>
       <Button
         v-if="isBackButton"
-        @click="$router.back()"
         variant="underline"
         class="card-list__back"
+        @click="$router.back()"
       >
         <Icon icon="arrow-prev" />
         {{ $t("Go back") }}
