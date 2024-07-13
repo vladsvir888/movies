@@ -10,7 +10,7 @@ export default defineNuxtConfig({
   },
 
   plugins: [
-    { src: "~/src/features/auth/model/auth-middleware.js", mode: "client" },
+    { src: "~/src/entities/user/model/auth-middleware.js", mode: "client" },
     { src: "~/src/shared/api/api.js" },
   ],
 
@@ -74,5 +74,25 @@ export default defineNuxtConfig({
     },
     display: "swap",
     preload: true,
+  },
+
+  vite: {
+    css: {
+      preprocessorOptions: {
+        scss: {
+          additionalData: `
+              @import '~/src/shared/ui/styles/helpers/breakpoints/index.scss';
+              @import '~/src/shared/ui/styles/helpers/mixins/hover.scss';
+              @import "~/src/shared/ui/styles/helpers/mixins/scrollbar.scss";
+            `,
+        },
+      },
+    },
+  },
+
+  postcss: {
+    plugins: {
+      "postcss-custom-media": {},
+    },
   },
 });

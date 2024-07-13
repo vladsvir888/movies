@@ -44,10 +44,10 @@
 
 <script setup>
 import InputBlock from "~/src/shared/ui/input-block";
-import { BaseLoader } from "~/src/shared/ui/loaders";
-import { useAuthStore } from "../model/useAuth.js";
-import { passwordErrorMessage } from "../config";
 import Button from "~/src/shared/ui/button";
+import { BaseLoader } from "~/src/shared/ui/loaders";
+import { useAuthStore } from "~/src/entities/user";
+import { passwordErrorMessage } from "~/src/entities/user";
 
 const authStore = useAuthStore();
 

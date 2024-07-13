@@ -79,8 +79,6 @@ defineExpose({
 </script>
 
 <style lang="scss">
-@import "~/src/shared/ui/styles/helpers/mixins/hover.scss";
-
 .button {
   display: inline-flex;
   justify-content: center;

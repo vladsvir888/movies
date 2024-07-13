@@ -95,7 +95,7 @@ body {
   flex-direction: column;
   padding-left: var(--sidebar-width);
 
-  @media (width <= 600px) {
+  @media (--mobile) {
     padding-left: 0;
   }
 }

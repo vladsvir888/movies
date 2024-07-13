@@ -199,7 +199,7 @@ onMounted(updateFilterValues);
   display: flex;
   align-self: flex-start;
 
-  @media (width <= 1200px) {
+  @media (--desktop) {
     position: static;
   }
 
@@ -230,20 +230,20 @@ onMounted(updateFilterValues);
     align-items: center;
     gap: 5px;
 
-    @media (width <= 600px) {
+    @media (--mobile) {
       flex-direction: column;
       align-items: flex-start;
       gap: 10px;
     }
 
     &-divider {
-      @media (width <= 600px) {
+      @media (--mobile) {
         display: none;
       }
     }
 
     &-input-block {
-      @media (width <= 600px) {
+      @media (--mobile) {
         width: 100%;
       }
     }

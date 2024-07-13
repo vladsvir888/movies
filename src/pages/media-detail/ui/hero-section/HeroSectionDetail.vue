@@ -105,7 +105,7 @@ watch(
     gap: 20px;
     align-items: center;
 
-    @media (width <= 900px) {
+    @media (--tablet) {
       grid-template-columns: 1fr;
     }
   }

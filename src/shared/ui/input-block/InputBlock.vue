@@ -117,8 +117,6 @@ defineExpose({
 </script>
 
 <style lang="scss">
-@import "~/src/shared/ui/styles/helpers/mixins/hover.scss";
-
 .input-block {
   $this: &;
 

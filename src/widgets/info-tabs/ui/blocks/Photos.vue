@@ -82,8 +82,6 @@ const transformCategory = (category) => {
 </script>
 
 <style lang="scss">
-@import "~/src/shared/ui/styles/helpers/mixins/hover.scss";
-
 .photos {
   $this: &;
 
@@ -91,7 +89,7 @@ const transformCategory = (category) => {
   flex-direction: column;
   row-gap: 60px;
 
-  @media (width <= 600px) {
+  @media (--mobile) {
     row-gap: 30px;
   }
 
@@ -113,7 +111,7 @@ const transformCategory = (category) => {
     gap: var(--grid-gap);
     grid-auto-rows: minmax(200px, 1fr);
 
-    @media (width <= 600px) {
+    @media (--mobile) {
       --min-width: 300px;
     }
 

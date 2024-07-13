@@ -85,7 +85,7 @@ watch(
   background-repeat: no-repeat;
   background-size: cover;
 
-  @media (width <= 600px) {
+  @media (--mobile) {
     min-height: 500px;
   }
 

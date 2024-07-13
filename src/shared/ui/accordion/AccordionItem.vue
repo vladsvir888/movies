@@ -53,8 +53,6 @@ onMounted(() => {
 </script>
 
 <style lang="scss">
-@import "~/src/shared/ui/styles/helpers/mixins/hover.scss";
-
 .accordion-item {
   border-bottom: 1px solid var(--palette-white);
 

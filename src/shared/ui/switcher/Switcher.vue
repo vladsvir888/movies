@@ -34,8 +34,6 @@ const toggle = () => (isChecked.value = !isChecked.value);
 </script>
 
 <style lang="scss">
-@import "~/src/shared/ui/styles/helpers/mixins/hover.scss";
-
 .switcher {
   $this: &;
   display: flex;

@@ -1,2 +1,2 @@
-export { default as BaseLoader } from "./base/BaseLoader.vue";
-export { default as FirstScreenLoader } from "./first-screen/FirstScreenLoader.vue";
+export { default as BaseLoader } from "./BaseLoader.vue";
+export { default as FirstScreenLoader } from "./FirstScreenLoader.vue";

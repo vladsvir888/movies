@@ -34,7 +34,7 @@ import Button from "~/src/shared/ui/button";
   padding: 20px 0 20px var(--sidebar-width);
   margin-top: auto;
 
-  @media (width <= 600px) {
+  @media (--mobile) {
     padding: 20px 0;
   }
 

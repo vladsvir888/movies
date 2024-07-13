@@ -57,8 +57,6 @@ const preparedTitle = computed(() => getTitleOrName(props.data));
 </script>
 
 <style lang="scss">
-@import "~/src/shared/ui/styles/helpers/mixins/hover.scss";
-
 .card {
   $this: &;
 
@@ -136,7 +134,7 @@ const preparedTitle = computed(() => getTitleOrName(props.data));
   &__title {
     font-size: 18px;
 
-    @media (width <= 600px) {
+    @media (--mobile) {
       font-size: 16px;
     }
   }

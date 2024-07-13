@@ -56,8 +56,6 @@ const uid = ref(getCurrentInstance().uid);
 </script>
 
 <style lang="scss">
-@import "~/src/shared/ui/styles/helpers/mixins/hover.scss";
-
 .rating {
   $this: &;
 

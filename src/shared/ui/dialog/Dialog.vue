@@ -85,9 +85,6 @@ onUnmounted(() => {
 </script>
 
 <style lang="scss">
-@import "~/src/shared/ui/styles/helpers/mixins/hover.scss";
-@import "~/src/shared/ui/styles/helpers/mixins/scrollbar.scss";
-
 .dialog {
   @include scrollbar;
 

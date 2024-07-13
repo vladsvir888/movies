@@ -6,7 +6,7 @@
 </template>
 
 <script setup>
-import BaseLoader from "../base/BaseLoader.vue";
+import BaseLoader from "./BaseLoader.vue";
 </script>
 
 <style lang="scss">

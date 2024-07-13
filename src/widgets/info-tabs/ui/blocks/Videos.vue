@@ -70,7 +70,7 @@ onUnmounted(videoStore.resetState);
     gap: var(--grid-gap);
     grid-auto-rows: minmax(200px, 1fr);
 
-    @media (width <= 600px) {
+    @media (--mobile) {
       --min-width: 300px;
     }
   }

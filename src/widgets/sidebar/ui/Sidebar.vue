@@ -77,7 +77,7 @@ import Icon from "~/src/shared/ui/icon";
 import Button from "~/src/shared/ui/button";
 import { toggleScrollbar } from "~/src/shared/lib/dom";
 import { useFocusTrap, useRouteParam } from "~/src/shared/lib/use";
-import { useAuthStore } from "~/src/features/auth";
+import { useAuthStore } from "~/src/entities/user";
 import { MEDIA_TYPES } from "~/src/entities/media";
 
 const sidebar = ref(null);
@@ -182,8 +182,6 @@ watch(isMenuVisible, (newValue) => {
 </script>
 
 <style lang="scss">
-@import "~/src/shared/ui/styles/helpers/mixins/hover.scss";
-
 .sidebar {
   $this: &;
 
@@ -210,7 +208,7 @@ watch(isMenuVisible, (newValue) => {
     background-color: var(--palette-black);
     transition: all var(--transition300ms);
 
-    @media (width <= 600px) {
+    @media (--mobile) {
       visibility: hidden;
       translate: -100% 0;
       width: 100vw;
@@ -220,7 +218,7 @@ watch(isMenuVisible, (newValue) => {
   }
 
   &__aside-wrapper {
-    @media (width <= 600px) {
+    @media (--mobile) {
       display: flex;
       flex-direction: column;
       justify-content: space-between;
@@ -232,7 +230,7 @@ watch(isMenuVisible, (newValue) => {
     flex-direction: column;
     row-gap: 70px;
 
-    @media (width <= 600px) {
+    @media (--mobile) {
       row-gap: 50px;
     }
   }
@@ -241,7 +239,7 @@ watch(isMenuVisible, (newValue) => {
     transition: color var(--transition300ms);
     outline: none;
 
-    @media (width <= 600px) {
+    @media (--mobile) {
       column-gap: 12px;
       justify-content: unset;
     }
@@ -268,7 +266,7 @@ watch(isMenuVisible, (newValue) => {
     &-text {
       display: none;
 
-      @media (width <= 600px) {
+      @media (--mobile) {
         display: block;
       }
     }
@@ -277,7 +275,7 @@ watch(isMenuVisible, (newValue) => {
   &__buttons {
     display: none;
 
-    @media (width <= 600px) {
+    @media (--mobile) {
       display: flex;
       flex-direction: column;
       row-gap: 20px;
@@ -291,7 +289,7 @@ watch(isMenuVisible, (newValue) => {
     right: 10px;
     display: none;
 
-    @media (width <= 600px) {
+    @media (--mobile) {
       display: inline-flex;
     }
   }

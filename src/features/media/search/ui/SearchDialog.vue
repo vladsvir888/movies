@@ -158,8 +158,6 @@ watch(mediaType, resetSearchQuery);
 </script>
 
 <style lang="scss">
-@import "~/src/shared/ui/styles/helpers/mixins/hover.scss";
-
 .search-dialog {
   &__input {
     font-weight: 700;

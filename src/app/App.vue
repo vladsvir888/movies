@@ -22,7 +22,7 @@ import Footer from "~/src/widgets/footer";
 import Sidebar from "~/src/widgets/sidebar";
 import { SearchDialog } from "~/src/features/media";
 import { FirstScreenLoader } from "~/src/shared/ui/loaders";
-import { useAuthStore } from "~/src/features/auth";
+import { useAuthStore } from "~/src/entities/user";
 
 const authStore = useAuthStore();
 

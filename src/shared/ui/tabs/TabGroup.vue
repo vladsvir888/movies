@@ -75,8 +75,6 @@ const setSelectedToNextTab = () => {
 </script>
 
 <style lang="scss">
-@import "~/src/shared/ui/styles/helpers/mixins/hover.scss";
-
 .tab-group {
   &__nav {
     display: flex;
@@ -84,7 +82,7 @@ const setSelectedToNextTab = () => {
     gap: 60px;
     overflow-x: auto;
 
-    @media (width <= 600px) {
+    @media (--mobile) {
       gap: 30px;
       justify-content: safe flex-start;
     }
@@ -99,7 +97,7 @@ const setSelectedToNextTab = () => {
     cursor: pointer;
     transition: color var(--transition300ms);
 
-    @media (width <= 600px) {
+    @media (--mobile) {
       font-size: 20px;
     }
 
@@ -117,7 +115,7 @@ const setSelectedToNextTab = () => {
   &__panels {
     margin-top: 50px;
 
-    @media (width <= 600px) {
+    @media (--mobile) {
       margin-top: 30px;
     }
   }

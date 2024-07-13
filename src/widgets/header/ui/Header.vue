@@ -28,16 +28,7 @@
           {{ preparedMediaType }}
         </Button>
 
-        <Button
-          v-if="authStore.sessionId"
-          variant="primary"
-          size="small"
-          :pill="true"
-          class="header__sign-out"
-          @click="authStore.logout()"
-        >
-          {{ $t("Sign out") }}
-        </Button>
+        <SignOutButton class="header__sign-out" />
 
         <Button
           class="header__burger"
@@ -59,9 +50,10 @@
 import LanguageSwitcher from "~/src/entities/language";
 import Icon from "~/src/shared/ui/icon";
 import Button from "~/src/shared/ui/button";
-import { useAuthStore } from "~/src/features/auth";
+import { useAuthStore } from "~/src/entities/user";
 import { useRouteParam } from "~/src/shared/lib/use";
 import { MEDIA_TYPES } from "~/src/entities/media";
+import { SignOutButton } from "~/src/features/auth";
 
 const isMenuVisible = defineModel("isMenuVisible");
 const isSearchDialogVisible = defineModel("isSearchDialogVisible");
@@ -92,7 +84,7 @@ const preparedMediaType = computed(() => {
   padding: 10px 0 10px var(--sidebar-width);
   background-color: var(--palette-black);
 
-  @media (width <= 600px) {
+  @media (--mobile) {
     padding-left: 0;
   }
 
@@ -110,7 +102,7 @@ const preparedMediaType = computed(() => {
 
   &__logo {
     &-img {
-      @media (width <= 375px) {
+      @media (--mobile) {
         width: 110px;
       }
     }
@@ -119,7 +111,7 @@ const preparedMediaType = computed(() => {
   &__language-switcher {
     .select-block {
       &__label {
-        @media (width <= 700px) {
+        @media (--tablet) {
           display: none;
         }
       }
@@ -130,7 +122,7 @@ const preparedMediaType = computed(() => {
     display: none;
     column-gap: 5px;
 
-    @media (width <= 600px) {
+    @media (--mobile) {
       display: flex;
     }
 
@@ -139,7 +131,7 @@ const preparedMediaType = computed(() => {
     }
 
     &-text {
-      @media (width <= 375px) {
+      @media (--mobile) {
         display: none;
       }
     }
@@ -147,7 +139,7 @@ const preparedMediaType = computed(() => {
 
   &__search-button,
   &__sign-out {
-    @media (width <= 600px) {
+    @media (--mobile) {
       display: none;
     }
   }

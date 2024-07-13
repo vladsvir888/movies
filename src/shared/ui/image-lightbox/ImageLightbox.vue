@@ -136,8 +136,6 @@ const toPreviousImage = (event) => {
 </script>
 
 <style lang="scss">
-@import "~/src/shared/ui/styles/helpers/mixins/hover.scss";
-
 .image-lightbox {
   position: fixed;
   inset: 0;

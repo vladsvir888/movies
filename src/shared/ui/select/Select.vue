@@ -56,8 +56,6 @@ const model = defineModel({
 </script>
 
 <style lang="scss">
-@import "~/src/shared/ui/styles/helpers/mixins/hover.scss";
-
 .select-block {
   display: flex;
   align-items: center;

@@ -59,8 +59,6 @@ function createIframe() {
 </script>
 
 <style lang="scss">
-@import "~/src/shared/ui/styles/helpers/mixins/hover.scss";
-
 .video-player {
   $this: &;
 

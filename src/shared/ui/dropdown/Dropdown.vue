@@ -149,8 +149,6 @@ useClickOutside(dropdown, hideMenu);
 </script>
 
 <style lang="scss">
-@import "~/src/shared/ui/styles/helpers/mixins/hover.scss";
-
 .dropdown {
   position: relative;
 

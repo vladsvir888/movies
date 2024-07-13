@@ -123,8 +123,6 @@ const preparedOptions = computed(() => {
 </script>
 
 <style lang="scss">
-@import "~/src/shared/ui/styles/helpers/mixins/hover.scss";
-
 .carousel {
   $this: &;
 

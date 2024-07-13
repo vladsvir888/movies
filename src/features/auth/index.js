@@ -1,3 +1,2 @@
-export { default as SignInForm } from "./ui/SignInForm.vue";
-export { useAuthStore } from "./model";
-export { passwordErrorMessage } from "./config";
+export { default as SignInForm } from "./sign-in";
+export { default as SignOutButton } from "./sign-out";

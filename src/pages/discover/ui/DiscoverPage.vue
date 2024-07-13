@@ -140,7 +140,7 @@ onMounted(() => {
     grid-template-columns: 400px 1fr;
     gap: 20px;
 
-    @media (width <= 1200px) {
+    @media (--desktop) {
       grid-template-columns: 1fr;
     }
   }

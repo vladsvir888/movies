@@ -36,8 +36,6 @@ const model = defineModel({
 </script>
 
 <style lang="scss">
-@import "~/src/shared/ui/styles/helpers/mixins/hover.scss";
-
 .radio-button {
   display: flex;
   align-items: center;
