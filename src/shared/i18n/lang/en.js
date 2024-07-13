@@ -77,4 +77,7 @@ export default {
   "An error occurred as a result of the request":
     "An error occurred as a result of the request",
   "Sign out": "Sign out",
+  "This is a required field": "This is a required field",
+  "Password needs to be at least 4 characters long":
+    "Password needs to be at least 4 characters long",
 };

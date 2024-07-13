@@ -8,9 +8,12 @@
         <slot name="prefix-icon" />
       </div>
       <input
+        ref="input"
         v-model="model"
         :type="type"
         :placeholder="placeholder"
+        :required="required"
+        :minlength="minlength"
         class="input-block__input"
         v-bind="$attrs"
       />
@@ -24,6 +27,7 @@
         <Icon icon="close" />
       </Button>
     </div>
+    <p v-if="error" class="error input-block__error">{{ error }}</p>
   </div>
 </template>
 
@@ -31,7 +35,7 @@
 import Icon from "~/src/shared/ui/icon";
 import Button from "~/src/shared/ui/button";
 
-defineProps({
+const props = defineProps({
   type: {
     type: String,
     default: "text",
@@ -46,6 +50,20 @@ defineProps({
   wrapperClass: {
     type: String,
   },
+  isNeedValidation: {
+    type: Boolean,
+    default: false,
+  },
+  validationMessage: {
+    type: String,
+  },
+  required: {
+    type: Boolean,
+    default: false,
+  },
+  minlength: {
+    type: String,
+  },
 });
 
 defineOptions({
@@ -56,7 +74,46 @@ const model = defineModel({
   required: true,
 });
 
+const { t } = useI18n();
+
+const input = ref(null);
+const error = ref(null);
+
 const clearEntry = () => (model.value = "");
+
+const setError = () => {
+  error.value = input.value.validity.valueMissing
+    ? t("This is a required field")
+    : props.validationMessage;
+};
+
+const resetError = () => {
+  error.value = null;
+};
+
+const isValidInput = () => {
+  return input.value.checkValidity();
+};
+
+const handleValidation = () => {
+  if (!props.isNeedValidation) {
+    return;
+  }
+
+  if (!isValidInput()) {
+    setError();
+  } else {
+    resetError();
+  }
+};
+
+watch(model, handleValidation);
+
+defineExpose({
+  input,
+  setError,
+  resetError,
+});
 </script>
 
 <style lang="scss">
@@ -65,18 +122,19 @@ const clearEntry = () => (model.value = "");
 .input-block {
   $this: &;
 
-  background-color: var(--palette-white);
-  border: 1px solid #e0ded7;
-  border-radius: 8px;
-
   &:focus-within {
-    outline: 2px solid var(--palette-puerto-rico);
-    border-color: transparent;
+    #{$this}__wrapper {
+      outline: 2px solid var(--palette-puerto-rico);
+      border-color: transparent;
+    }
   }
 
   &__wrapper {
     display: flex;
     align-items: center;
+    background-color: var(--palette-white);
+    border: 1px solid #e0ded7;
+    border-radius: 8px;
   }
 
   &__input {
@@ -113,6 +171,10 @@ const clearEntry = () => (model.value = "");
     @include hover {
       color: var(--palette-puerto-rico);
     }
+  }
+
+  &__error {
+    margin-top: 4px;
   }
 }
 </style>

@@ -1,19 +1,27 @@
 <template>
   <div class="sign-in-block">
     <form
+      ref="form"
       class="sign-in-block__form"
       :class="{ disabled: authStore.loading }"
+      novalidate
       @submit.prevent="onSubmitForm"
     >
       <InputBlock
+        ref="usernameInput"
         v-model="state.username"
         :placeholder="$t('Username')"
+        :is-need-validation="true"
         class="sign-in-block__form-input"
         required
       />
       <InputBlock
+        ref="passwordInput"
         v-model="state.password"
         :placeholder="$t('Password')"
+        :is-need-validation="true"
+        :validation-message="$t(passwordErrorMessage)"
+        minlength="4"
         type="password"
         class="sign-in-block__form-input"
         required
@@ -38,6 +46,7 @@
 import InputBlock from "~/src/shared/ui/input-block";
 import { BaseLoader } from "~/src/shared/ui/loaders";
 import { useAuthStore } from "../model/useAuth.js";
+import { passwordErrorMessage } from "../config";
 import Button from "~/src/shared/ui/button";
 
 const authStore = useAuthStore();
@@ -47,7 +56,27 @@ const state = ref({
   password: "",
 });
 
+const form = ref(null);
+const usernameInput = ref(null);
+const passwordInput = ref(null);
+
 const onSubmitForm = async () => {
+  const inputs = [usernameInput.value, passwordInput.value];
+
+  if (!form.value.checkValidity()) {
+    inputs.forEach((el) => {
+      if (el.input.value) {
+        return;
+      }
+
+      el.setError();
+    });
+
+    return;
+  }
+
+  inputs.forEach((el) => el.resetError());
+
   await authStore.auth(state);
 
   state.value.username = "";
