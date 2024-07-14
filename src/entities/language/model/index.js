@@ -32,6 +32,8 @@ export const useLanguageSwitcherStore = defineStore(NAMESPACE, () => {
     setLocale(value);
   };
 
+  onBeforeMount(checkLocale);
+
   return {
     transformedLocales,
     updateLocale,

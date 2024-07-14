@@ -1,12 +1,12 @@
 <template>
   <div class="select-block" :class="wrapperClass">
-    <label v-if="label" :for="id" class="select-block__label">{{
+    <label v-if="label" :for="`${id}-${uid}`" class="select-block__label">{{
       label
     }}</label>
     <div class="select-block__select-wrapper">
       <select
         v-model="model"
-        :id="id"
+        :id="`${id}-${uid}`"
         :name="name"
         class="select-block__select"
         v-bind="$attrs"
@@ -53,6 +53,8 @@ defineOptions({
 const model = defineModel({
   required: true,
 });
+
+const uid = ref(getCurrentInstance().uid);
 </script>
 
 <style lang="scss">

@@ -14,6 +14,7 @@
         :placeholder="placeholder"
         :required="required"
         :minlength="minlength"
+        :aria-describedby="`input-${uid}`"
         class="input-block__input"
         v-bind="$attrs"
       />
@@ -27,7 +28,14 @@
         <Icon icon="close" />
       </Button>
     </div>
-    <p v-if="error" class="error input-block__error">{{ error }}</p>
+    <p
+      v-if="error"
+      :id="`input-${uid}`"
+      class="error input-block__error"
+      role="polite"
+    >
+      {{ error }}
+    </p>
   </div>
 </template>
 
@@ -76,6 +84,7 @@ const model = defineModel({
 
 const { t } = useI18n();
 
+const uid = ref(getCurrentInstance().uid);
 const input = ref(null);
 const error = ref(null);
 

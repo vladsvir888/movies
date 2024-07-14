@@ -16,9 +16,7 @@ import { useLanguageSwitcherStore } from "../model";
 const { locale } = useI18n();
 
 const languageSwitcherStore = useLanguageSwitcherStore();
-const { checkLocale, updateLocale, transformedLocales } = languageSwitcherStore;
-
-onBeforeMount(checkLocale);
+const { updateLocale, transformedLocales } = languageSwitcherStore;
 </script>
 
 <style lang="scss">
