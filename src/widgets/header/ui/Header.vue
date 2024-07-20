@@ -50,7 +50,6 @@
 import LanguageSwitcher from "~/src/entities/language";
 import Icon from "~/src/shared/ui/icon";
 import Button from "~/src/shared/ui/button";
-import { useAuthStore } from "~/src/entities/user";
 import { useRouteParam } from "~/src/shared/lib/use";
 import { MEDIA_TYPES } from "~/src/entities/media";
 import { SignOutButton } from "~/src/features/auth";
@@ -59,7 +58,6 @@ const isMenuVisible = defineModel("isMenuVisible");
 const isSearchDialogVisible = defineModel("isSearchDialogVisible");
 
 const mediaType = useRouteParam("type");
-const authStore = useAuthStore();
 const { t } = useI18n();
 
 const preparedMediaType = computed(() => {

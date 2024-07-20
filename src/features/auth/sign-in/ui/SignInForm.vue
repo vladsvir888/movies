@@ -36,9 +36,6 @@
       </Button>
     </form>
     <BaseLoader v-if="authStore.loading" class="sign-in-block__form-loader" />
-    <p v-if="authStore.error" class="error">
-      {{ authStore.error }}
-    </p>
   </div>
 </template>
 
@@ -82,8 +79,6 @@ const onSubmitForm = async () => {
   state.value.username = "";
   state.value.password = "";
 };
-
-onMounted(authStore.resetError);
 </script>
 
 <style lang="scss">

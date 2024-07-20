@@ -13,7 +13,7 @@ import BaseLoader from "./BaseLoader.vue";
 .first-screen-loader {
   position: fixed;
   inset: 0;
-  z-index: 5;
+  z-index: 6;
   display: flex;
   justify-content: center;
   align-items: center;

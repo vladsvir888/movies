@@ -3,6 +3,7 @@ import {
   removeItemFromLocalStorage,
   getItemFromLocalStorage,
 } from "~/src/shared/lib/browser";
+import { useToastStore } from "~/src/shared/ui/toast";
 import { getLoginData, getSessionData, getTokenData } from "../api";
 
 const NAMESPACE = "auth";
@@ -14,7 +15,6 @@ const getDefaultState = () => {
     token: "",
     expiresAt: "",
     sessionId: "",
-    error: "",
     loading: false,
   };
 };
@@ -24,10 +24,7 @@ export const useAuthStore = defineStore(NAMESPACE, {
 
   actions: {
     async auth(data) {
-      const config = useRuntimeConfig();
-
       this.loading = true;
-      this.error = "";
 
       this.username = data.value.username;
       this.password = data.value.password;
@@ -42,30 +39,29 @@ export const useAuthStore = defineStore(NAMESPACE, {
         const sessionRequest = await getSessionData(this.token);
         this.sessionId = sessionRequest.session_id;
 
-        setItemInLocalStorage(config.public.appTokenDataKey, {
+        setItemInLocalStorage(useRuntimeConfig().public.appTokenDataKey, {
           token: this.token,
           expiresAt: this.expiresAt,
           sessionId: this.sessionId,
         });
 
-        this.loading = false;
-
         await navigateTo("/");
       } catch (error) {
         this.setError(error.response._data.status_message);
+      } finally {
+        this.loading = false;
       }
     },
 
     logout() {
-      const config = useRuntimeConfig();
-
       this.resetState();
-      removeItemFromLocalStorage(config.public.appTokenDataKey);
+      removeItemFromLocalStorage(useRuntimeConfig().public.appTokenDataKey);
     },
 
     getDataFromLSAndSetInStore() {
-      const config = useRuntimeConfig();
-      const authData = getItemFromLocalStorage(config.public.appTokenDataKey);
+      const authData = getItemFromLocalStorage(
+        useRuntimeConfig().public.appTokenDataKey
+      );
 
       if (!authData) {
         return;
@@ -75,7 +71,7 @@ export const useAuthStore = defineStore(NAMESPACE, {
       const expireTokenDate = new Date(authData.expiresAt);
 
       if (currentDate > expireTokenDate) {
-        removeItemFromLocalStorage(config.public.appTokenDataKey);
+        this.logout();
       } else {
         this.token = authData.token;
         this.expiresAt = authData.expiresAt;
@@ -84,12 +80,14 @@ export const useAuthStore = defineStore(NAMESPACE, {
     },
 
     setError(err) {
-      this.resetState();
-      this.error = err;
-    },
+      useToastStore().addToast({
+        id: Math.random(),
+        variant: "danger",
+        content: err,
+        duration: 3500,
+      });
 
-    resetError() {
-      this.error = "";
+      this.resetState();
     },
 
     resetState() {
