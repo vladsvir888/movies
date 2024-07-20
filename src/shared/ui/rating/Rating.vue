@@ -1,22 +1,24 @@
 <template>
-  <div class="rating" :inert="inert">
-    <template v-for="star in stars" :key="star.value">
-      <input
-        :id="`star-${uid}-${star.value}`"
-        :value="star.value"
-        v-model="model"
-        type="radio"
-        class="rating__input visually-hidden"
-        v-bind="$attrs"
-      />
-      <label :for="`star-${uid}-${star.value}`" class="rating__label">
-        <span class="visually-hidden"
-          >{{ star.value }} {{ $t("star | stars", star.value) }}</span
-        >
-        <Icon icon="star" />
-      </label>
-    </template>
-  </div>
+  <ClientOnly>
+    <div class="rating" :inert="inert">
+      <template v-for="star in stars" :key="star.value">
+        <input
+          :id="`star-${uid}-${star.value}`"
+          :value="star.value"
+          v-model="model"
+          type="radio"
+          class="rating__input visually-hidden"
+          v-bind="$attrs"
+        />
+        <label :for="`star-${uid}-${star.value}`" class="rating__label">
+          <span class="visually-hidden"
+            >{{ star.value }} {{ $t("star | stars", star.value) }}</span
+          >
+          <Icon icon="star" />
+        </label>
+      </template>
+    </div>
+  </ClientOnly>
 </template>
 
 <script setup>

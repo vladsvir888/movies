@@ -1,54 +1,56 @@
 <template>
-  <div ref="dropdown" class="dropdown">
-    <Button
-      ref="reference"
-      class="dropdown__toggle"
-      :class="toggleClass"
-      :aria-expanded="isShowMenu"
-      :aria-haspopup="true"
-      :aria-controls="`menu-${uid}`"
-      :title="toggleTitleAttr"
-      type="button"
-      @click="toggleMenu"
-      @keydown.esc="onKeydownEsc"
-      @keydown.shift.tab="hideMenu"
-      @keydown.down.prevent="setFocus"
-      @keydown.home.prevent="setSelectedToFirstMenuItem"
-      @keydown.end.prevent="setSelectedToLastMenuItem"
-    >
-      <slot name="toggle" />
-    </Button>
-    <Transition name="dropdown">
-      <ul
-        v-show="isShowMenu"
-        ref="floating"
-        role="menu"
-        :id="`menu-${uid}`"
-        class="dropdown__menu"
-        :style="floatingStyles"
+  <ClientOnly>
+    <div ref="dropdown" class="dropdown">
+      <Button
+        ref="reference"
+        class="dropdown__toggle"
+        :class="toggleClass"
+        :aria-expanded="isShowMenu"
+        :aria-haspopup="true"
+        :aria-controls="`menu-${uid}`"
+        :title="toggleTitleAttr"
+        type="button"
+        @click="toggleMenu"
+        @keydown.esc="onKeydownEsc"
+        @keydown.shift.tab="hideMenu"
+        @keydown.down.prevent="setFocus"
+        @keydown.home.prevent="setSelectedToFirstMenuItem"
+        @keydown.end.prevent="setSelectedToLastMenuItem"
       >
-        <li
-          v-for="(item, index) in items"
-          :key="item.value"
-          ref="menuItems"
-          role="menuitem"
-          :tabindex="index === activeIndexMenuItem ? 0 : -1"
-          class="dropdown__menu-item"
-          @click="onClickMenuItem(item.value)"
-          @keydown.enter="onClickMenuItem(item.value)"
-          @keydown.space.prevent="onClickMenuItem(item.value)"
-          @keydown.down.prevent="setSelectedToNextMenuItem"
-          @keydown.up.prevent="setSelectedToPreviousMenuItem"
-          @keydown.esc="onKeydownEsc"
-          @keydown.tab="hideMenu"
-          @keydown.home.prevent="setSelectedToFirstMenuItem"
-          @keydown.end.prevent="setSelectedToLastMenuItem"
+        <slot name="toggle" />
+      </Button>
+      <Transition name="dropdown">
+        <ul
+          v-show="isShowMenu"
+          ref="floating"
+          role="menu"
+          :id="`menu-${uid}`"
+          class="dropdown__menu"
+          :style="floatingStyles"
         >
-          {{ item.text }}
-        </li>
-      </ul>
-    </Transition>
-  </div>
+          <li
+            v-for="(item, index) in items"
+            :key="item.value"
+            ref="menuItems"
+            role="menuitem"
+            :tabindex="index === activeIndexMenuItem ? 0 : -1"
+            class="dropdown__menu-item"
+            @click="onClickMenuItem(item.value)"
+            @keydown.enter="onClickMenuItem(item.value)"
+            @keydown.space.prevent="onClickMenuItem(item.value)"
+            @keydown.down.prevent="setSelectedToNextMenuItem"
+            @keydown.up.prevent="setSelectedToPreviousMenuItem"
+            @keydown.esc="onKeydownEsc"
+            @keydown.tab="hideMenu"
+            @keydown.home.prevent="setSelectedToFirstMenuItem"
+            @keydown.end.prevent="setSelectedToLastMenuItem"
+          >
+            {{ item.text }}
+          </li>
+        </ul>
+      </Transition>
+    </div>
+  </ClientOnly>
 </template>
 
 <script setup>

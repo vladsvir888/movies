@@ -1,42 +1,44 @@
 <template>
-  <div class="input-block" :class="wrapperClass">
-    <div class="input-block__wrapper">
-      <div
-        v-if="$slots['prefix-icon']"
-        class="input-block__icon input-block__icon--prefix"
-      >
-        <slot name="prefix-icon" />
+  <ClientOnly>
+    <div class="input-block" :class="wrapperClass">
+      <div class="input-block__wrapper">
+        <div
+          v-if="$slots['prefix-icon']"
+          class="input-block__icon input-block__icon--prefix"
+        >
+          <slot name="prefix-icon" />
+        </div>
+        <input
+          ref="input"
+          v-model="model"
+          :type="type"
+          :placeholder="placeholder"
+          :required="required"
+          :minlength="minlength"
+          :aria-describedby="`input-${uid}`"
+          class="input-block__input"
+          v-bind="$attrs"
+        />
+        <Button
+          v-if="clearable && model.length"
+          class="input-block__clear"
+          :aria-label="$t('Clear entry')"
+          type="button"
+          @click="clearEntry"
+        >
+          <Icon icon="close" />
+        </Button>
       </div>
-      <input
-        ref="input"
-        v-model="model"
-        :type="type"
-        :placeholder="placeholder"
-        :required="required"
-        :minlength="minlength"
-        :aria-describedby="`input-${uid}`"
-        class="input-block__input"
-        v-bind="$attrs"
-      />
-      <Button
-        v-if="clearable && model.length"
-        class="input-block__clear"
-        :aria-label="$t('Clear entry')"
-        type="button"
-        @click="clearEntry"
+      <p
+        v-if="error"
+        :id="`input-${uid}`"
+        class="error input-block__error"
+        role="polite"
       >
-        <Icon icon="close" />
-      </Button>
+        {{ error }}
+      </p>
     </div>
-    <p
-      v-if="error"
-      :id="`input-${uid}`"
-      class="error input-block__error"
-      role="polite"
-    >
-      {{ error }}
-    </p>
-  </div>
+  </ClientOnly>
 </template>
 
 <script setup>

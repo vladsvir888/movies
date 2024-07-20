@@ -1,28 +1,30 @@
 <template>
-  <div class="select-block" :class="wrapperClass">
-    <label v-if="label" :for="`${id}-${uid}`" class="select-block__label">{{
-      label
-    }}</label>
-    <div class="select-block__select-wrapper">
-      <select
-        v-model="model"
-        :id="`${id}-${uid}`"
-        :name="name"
-        class="select-block__select"
-        v-bind="$attrs"
-      >
-        <option disabled value="">{{ $t("Please select one") }}</option>
-        <option
-          v-for="option in options"
-          :key="option.value"
-          :value="option.value"
-          class="select-block__option"
+  <ClientOnly>
+    <div class="select-block" :class="wrapperClass">
+      <label v-if="label" :for="`${id}-${uid}`" class="select-block__label">{{
+        label
+      }}</label>
+      <div class="select-block__select-wrapper">
+        <select
+          v-model="model"
+          :id="`${id}-${uid}`"
+          :name="name"
+          class="select-block__select"
+          v-bind="$attrs"
         >
-          {{ option.text }}
-        </option>
-      </select>
+          <option disabled value="">{{ $t("Please select one") }}</option>
+          <option
+            v-for="option in options"
+            :key="option.value"
+            :value="option.value"
+            class="select-block__option"
+          >
+            {{ option.text }}
+          </option>
+        </select>
+      </div>
     </div>
-  </div>
+  </ClientOnly>
 </template>
 
 <script setup>
