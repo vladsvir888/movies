@@ -1,56 +1,57 @@
 <template>
-  <ClientOnly>
-    <div ref="dropdown" class="dropdown">
-      <Button
-        ref="reference"
-        class="dropdown__toggle"
-        :class="toggleClass"
-        :aria-expanded="isShowMenu"
-        :aria-haspopup="true"
-        :aria-controls="`menu-${uid}`"
-        :title="toggleTitleAttr"
-        type="button"
-        @click="toggleMenu"
-        @keydown.esc="onKeydownEsc"
-        @keydown.shift.tab="hideMenu"
-        @keydown.down.prevent="setFocus"
-        @keydown.home.prevent="setSelectedToFirstMenuItem"
-        @keydown.end.prevent="setSelectedToLastMenuItem"
+  <!-- ClientOnly removed because of there are some limitations in testing -->
+  <div ref="dropdown" class="dropdown">
+    <Button
+      ref="reference"
+      class="dropdown__toggle"
+      :class="toggleClass"
+      :aria-expanded="isShowMenu"
+      :aria-haspopup="true"
+      :aria-controls="`menu-${uid}`"
+      :title="toggleTitleAttr"
+      type="button"
+      @click="toggleMenu"
+      @keydown.esc="hideMenu"
+      @keydown.shift.tab="hideMenu"
+      @keydown.down.prevent="setFocus"
+      @keydown.home.prevent="setSelectedToFirstMenuItem"
+      @keydown.end.prevent="setSelectedToLastMenuItem"
+      @keydown.tab.prevent="setSelectedToFirstMenuItem"
+    >
+      <slot name="toggle" />
+    </Button>
+    <Transition name="dropdown">
+      <ul
+        v-show="isShowMenu"
+        ref="floating"
+        role="menu"
+        :id="`menu-${uid}`"
+        class="dropdown__menu"
+        :style="floatingStyles"
       >
-        <slot name="toggle" />
-      </Button>
-      <Transition name="dropdown">
-        <ul
-          v-show="isShowMenu"
-          ref="floating"
-          role="menu"
-          :id="`menu-${uid}`"
-          class="dropdown__menu"
-          :style="floatingStyles"
+        <li
+          v-for="(item, index) in items"
+          :key="item.value"
+          ref="menuItems"
+          role="menuitem"
+          :tabindex="index === activeIndexMenuItem ? 0 : -1"
+          class="dropdown__menu-item"
+          @click="onClickMenuItem(item.value)"
+          @keydown.enter="onClickMenuItem(item.value)"
+          @keydown.space.prevent="onClickMenuItem(item.value)"
+          @keydown.up.prevent="setSelectedToPreviousMenuItem"
+          @keydown.down.prevent="setSelectedToNextMenuItem"
+          @keydown.esc="hideMenuAndSetFocusOnButton"
+          @keydown.home.prevent="setSelectedToFirstMenuItem"
+          @keydown.end.prevent="setSelectedToLastMenuItem"
+          @keydown.shift.tab.prevent="hideMenuAndSetFocusOnButton"
+          @keydown.tab.prevent="hideMenuAndSetFocusOnButton"
         >
-          <li
-            v-for="(item, index) in items"
-            :key="item.value"
-            ref="menuItems"
-            role="menuitem"
-            :tabindex="index === activeIndexMenuItem ? 0 : -1"
-            class="dropdown__menu-item"
-            @click="onClickMenuItem(item.value)"
-            @keydown.enter="onClickMenuItem(item.value)"
-            @keydown.space.prevent="onClickMenuItem(item.value)"
-            @keydown.down.prevent="setSelectedToNextMenuItem"
-            @keydown.up.prevent="setSelectedToPreviousMenuItem"
-            @keydown.esc="onKeydownEsc"
-            @keydown.tab="hideMenu"
-            @keydown.home.prevent="setSelectedToFirstMenuItem"
-            @keydown.end.prevent="setSelectedToLastMenuItem"
-          >
-            {{ item.text }}
-          </li>
-        </ul>
-      </Transition>
-    </div>
-  </ClientOnly>
+          {{ item.text }}
+        </li>
+      </ul>
+    </Transition>
+  </div>
 </template>
 
 <script setup>
@@ -71,7 +72,6 @@ const props = defineProps({
   },
   items: {
     type: Array,
-    required: true,
     default: () => [],
   },
   selectedItem: {
@@ -142,9 +142,9 @@ const setSelectedToLastMenuItem = () => {
   setFocus();
 };
 
-const onKeydownEsc = () => {
-  hideMenu();
+const hideMenuAndSetFocusOnButton = () => {
   reference.value.button.focus();
+  hideMenu();
 };
 
 useClickOutside(dropdown, hideMenu);
