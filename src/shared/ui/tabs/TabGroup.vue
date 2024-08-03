@@ -3,15 +3,15 @@
     <div class="tab-group__nav" role="tablist">
       <Button
         v-for="(title, index) in tabTitles"
-        :key="title"
         :id="`tab-${title}`"
+        :key="title"
+        ref="tabRefs"
         :aria-selected="activeTab === title"
         :aria-controls="`tabpanel-${title}`"
         :tabindex="activeTab !== title ? -1 : 0"
         role="tab"
         type="button"
         class="tab-group__tab"
-        ref="tabRefs"
         @click="setSelectedTab(index)"
         @keydown.right="setSelectedToNextTab"
         @keydown.left="setSelectedToPreviousTab"
@@ -36,7 +36,7 @@ const tabRefs = ref([]);
 const tabTitles = ref(
   useSlots()
     .default()[0]
-    .children.map((tab) => tab.props?.title)
+    .children.map((tab) => tab.props?.title),
 );
 const activeTab = ref(tabTitles.value[0]);
 

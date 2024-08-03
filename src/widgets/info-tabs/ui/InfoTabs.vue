@@ -7,8 +7,8 @@
         :title="tabPanelsValue.title"
       >
         <component
-          v-if="tabPanelsValue.data"
           :is="tabPanelsValue.component"
+          v-if="tabPanelsValue.data"
           :data="tabPanelsValue.data"
         />
       </TabPanel>
@@ -25,8 +25,8 @@ import { useRouteParam } from "~/src/shared/lib/use";
 import { useVideoStore } from "~/src/entities/media";
 
 const heroDetail = defineModel("heroDetail", {
+  type: Object,
   required: true,
-  default: () => {},
 });
 
 const { t, locale } = useI18n();

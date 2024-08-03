@@ -1,8 +1,8 @@
 <template>
   <Dialog
+    v-model:is-show="isSearchDialogVisible"
     class="search-dialog"
     :title="$t('Search')"
-    v-model:is-show="isSearchDialogVisible"
   >
     <InputBlock
       v-model="searchQuery"
@@ -92,7 +92,10 @@ const page = ref(1);
 const totalPages = ref(null);
 const totalResultsCount = ref(null);
 
-const isSearchDialogVisible = defineModel("isSearchDialogVisible");
+const isSearchDialogVisible = defineModel("isSearchDialogVisible", {
+  type: Boolean,
+  default: false,
+});
 
 const toPreviousPage = () => {
   page.value -= 1;

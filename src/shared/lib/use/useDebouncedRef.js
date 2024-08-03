@@ -7,7 +7,7 @@ export const useDebouncedRef = (source, wait = 300) => {
     source,
     debounce((value) => {
       debouncedSource.value = value;
-    }, wait)
+    }, wait),
   );
 
   return debouncedSource;

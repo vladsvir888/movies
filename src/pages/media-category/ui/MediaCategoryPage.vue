@@ -3,8 +3,8 @@
     <PageSeoData :title="$t(title)" :description="$t(title)" />
     <Catalog
       v-if="totalResults.length"
-      :data="totalResults"
       v-model:page="page"
+      :data="totalResults"
       :total-pages="totalPages"
       :is-pending="isPendingAutoload"
       :title="title"
@@ -31,7 +31,7 @@ const type = useRouteParam("type");
 const category = useRouteParam("category");
 
 const listItem = MEDIA_LIST[type.value].find(
-  (item) => item.category === category.value
+  (item) => item.category === category.value,
 );
 
 const title = computed(() => {

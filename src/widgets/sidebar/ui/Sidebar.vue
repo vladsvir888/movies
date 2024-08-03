@@ -67,7 +67,7 @@
         <Icon icon="close" />
       </Button>
     </aside>
-    <div class="sidebar__fallback-focus"></div>
+    <div class="sidebar__fallback-focus" />
   </div>
 </template>
 
@@ -92,8 +92,14 @@ const { activate, deactivate } = useFocusTrap(sidebar, {
 });
 const mediaType = useRouteParam("type");
 
-const isSearchDialogVisible = defineModel("isSearchDialogVisible");
-const isMenuVisible = defineModel("isMenuVisible");
+const isSearchDialogVisible = defineModel("isSearchDialogVisible", {
+  type: Boolean,
+  default: false,
+});
+const isMenuVisible = defineModel("isMenuVisible", {
+  type: Boolean,
+  default: false,
+});
 
 const links = computed(() => {
   return [

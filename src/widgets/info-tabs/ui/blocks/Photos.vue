@@ -36,9 +36,9 @@
     </section>
 
     <ImageLightbox
-      :items="items"
       v-model:index="indexActiveItem"
       v-model:is-show="isShow"
+      :items="items"
     />
   </div>
 </template>

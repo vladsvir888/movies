@@ -2,8 +2,8 @@
   <div class="similar">
     <Catalog
       v-if="data.results.length"
-      :data="totalResults"
       v-model:page="page"
+      :data="totalResults"
       :total-pages="totalPages"
       :is-pending="isPendingAutoload"
       :is-back-button="false"

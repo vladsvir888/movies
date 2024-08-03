@@ -1,9 +1,9 @@
 <template>
   <Select
+    id="language-switcher"
     v-model="locale"
     :options="transformedLocales"
     :label="$t('Language:')"
-    id="language-switcher"
     wrapper-class="language-switcher"
     @change="updateLocale"
   />

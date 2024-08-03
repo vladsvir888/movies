@@ -1,6 +1,6 @@
 <template>
   <article class="video-player">
-    <div ref="iframe" class="video-player__iframe" v-show="isLoadIframe"></div>
+    <div v-show="isLoadIframe" ref="iframe" class="video-player__iframe" />
     <div v-show="!isLoadIframe" class="video-player__media">
       <NuxtImg
         :src="`https://i.ytimg.com/vi/${data.id}/maxresdefault.jpg`"
@@ -41,7 +41,6 @@ const props = defineProps({
   data: {
     type: Object,
     required: true,
-    default: () => {},
   },
 });
 

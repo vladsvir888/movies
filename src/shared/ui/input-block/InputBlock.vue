@@ -52,6 +52,7 @@ const props = defineProps({
   },
   placeholder: {
     type: String,
+    default: null,
   },
   clearable: {
     type: Boolean,
@@ -59,6 +60,7 @@ const props = defineProps({
   },
   wrapperClass: {
     type: String,
+    default: null,
   },
   isNeedValidation: {
     type: Boolean,
@@ -66,6 +68,7 @@ const props = defineProps({
   },
   validationMessage: {
     type: String,
+    default: null,
   },
   required: {
     type: Boolean,
@@ -73,6 +76,7 @@ const props = defineProps({
   },
   minlength: {
     type: String,
+    default: null,
   },
 });
 
@@ -81,6 +85,7 @@ defineOptions({
 });
 
 const model = defineModel({
+  type: String,
   required: true,
 });
 

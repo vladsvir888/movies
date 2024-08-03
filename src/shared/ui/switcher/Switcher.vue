@@ -12,7 +12,7 @@
       {{ label }}
     </span>
     <span class="switcher__switch">
-      <span></span>
+      <span />
     </span>
     <span v-show="isChecked" aria-hidden="true">{{ $t("On") }}</span>
     <span v-show="!isChecked" aria-hidden="true">{{ $t("Off") }}</span>
@@ -23,10 +23,12 @@
 defineProps({
   label: {
     type: String,
+    default: null,
   },
 });
 
 const isChecked = defineModel({
+  type: Boolean,
   default: false,
 });
 

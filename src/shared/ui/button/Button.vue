@@ -1,11 +1,11 @@
 <template>
   <component
     :is="component"
+    ref="button"
     :to="to ? localePath(to) : null"
     class="button"
     :class="classObject"
     :target="target"
-    ref="button"
   >
     <slot />
   </component>
@@ -15,18 +15,21 @@
 const props = defineProps({
   to: {
     type: String,
+    default: null,
   },
   variant: {
     type: String,
     validator: (value) => {
       return ["primary", "secondary", "underline"].includes(value);
     },
+    default: null,
   },
   size: {
     type: String,
     validator: (value) => {
       return ["small", "medium", "large"].includes(value);
     },
+    default: null,
   },
   pill: {
     type: Boolean,
@@ -34,6 +37,7 @@ const props = defineProps({
   },
   target: {
     type: String,
+    default: null,
   },
 });
 
@@ -118,7 +122,8 @@ defineExpose({
   &--secondary {
     color: var(--palette-black);
     background-color: var(--palette-white);
-    transition: background-color var(--transition300ms),
+    transition:
+      background-color var(--transition300ms),
       color var(--transition300ms);
 
     @include hover {

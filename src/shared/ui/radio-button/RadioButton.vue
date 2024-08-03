@@ -1,8 +1,8 @@
 <template>
   <div class="radio-button">
     <input
-      v-model="model"
       :id="id"
+      v-model="model"
       :name="name"
       :value="value"
       type="radio"
@@ -18,19 +18,20 @@
 defineProps({
   id: {
     type: String,
+    required: true,
   },
   label: {
     type: String,
-  },
-  name: {
-    type: String,
+    required: true,
   },
   value: {
     type: String,
+    required: true,
   },
 });
 
 const model = defineModel({
+  type: String,
   required: true,
 });
 </script>

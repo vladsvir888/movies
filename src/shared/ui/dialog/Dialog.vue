@@ -43,6 +43,7 @@ defineProps({
 });
 
 const isShow = defineModel("isShow", {
+  type: Boolean,
   default: false,
 });
 

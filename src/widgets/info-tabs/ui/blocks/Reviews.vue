@@ -4,9 +4,9 @@
       <AccordionGroup>
         <AccordionItem
           v-for="item in data"
+          :id="item.id"
           :key="item.id"
           :title="item.author"
-          :id="item.id"
         >
           {{ item.content }}
         </AccordionItem>

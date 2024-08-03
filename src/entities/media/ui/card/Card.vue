@@ -39,7 +39,6 @@ const props = defineProps({
   data: {
     type: Object,
     required: true,
-    default: null,
   },
   type: {
     type: String,
@@ -121,7 +120,9 @@ const preparedTitle = computed(() => getTitleOrName(props.data));
     opacity: 0;
     translate: 0 2%;
     text-align: center;
-    transition: opacity var(--transition300ms), translate var(--transition300ms);
+    transition:
+      opacity var(--transition300ms),
+      translate var(--transition300ms);
   }
 
   &__wrapper {

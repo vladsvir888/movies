@@ -2,10 +2,10 @@
   <div class="videos">
     <Select
       v-if="selectedVariantSortedData"
+      id="videos-sort-by-select"
       v-model="selectedVariantSortedData"
       :options="sortedData"
       :label="$t('Sort by')"
-      id="videos-sort-by-select"
       wrapper-class="videos__select"
     />
     <div v-if="filteredData.length" class="videos__wrapper">
@@ -34,7 +34,7 @@ const sortedData = computed(() => {
     (item) => ({
       text: item,
       value: item,
-    })
+    }),
   );
 
   return [
@@ -53,7 +53,7 @@ const filteredData = computed(() => {
   }
 
   return props.data.filter(
-    (item) => item.type === selectedVariantSortedData.value
+    (item) => item.type === selectedVariantSortedData.value,
   );
 });
 

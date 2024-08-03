@@ -44,9 +44,8 @@
 import Icon from "~/src/shared/ui/icon";
 import Rating from "~/src/shared/ui/rating";
 import Button from "~/src/shared/ui/button";
-import { divideByTwoAndRound } from "~/src/shared/lib/format";
 import { getTitleOrName } from "~/src/shared/lib/get";
-import { formatDate } from "~/src/shared/lib/format";
+import { formatDate, divideByTwoAndRound } from "~/src/shared/lib/format";
 import { MEDIA_TYPES } from "~/src/entities/media";
 
 const config = useRuntimeConfig();
@@ -55,7 +54,6 @@ const props = defineProps({
   data: {
     type: Object,
     required: true,
-    default: () => {},
   },
 });
 
@@ -69,7 +67,7 @@ const type = computed(() => {
 
 watch(
   () => props.data.vote_average,
-  (newValue) => (ratingCount.value = divideByTwoAndRound(newValue))
+  (newValue) => (ratingCount.value = divideByTwoAndRound(newValue)),
 );
 </script>
 

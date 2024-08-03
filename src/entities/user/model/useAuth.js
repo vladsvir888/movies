@@ -60,7 +60,7 @@ export const useAuthStore = defineStore(NAMESPACE, {
 
     getDataFromLSAndSetInStore() {
       const authData = getItemFromLocalStorage(
-        useRuntimeConfig().public.appTokenDataKey
+        useRuntimeConfig().public.appTokenDataKey,
       );
 
       if (!authData) {

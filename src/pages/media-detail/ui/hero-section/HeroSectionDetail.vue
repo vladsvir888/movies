@@ -40,7 +40,6 @@
           width: 550,
           height: 750,
         }"
-        loading="lazy"
         class="hero-block-detail__image"
       />
     </div>
@@ -75,7 +74,7 @@ const type = useRouteParam("type");
 
 watch(
   () => props.data.voteAverage,
-  (newValue) => (ratingCount.value = divideByTwoAndRound(newValue))
+  (newValue) => (ratingCount.value = divideByTwoAndRound(newValue)),
 );
 </script>
 

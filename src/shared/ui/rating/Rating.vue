@@ -4,8 +4,8 @@
       <template v-for="star in stars" :key="star.value">
         <input
           :id="`star-${uid}-${star.value}`"
-          :value="star.value"
           v-model="model"
+          :value="star.value"
           type="radio"
           class="rating__input visually-hidden"
           v-bind="$attrs"
@@ -35,7 +35,9 @@ defineOptions({
   inheritAttrs: false,
 });
 
-const model = defineModel();
+const model = defineModel({
+  type: Number,
+});
 
 const stars = ref([
   {

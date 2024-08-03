@@ -2,7 +2,7 @@
   <aside class="filter">
     <form class="filter__form">
       <AccordionGroup>
-        <AccordionItem :title="$t('Genres')" id="filter-genres">
+        <AccordionItem id="filter-genres" :title="$t('Genres')">
           <Select
             v-model="filter.with_genres"
             :options="transformedGenres"
@@ -11,16 +11,15 @@
           />
         </AccordionItem>
 
-        <AccordionItem :title="$t('Sort by')" id="filter-sort">
+        <AccordionItem id="filter-sort" :title="$t('Sort by')">
           <div class="filter__sort-wrapper">
             <RadioButton
               v-for="radio in sortedData"
+              :id="`filter-sort-${radio.value}`"
               :key="`filter-sort-${radio.value}`"
               v-model="filter.sort_by"
               :label="radio.label"
-              :id="`filter-sort-${radio.value}`"
               :value="radio.value"
-              name="filter-sort"
               @change="setFilterValuesInUrl"
             />
             <Switcher
@@ -30,11 +29,11 @@
           </div>
         </AccordionItem>
 
-        <AccordionItem :title="$t('Rating')" id="filter-rating">
-          <Rating :inert="false" v-model="ratingCount" />
+        <AccordionItem id="filter-rating" :title="$t('Rating')">
+          <Rating v-model="ratingCount" :inert="false" />
         </AccordionItem>
 
-        <AccordionItem :title="$t('Release Date')" id="filter-release-date">
+        <AccordionItem id="filter-release-date" :title="$t('Release Date')">
           <div class="filter__date">
             <InputBlock
               v-model="filter['release_date.gte']"
@@ -76,6 +75,7 @@ const route = useRoute();
 const { t } = useI18n();
 
 const removedVariant = defineModel("removedVariant", {
+  type: String,
   default: null,
 });
 
@@ -143,7 +143,7 @@ const updateFilterValues = () => {
     return;
   }
 
-  for (let key in query) {
+  for (const key in query) {
     if (key === FILTER_VALUES["vote_average.gte"]) {
       ratingCount.value = divideByTwoAndRound(Number(query[key])); // trigger watch ratingCount
     } else if (key === FILTER_VALUES["sort_by"] && query[key] !== "") {

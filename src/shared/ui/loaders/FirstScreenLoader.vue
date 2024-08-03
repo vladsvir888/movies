@@ -1,7 +1,7 @@
 <template>
   <div class="first-screen-loader">
     <BaseLoader :is-show-accessible-text="false" />
-    <p class="first-screen-loader__text">{{ $t("Loading") }}<span></span></p>
+    <p class="first-screen-loader__text">{{ $t("Loading") }}<span /></p>
   </div>
 </template>
 

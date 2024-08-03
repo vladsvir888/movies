@@ -21,11 +21,10 @@
 <script setup>
 import HeroSection from "~/src/widgets/hero-section";
 import Category from "~/src/widgets/category";
-import { useMediaStore } from "~/src/entities/media";
+import { useMediaStore, MEDIA_LIST } from "~/src/entities/media";
 import PageSeoData from "~/src/shared/ui/page-seo-data";
 import Heading from "~/src/shared/ui/heading";
 import { useCustomFetch } from "~/src/shared/api";
-import { MEDIA_LIST } from "~/src/entities/media";
 
 const mediaStore = useMediaStore();
 

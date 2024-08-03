@@ -4,16 +4,11 @@
     :options="preparedOptions"
     :has-track="false"
     :tag="tag"
-    :autoWidth="true"
+    :auto-width="true"
   >
     <div class="container">
       <header class="carousel__header">
-        <Heading
-          v-if="title"
-          :level="2"
-          variant="underline"
-          class="carousel__title"
-        >
+        <Heading :level="2" variant="underline" class="carousel__title">
           {{ $t(title) }}
         </Heading>
 
@@ -45,7 +40,7 @@
           <span class="visually-hidden">{{ $t("Previous") }}</span>
           <Icon icon="arrow-prev" />
         </Button>
-        <div class="splide__pagination carousel__pagination"></div>
+        <div class="splide__pagination carousel__pagination" />
         <Button
           class="splide__arrow splide__arrow--next carousel__button carousel__button--next"
         >
@@ -110,7 +105,6 @@ const props = defineProps({
   items: {
     type: Array,
     required: true,
-    default: () => [],
   },
 });
 

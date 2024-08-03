@@ -19,7 +19,7 @@
         </li>
       </ul>
       <BaseLoader v-show="isPending" class="card-list__loader" />
-      <div ref="observer"></div>
+      <div ref="observer" />
     </div>
   </div>
 </template>
@@ -36,7 +36,6 @@ const props = defineProps({
   data: {
     type: Array,
     required: true,
-    default: () => [],
   },
   totalPages: {
     type: Number,
@@ -50,6 +49,7 @@ const props = defineProps({
   },
   title: {
     type: String,
+    default: null,
   },
   isBackButton: {
     type: Boolean,
@@ -58,7 +58,7 @@ const props = defineProps({
 });
 
 const page = defineModel("page", {
-  required: true,
+  type: Number,
   default: 1,
 });
 
@@ -80,7 +80,7 @@ const callback = () => {
 
 const { observer: observerCatalog } = useIntersectionObserver(
   callback,
-  options
+  options,
 );
 
 onMounted(() => {

@@ -18,7 +18,7 @@ export const useFocusTrap = (element, options) => {
         ...options,
       });
     },
-    { flush: "post" }
+    { flush: "post" },
   );
 
   return {

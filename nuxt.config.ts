@@ -60,6 +60,7 @@ export default defineNuxtConfig({
     "@nuxt/image",
     "@nuxtjs/i18n",
     "@pinia/nuxt",
+    "@nuxt/eslint",
   ],
 
   routeRules: {

@@ -1,14 +1,13 @@
 <template>
   <ClientOnly>
     <div class="select-block" :class="wrapperClass">
-      <label v-if="label" :for="`${id}-${uid}`" class="select-block__label">{{
+      <label v-if="label" :for="preparedId" class="select-block__label">{{
         label
       }}</label>
       <div class="select-block__select-wrapper">
         <select
+          :id="preparedId"
           v-model="model"
-          :id="`${id}-${uid}`"
-          :name="name"
           class="select-block__select"
           v-bind="$attrs"
         >
@@ -28,23 +27,22 @@
 </template>
 
 <script setup>
-defineProps({
+const props = defineProps({
   wrapperClass: {
     type: String,
+    default: null,
   },
   id: {
     type: String,
-  },
-  name: {
-    type: String,
+    default: null,
   },
   label: {
     type: String,
+    default: null,
   },
   options: {
     type: Array,
     required: true,
-    default: () => [],
   },
 });
 
@@ -53,10 +51,13 @@ defineOptions({
 });
 
 const model = defineModel({
+  type: String,
   required: true,
 });
 
-const uid = ref(getCurrentInstance().uid);
+const preparedId = computed(() => {
+  return props.label ? `${props.id}-${getCurrentInstance().uid}` : null;
+});
 </script>
 
 <style lang="scss">

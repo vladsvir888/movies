@@ -37,10 +37,11 @@ defineProps({
   },
   alt: {
     type: String,
-    default: "",
+    default: null,
   },
   loading: {
     type: String,
+    default: null,
   },
 });
 

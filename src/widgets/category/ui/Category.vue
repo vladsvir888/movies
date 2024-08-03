@@ -1,12 +1,12 @@
 <template>
   <Carousel
+    v-slot="{ data, type: mediaType }"
     :type="type"
     :category="category"
     :title="title"
-    :items="data"
-    v-slot="{ data, type }"
+    :items="items"
   >
-    <Card :data="data" :type="type" />
+    <Card :data="data" :type="mediaType" />
   </Carousel>
 </template>
 
@@ -40,7 +40,7 @@ useCustomFetch(`/${props.type}/${props.category}`, {
   },
 });
 
-const data = computed(() => {
+const items = computed(() => {
   return mediaStore[props.type][transformCategory(props.category)];
 });
 </script>

@@ -13,6 +13,7 @@ const props = defineProps({
   variant: {
     type: String,
     validator: (value) => ["underline"].includes(value),
+    default: null,
   },
 });
 

@@ -43,8 +43,7 @@
 import InputBlock from "~/src/shared/ui/input-block";
 import Button from "~/src/shared/ui/button";
 import { BaseLoader } from "~/src/shared/ui/loaders";
-import { useAuthStore } from "~/src/entities/user";
-import { passwordErrorMessage } from "~/src/entities/user";
+import { useAuthStore, passwordErrorMessage } from "~/src/entities/user";
 
 const authStore = useAuthStore();
 

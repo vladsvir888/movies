@@ -54,8 +54,14 @@ import { useRouteParam } from "~/src/shared/lib/use";
 import { MEDIA_TYPES } from "~/src/entities/media";
 import { SignOutButton } from "~/src/features/auth";
 
-const isMenuVisible = defineModel("isMenuVisible");
-const isSearchDialogVisible = defineModel("isSearchDialogVisible");
+const isMenuVisible = defineModel("isMenuVisible", {
+  type: Boolean,
+  default: false,
+});
+const isSearchDialogVisible = defineModel("isSearchDialogVisible", {
+  type: Boolean,
+  default: false,
+});
 
 const mediaType = useRouteParam("type");
 const { t } = useI18n();

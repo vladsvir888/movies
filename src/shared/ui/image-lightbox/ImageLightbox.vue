@@ -2,8 +2,8 @@
   <Teleport to="body">
     <Transition name="image-lightbox">
       <div
-        ref="lightbox"
         v-show="isShow"
+        ref="lightbox"
         class="image-lightbox"
         role="dialog"
         aria-modal="true"
@@ -12,7 +12,7 @@
         @keydown.right="toNextImage"
         @keydown.left="toPreviousImage"
       >
-        <div class="image-lightbox__overlay" @click="closeLightbox"></div>
+        <div class="image-lightbox__overlay" @click="closeLightbox" />
         <ul class="image-lightbox__list">
           <li
             v-for="(item, i) in items"
@@ -79,10 +79,12 @@ const props = defineProps({
 });
 
 const isShow = defineModel("isShow", {
+  type: Boolean,
   default: false,
 });
 
 const index = defineModel("index", {
+  type: Number,
   default: null,
 });
 

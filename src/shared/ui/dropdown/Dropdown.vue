@@ -24,9 +24,9 @@
     <Transition name="dropdown">
       <ul
         v-show="isShowMenu"
+        :id="`menu-${uid}`"
         ref="floating"
         role="menu"
-        :id="`menu-${uid}`"
         class="dropdown__menu"
         :style="floatingStyles"
         data-test="dropdown-menu"
@@ -48,7 +48,7 @@
           @keydown.home.prevent="setSelectedToFirstMenuItem"
           @keydown.end.prevent="setSelectedToLastMenuItem"
           @keydown.shift.tab.prevent="hideMenuAndSetFocusOnButton"
-          @keydown.tab.prevent="hideMenuAndSetFocusOnButton"
+          @keydown.tab.exact.prevent="hideMenuAndSetFocusOnButton"
         >
           {{ item.text }}
         </li>
@@ -65,9 +65,11 @@ import { useClickOutside } from "~/src/shared/lib/use";
 const props = defineProps({
   toggleClass: {
     type: String,
+    default: null,
   },
   toggleTitleAttr: {
     type: String,
+    default: null,
   },
   placementMenu: {
     type: String,
@@ -75,7 +77,7 @@ const props = defineProps({
   },
   items: {
     type: Array,
-    default: () => [],
+    required: true,
   },
   selectedItem: {
     type: String,
@@ -162,7 +164,7 @@ useClickOutside(dropdown, hideMenu);
     display: flex;
     flex-direction: column;
     row-gap: 8px;
-    min-width: 100px;
+    min-width: 105px;
     padding: 6px 0;
     color: var(--palette-black);
     background-color: var(--palette-white);

@@ -30,8 +30,8 @@
         </ul>
         <Catalog
           v-if="totalResults.length"
-          :data="totalResults"
           v-model:page="page"
+          :data="totalResults"
           :total-pages="totalPages"
           :is-pending="isPendingAutoload"
           :is-back-button="false"
@@ -47,14 +47,12 @@ import Icon from "~/src/shared/ui/icon";
 import Heading from "~/src/shared/ui/heading";
 import Button from "~/src/shared/ui/button";
 import Catalog from "~/src/widgets/catalog";
-import { Filter } from "~/src/features/media";
+import { Filter, FILTER } from "~/src/features/media";
 import { useCustomFetch } from "~/src/shared/api";
 import { buildQuery } from "~/src/shared/lib/format";
 import { useRouteParam } from "~/src/shared/lib/use";
-import { isEmptyObject } from "~/src/shared/lib/is";
-import { FILTER } from "~/src/features/media";
+import { isEmptyObject, isObjectsEqual } from "~/src/shared/lib/is";
 import { scrollUp } from "~/src/shared/lib/dom";
-import { isObjectsEqual } from "~/src/shared/lib/is";
 import { MEDIA_TYPES } from "~/src/entities/media";
 
 const route = useRoute();
@@ -98,7 +96,7 @@ useCustomFetch(
       totalResults.value = [...totalResults.value, ...response._data.results];
       totalPages.value = response._data.total_pages;
     },
-  }
+  },
 );
 
 watch(
@@ -114,7 +112,7 @@ watch(
     }
 
     scrollUp();
-  }
+  },
 );
 
 onMounted(() => {

@@ -23,6 +23,9 @@ const SLOT_CONTENT = `<span class="icon"><svg xmlns="http://www.w3.org/2000/svg"
 describe("Dropdown", () => {
   it("Dropdown должен показывать меню при клике на кнопку", async () => {
     const wrapper = shallowMount(Dropdown, {
+      props: {
+        items: DROPDOWN_ITEMS,
+      },
       attachTo: document.body,
     });
     await wrapper.find(SELECTORS.toggle).trigger("click");
@@ -31,6 +34,9 @@ describe("Dropdown", () => {
 
   it("Dropdown должен скрывать меню при клике на кнопку, когда меню открыто", async () => {
     const wrapper = shallowMount(Dropdown, {
+      props: {
+        items: DROPDOWN_ITEMS,
+      },
       attachTo: document.body,
     });
     const button = wrapper.find(SELECTORS.toggle);
@@ -48,7 +54,7 @@ describe("Dropdown", () => {
     const items = wrapper.findAll(SELECTORS.menuItem);
     expect(items).toHaveLength(DROPDOWN_ITEMS.length);
     items.forEach((item, index) =>
-      expect(item.text()).toBe(DROPDOWN_ITEMS[index].text)
+      expect(item.text()).toBe(DROPDOWN_ITEMS[index].text),
     );
   });
 
@@ -88,6 +94,9 @@ describe("Dropdown", () => {
 
   it("Dropdown должен рендерить контент, переданный в слот кнопки", () => {
     const wrapper = mount(Dropdown, {
+      props: {
+        items: DROPDOWN_ITEMS,
+      },
       slots: {
         toggle: SLOT_CONTENT,
       },
