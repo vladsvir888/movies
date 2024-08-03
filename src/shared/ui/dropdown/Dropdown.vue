@@ -10,6 +10,7 @@
       :aria-controls="`menu-${uid}`"
       :title="toggleTitleAttr"
       type="button"
+      data-test="dropdown-toggle"
       @click="toggleMenu"
       @keydown.esc="hideMenu"
       @keydown.shift.tab="hideMenu"
@@ -28,6 +29,7 @@
         :id="`menu-${uid}`"
         class="dropdown__menu"
         :style="floatingStyles"
+        data-test="dropdown-menu"
       >
         <li
           v-for="(item, index) in items"
@@ -36,6 +38,7 @@
           role="menuitem"
           :tabindex="index === activeIndexMenuItem ? 0 : -1"
           class="dropdown__menu-item"
+          data-test="dropdown-menu-item"
           @click="onClickMenuItem(item.value)"
           @keydown.enter="onClickMenuItem(item.value)"
           @keydown.space.prevent="onClickMenuItem(item.value)"

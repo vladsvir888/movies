@@ -1,6 +1,11 @@
-import { describe, it, expect } from "vitest";
 import { mount, shallowMount } from "@vue/test-utils";
 import Dropdown from "../Dropdown.vue";
+
+const SELECTORS = {
+  toggle: "[data-test='dropdown-toggle']",
+  menu: "[data-test='dropdown-menu']",
+  menuItem: "[data-test='dropdown-menu-item']",
+};
 
 const DROPDOWN_ITEMS = [
   {
@@ -20,18 +25,18 @@ describe("Dropdown", () => {
     const wrapper = shallowMount(Dropdown, {
       attachTo: document.body,
     });
-    await wrapper.find(".dropdown__toggle").trigger("click");
-    expect(wrapper.find(".dropdown__menu").isVisible()).toBeTruthy();
+    await wrapper.find(SELECTORS.toggle).trigger("click");
+    expect(wrapper.find(SELECTORS.menu).isVisible()).toBeTruthy();
   });
 
   it("Dropdown должен скрывать меню при клике на кнопку, когда меню открыто", async () => {
     const wrapper = shallowMount(Dropdown, {
       attachTo: document.body,
     });
-    const button = wrapper.find(".dropdown__toggle");
+    const button = wrapper.find(SELECTORS.toggle);
     await button.trigger("click");
     await button.trigger("click");
-    expect(wrapper.find(".dropdown__menu").isVisible()).toBeFalsy();
+    expect(wrapper.find(SELECTORS.menu).isVisible()).toBeFalsy();
   });
 
   it("Dropdown должен рендерить элементы меню в соответствии с пропсом items", () => {
@@ -40,7 +45,7 @@ describe("Dropdown", () => {
         items: DROPDOWN_ITEMS,
       },
     });
-    const items = wrapper.findAll(".dropdown__menu-item");
+    const items = wrapper.findAll(SELECTORS.menuItem);
     expect(items).toHaveLength(DROPDOWN_ITEMS.length);
     items.forEach((item, index) =>
       expect(item.text()).toBe(DROPDOWN_ITEMS[index].text)
@@ -54,9 +59,9 @@ describe("Dropdown", () => {
       },
       attachTo: document.body,
     });
-    await wrapper.find(".dropdown__toggle").trigger("click");
-    expect(wrapper.find(".dropdown__menu").isVisible()).toBeTruthy();
-    await wrapper.find(".dropdown__menu-item").trigger("click");
+    await wrapper.find(SELECTORS.toggle).trigger("click");
+    expect(wrapper.find(SELECTORS.menu).isVisible()).toBeTruthy();
+    await wrapper.find(SELECTORS.menuItem).trigger("click");
     expect(wrapper.emitted("update:selected-item")).toHaveLength(1);
     expect(wrapper.emitted("update:selected-item")?.[0]).toEqual([
       DROPDOWN_ITEMS[0].value,
@@ -70,10 +75,10 @@ describe("Dropdown", () => {
       },
       attachTo: document.body,
     });
-    const menu = wrapper.find(".dropdown__menu");
-    await wrapper.find(".dropdown__toggle").trigger("click");
+    const menu = wrapper.find(SELECTORS.menu);
+    await wrapper.find(SELECTORS.toggle).trigger("click");
     expect(menu.isVisible()).toBeTruthy();
-    await wrapper.find(".dropdown__menu-item").trigger("click");
+    await wrapper.find(SELECTORS.menuItem).trigger("click");
     expect(wrapper.emitted("update:selected-item")).toHaveLength(1);
     expect(wrapper.emitted("update:selected-item")?.[0]).toEqual([
       DROPDOWN_ITEMS[0].value,
@@ -97,8 +102,8 @@ describe("Dropdown", () => {
       },
       attachTo: document.body,
     });
-    const button = wrapper.find(".dropdown__toggle");
-    const menu = wrapper.find(".dropdown__menu");
+    const button = wrapper.find(SELECTORS.toggle);
+    const menu = wrapper.find(SELECTORS.menu);
     await button.trigger("click");
     expect(menu.isVisible()).toBeTruthy();
     await button.trigger("keydown", { key: "Escape" });
@@ -112,8 +117,8 @@ describe("Dropdown", () => {
       },
       attachTo: document.body,
     });
-    const button = wrapper.find(".dropdown__toggle");
-    const menu = wrapper.find(".dropdown__menu");
+    const button = wrapper.find(SELECTORS.toggle);
+    const menu = wrapper.find(SELECTORS.menu);
     await button.trigger("click");
     expect(menu.isVisible()).toBeTruthy();
     await button.trigger("keydown", { key: "Tab", shiftKey: true });
@@ -127,12 +132,12 @@ describe("Dropdown", () => {
       },
       attachTo: document.body,
     });
-    const button = wrapper.find(".dropdown__toggle");
-    const menu = wrapper.find(".dropdown__menu");
+    const button = wrapper.find(SELECTORS.toggle);
+    const menu = wrapper.find(SELECTORS.menu);
     await button.trigger("click");
     expect(menu.isVisible()).toBeTruthy();
     await button.trigger("keydown", { key: "ArrowDown" });
-    const firstMenuItem = menu.find(".dropdown__menu-item");
+    const firstMenuItem = menu.find(SELECTORS.menuItem);
     expect(firstMenuItem.text()).toBe(document.activeElement?.textContent);
   });
 
@@ -143,12 +148,12 @@ describe("Dropdown", () => {
       },
       attachTo: document.body,
     });
-    const button = wrapper.find(".dropdown__toggle");
-    const menu = wrapper.find(".dropdown__menu");
+    const button = wrapper.find(SELECTORS.toggle);
+    const menu = wrapper.find(SELECTORS.menu);
     await button.trigger("click");
     expect(menu.isVisible()).toBeTruthy();
     await button.trigger("keydown", { key: "Home" });
-    const firstMenuItem = menu.find(".dropdown__menu-item");
+    const firstMenuItem = menu.find(SELECTORS.menuItem);
     expect(firstMenuItem.text()).toBe(document.activeElement?.textContent);
   });
 
@@ -159,12 +164,12 @@ describe("Dropdown", () => {
       },
       attachTo: document.body,
     });
-    const button = wrapper.find(".dropdown__toggle");
-    const menu = wrapper.find(".dropdown__menu");
+    const button = wrapper.find(SELECTORS.toggle);
+    const menu = wrapper.find(SELECTORS.menu);
     await button.trigger("click");
     expect(menu.isVisible()).toBeTruthy();
     await button.trigger("keydown", { key: "End" });
-    const menuItems = menu.findAll(".dropdown__menu-item");
+    const menuItems = menu.findAll(SELECTORS.menuItem);
     const lastMenuItem = menuItems[menuItems.length - 1];
     expect(lastMenuItem.text()).toBe(document.activeElement?.textContent);
   });
@@ -176,12 +181,12 @@ describe("Dropdown", () => {
       },
       attachTo: document.body,
     });
-    const button = wrapper.find(".dropdown__toggle");
-    const menu = wrapper.find(".dropdown__menu");
+    const button = wrapper.find(SELECTORS.toggle);
+    const menu = wrapper.find(SELECTORS.menu);
     await button.trigger("click");
     expect(menu.isVisible()).toBeTruthy();
     await button.trigger("keydown", { key: "ArrowDown" });
-    const menuItems = menu.findAll(".dropdown__menu-item");
+    const menuItems = menu.findAll(SELECTORS.menuItem);
     expect(menuItems[0].text()).toBe(document.activeElement?.textContent);
     menuItems[0].trigger("keydown", { key: "ArrowDown" });
     expect(menuItems[1].text()).toBe(document.activeElement?.textContent);
@@ -194,12 +199,12 @@ describe("Dropdown", () => {
       },
       attachTo: document.body,
     });
-    const button = wrapper.find(".dropdown__toggle");
-    const menu = wrapper.find(".dropdown__menu");
+    const button = wrapper.find(SELECTORS.toggle);
+    const menu = wrapper.find(SELECTORS.menu);
     await button.trigger("click");
     expect(menu.isVisible()).toBeTruthy();
     await button.trigger("keydown", { key: "ArrowDown" });
-    const menuItems = menu.findAll(".dropdown__menu-item");
+    const menuItems = menu.findAll(SELECTORS.menuItem);
     expect(menuItems[0].text()).toBe(document.activeElement?.textContent);
     menuItems[0].trigger("keydown", { key: "ArrowDown" });
     expect(menuItems[1].text()).toBe(document.activeElement?.textContent);
@@ -214,12 +219,12 @@ describe("Dropdown", () => {
       },
       attachTo: document.body,
     });
-    const button = wrapper.find(".dropdown__toggle");
-    const menu = wrapper.find(".dropdown__menu");
+    const button = wrapper.find(SELECTORS.toggle);
+    const menu = wrapper.find(SELECTORS.menu);
     await button.trigger("click");
     expect(menu.isVisible()).toBeTruthy();
     await button.trigger("keydown", { key: "Tab" });
-    const firstMenuItem = menu.find(".dropdown__menu-item");
+    const firstMenuItem = menu.find(SELECTORS.menuItem);
     expect(firstMenuItem.text()).toBe(document.activeElement?.textContent);
     await firstMenuItem.trigger("keydown", { key: "Tab" });
     expect(menu.isVisible()).toBeFalsy();
