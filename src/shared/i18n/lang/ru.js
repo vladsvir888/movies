@@ -80,4 +80,5 @@ export default {
   "This is a required field": "Это обязательное поле",
   "Password needs to be at least 4 characters long":
     "Пароль должен быть длиной не менее 4 символов",
+  Open: "Открыть",
 };

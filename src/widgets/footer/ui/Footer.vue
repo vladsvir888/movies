@@ -13,7 +13,11 @@
 
       <p class="footer__data">
         {{ $t("Data provided by") }}
-        <Button to="https://www.themoviedb.org/" target="_blank">
+        <Button
+          to="https://www.themoviedb.org/"
+          target="_blank"
+          aria-label="TMDB"
+        >
           <Icon icon="tmdb" class="footer__data-icon" />
         </Button>
       </p>

@@ -34,6 +34,7 @@
           class="header__burger"
           :aria-expanded="isMenuVisible"
           aria-controls="sidebar"
+          :aria-label="$t('Open')"
           @click="isMenuVisible = true"
         >
           <span class="header__burger-icon">

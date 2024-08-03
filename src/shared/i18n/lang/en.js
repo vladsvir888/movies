@@ -80,4 +80,5 @@ export default {
   "This is a required field": "This is a required field",
   "Password needs to be at least 4 characters long":
     "Password needs to be at least 4 characters long",
+  Open: "Open",
 };

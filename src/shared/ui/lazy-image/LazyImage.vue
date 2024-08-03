@@ -37,7 +37,7 @@ defineProps({
   },
   alt: {
     type: String,
-    default: null,
+    default: "",
   },
   loading: {
     type: String,
