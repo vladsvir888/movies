@@ -1,4 +1,4 @@
-export const toggleScrollbar = (isScrollbarVisible) => {
+export const toggleScrollbar = (isScrollbarVisible: boolean): void => {
   if (isScrollbarVisible) {
     document.body.classList.add("no-scroll");
   } else {

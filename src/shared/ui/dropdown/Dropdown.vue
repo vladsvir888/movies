@@ -1,5 +1,4 @@
 <template>
-  <!-- ClientOnly removed because of there are some limitations in testing -->
   <div ref="dropdown" class="dropdown">
     <Button
       ref="reference"
@@ -90,7 +89,7 @@ const emit = defineEmits(["update:selected-item"]);
 const menuItems = ref([]);
 const activeIndexMenuItem = ref(0);
 
-const uid = ref(getCurrentInstance().uid);
+const uid = useId();
 const isShowMenu = ref(false);
 const reference = ref(null);
 const floating = ref(null);

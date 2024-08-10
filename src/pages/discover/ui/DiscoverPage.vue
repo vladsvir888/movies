@@ -96,7 +96,7 @@ useCustomFetch(
       totalResults.value = [...totalResults.value, ...response._data.results];
       totalPages.value = response._data.total_pages;
     },
-  },
+  }
 );
 
 watch(
@@ -112,7 +112,7 @@ watch(
     }
 
     scrollUp();
-  },
+  }
 );
 
 onMounted(() => {

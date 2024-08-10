@@ -3,7 +3,6 @@
     <input
       :id="id"
       v-model="model"
-      :name="name"
       :value="value"
       type="radio"
       class="radio-button__input"

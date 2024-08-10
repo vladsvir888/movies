@@ -4,11 +4,11 @@ export default <NuxtI18nOptions>{
   locales: [
     {
       code: "en",
-      file: "en.js",
+      file: "en.ts",
     },
     {
       code: "ru",
-      file: "ru.js",
+      file: "ru.ts",
     },
   ],
   langDir: "./src/shared/i18n/lang",

@@ -80,7 +80,7 @@ const callback = () => {
 
 const { observer: observerCatalog } = useIntersectionObserver(
   callback,
-  options,
+  options
 );
 
 onMounted(() => {
