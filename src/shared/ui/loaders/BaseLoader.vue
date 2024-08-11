@@ -6,12 +6,13 @@
   </div>
 </template>
 
-<script setup>
-defineProps({
-  isShowAccessibleText: {
-    type: Boolean,
-    default: true,
-  },
+<script setup lang="ts">
+type BaseLoaderProps = {
+  isShowAccessibleText?: boolean;
+};
+
+withDefaults(defineProps<BaseLoaderProps>(), {
+  isShowAccessibleText: true,
 });
 </script>
 

@@ -5,7 +5,7 @@ type ReturnTypeUseIntersectionObserver = {
 
 export const useIntersectionObserver = (
   callback: () => void,
-  options: IntersectionObserverInit = {}
+  options: IntersectionObserverInit = {},
 ): ReturnTypeUseIntersectionObserver => {
   const isElementIntersecting = ref(false);
 

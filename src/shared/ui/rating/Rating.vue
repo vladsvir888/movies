@@ -21,14 +21,15 @@
   </ClientOnly>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import Icon from "~/src/shared/ui/icon";
 
-defineProps({
-  inert: {
-    type: Boolean,
-    default: true,
-  },
+type RatingProps = {
+  inert?: boolean;
+};
+
+withDefaults(defineProps<RatingProps>(), {
+  inert: true,
 });
 
 defineOptions({
@@ -37,26 +38,17 @@ defineOptions({
 
 const model = defineModel({
   type: Number,
+  required: true,
 });
 
 const stars = ref([
-  {
-    value: 1,
-  },
-  {
-    value: 2,
-  },
-  {
-    value: 3,
-  },
-  {
-    value: 4,
-  },
-  {
-    value: 5,
-  },
+  { value: 1 },
+  { value: 2 },
+  { value: 3 },
+  { value: 4 },
+  { value: 5 },
 ]);
-const uid = ref(getCurrentInstance().uid);
+const uid = ref(getCurrentInstance()?.uid);
 </script>
 
 <style lang="scss">

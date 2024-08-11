@@ -5,9 +5,9 @@ type ReturnTypeUseFocusTrap = {
   deactivate: () => FocusTrap | null;
 };
 
-export const useFocusTrap = <T extends Ref<HTMLElement>>(
+export const useFocusTrap = <T extends Ref<HTMLElement | null>>(
   element: T,
-  options: Options = {}
+  options: Options = {},
 ): ReturnTypeUseFocusTrap => {
   let trap: FocusTrap | null = null;
 
@@ -21,12 +21,12 @@ export const useFocusTrap = <T extends Ref<HTMLElement>>(
         return;
       }
 
-      trap = createFocusTrap(toValue(element), {
+      trap = createFocusTrap(toValue(el), {
         escapeDeactivates: false,
         ...options,
       });
     },
-    { flush: "post" }
+    { flush: "post" },
   );
 
   return {

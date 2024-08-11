@@ -41,43 +41,42 @@
   </ClientOnly>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import Icon from "~/src/shared/ui/icon";
 import Button from "~/src/shared/ui/button";
 
-const props = defineProps({
-  type: {
-    type: String,
-    default: "text",
-  },
-  placeholder: {
-    type: String,
-    default: null,
-  },
-  clearable: {
-    type: Boolean,
-    default: false,
-  },
-  wrapperClass: {
-    type: String,
-    default: null,
-  },
-  isNeedValidation: {
-    type: Boolean,
-    default: false,
-  },
-  validationMessage: {
-    type: String,
-    default: null,
-  },
-  required: {
-    type: Boolean,
-    default: false,
-  },
-  minlength: {
-    type: String,
-    default: null,
-  },
+type InputBlockTypes =
+  | "date"
+  | "datetime-local"
+  | "email"
+  | "number"
+  | "password"
+  | "search"
+  | "tel"
+  | "text"
+  | "time"
+  | "url";
+
+type InputBlockProps = {
+  type?: InputBlockTypes;
+  placeholder?: string;
+  clearable?: boolean;
+  wrapperClass?: string;
+  isNeedValidation?: boolean;
+  validationMessage?: string;
+  required?: boolean;
+  minlength?: number;
+};
+
+const props = withDefaults(defineProps<InputBlockProps>(), {
+  type: "text",
+  placeholder: undefined,
+  clearable: false,
+  wrapperClass: undefined,
+  isNeedValidation: false,
+  validationMessage: undefined,
+  required: false,
+  minlength: undefined,
 });
 
 defineOptions({
@@ -91,24 +90,24 @@ const model = defineModel({
 
 const { t } = useI18n();
 
-const uid = ref(getCurrentInstance().uid);
-const input = ref(null);
-const error = ref(null);
+const uid = ref(getCurrentInstance()?.uid);
+const input = ref<HTMLInputElement | null>(null);
+const error = ref<string | undefined>(undefined);
 
 const clearEntry = () => (model.value = "");
 
 const setError = () => {
-  error.value = input.value.validity.valueMissing
+  error.value = input.value?.validity.valueMissing
     ? t("This is a required field")
     : props.validationMessage;
 };
 
 const resetError = () => {
-  error.value = null;
+  error.value = undefined;
 };
 
 const isValidInput = () => {
-  return input.value.checkValidity();
+  return input.value?.checkValidity();
 };
 
 const handleValidation = () => {

@@ -10,13 +10,12 @@
   </div>
 </template>
 
-<script setup>
-defineProps({
-  title: {
-    type: String,
-    required: true,
-  },
-});
+<script setup lang="ts">
+type TabPanelProps = {
+  title: string;
+};
+
+defineProps<TabPanelProps>();
 
 const activeTab = inject("activeTab");
 </script>

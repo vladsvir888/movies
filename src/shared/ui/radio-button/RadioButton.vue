@@ -7,27 +7,18 @@
       type="radio"
       class="radio-button__input"
     />
-    <label v-if="label" :for="id" class="radio-button__label">{{
-      label
-    }}</label>
+    <label :for="id" class="radio-button__label">{{ label }}</label>
   </div>
 </template>
 
-<script setup>
-defineProps({
-  id: {
-    type: String,
-    required: true,
-  },
-  label: {
-    type: String,
-    required: true,
-  },
-  value: {
-    type: String,
-    required: true,
-  },
-});
+<script setup lang="ts">
+type RadioButtonProps = {
+  id: string;
+  label: string;
+  value: string;
+};
+
+defineProps<RadioButtonProps>();
 
 const model = defineModel({
   type: String,

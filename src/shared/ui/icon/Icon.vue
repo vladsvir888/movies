@@ -4,7 +4,7 @@
   </span>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import {
   IconHome,
   IconMovie,
@@ -23,12 +23,26 @@ import {
   IconRightToBracket,
 } from "./icons";
 
-defineProps({
-  icon: {
-    type: String,
-    required: true,
-  },
-});
+type IconProps = {
+  icon:
+    | "home"
+    | "movie"
+    | "tv"
+    | "search"
+    | "tmdb"
+    | "star"
+    | "arrow-prev"
+    | "arrow-next"
+    | "menu"
+    | "close"
+    | "loupe"
+    | "loupe-line-through"
+    | "youtube"
+    | "filter"
+    | "right-to-bracket";
+};
+
+defineProps<IconProps>();
 
 const icons = shallowRef({
   home: IconHome,

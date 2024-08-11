@@ -21,7 +21,7 @@
         :placeholder="$t('Password')"
         :is-need-validation="true"
         :validation-message="$t(passwordErrorMessage)"
-        minlength="4"
+        :minlength="4"
         type="password"
         class="sign-in-block__form-input"
         required

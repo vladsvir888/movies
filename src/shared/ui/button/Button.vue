@@ -11,58 +11,55 @@
   </component>
 </template>
 
-<script setup>
-const props = defineProps({
-  to: {
-    type: String,
-    default: null,
-  },
-  variant: {
-    type: String,
-    validator: (value) => {
-      return ["primary", "secondary", "underline"].includes(value);
-    },
-    default: null,
-  },
-  size: {
-    type: String,
-    validator: (value) => {
-      return ["small", "medium", "large"].includes(value);
-    },
-    default: null,
-  },
-  pill: {
-    type: Boolean,
-    default: false,
-  },
-  target: {
-    type: String,
-    default: null,
-  },
-});
+<script setup lang="ts">
+import type { DefineComponent } from "vue";
+import type { NuxtLinkProps } from "#app";
+
+type ButtonVariants = "primary" | "secondary" | "underline";
+type ButtonSizes = "small" | "medium" | "large";
+
+type ButtonProps = {
+  to?: string;
+  variant?: ButtonVariants;
+  size?: ButtonSizes;
+  pill?: boolean;
+  target?: string;
+};
+
+const props = defineProps<ButtonProps>();
 
 const localePath = useLocalePath();
 
-const button = ref(null);
+const button = ref<HTMLButtonElement | DefineComponent<NuxtLinkProps> | null>(
+  null,
+);
 
 const variants = ref({
   primary: "button--primary",
   secondary: "button--secondary",
   underline: "button--underline",
-});
+} as const);
 
 const sizes = ref({
   small: "button--small",
   medium: "button--medium",
   large: "button--large",
-});
+} as const);
 
 const variant = computed(() => {
-  return variants.value[props.variant];
+  if (props.variant) {
+    return variants.value[props.variant];
+  }
+
+  return undefined;
 });
 
 const size = computed(() => {
-  return sizes.value[props.size];
+  if (props.size) {
+    return sizes.value[props.size];
+  }
+
+  return undefined;
 });
 
 const classObject = computed(() => {

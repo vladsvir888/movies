@@ -26,37 +26,32 @@
   </ClientOnly>
 </template>
 
-<script setup>
-const props = defineProps({
-  wrapperClass: {
-    type: String,
-    default: null,
-  },
-  id: {
-    type: String,
-    default: null,
-  },
-  label: {
-    type: String,
-    default: null,
-  },
-  options: {
-    type: Array,
-    required: true,
-  },
-});
+<script setup lang="ts">
+type SelectOption = {
+  value: string;
+  text: string;
+};
+
+type SelectProps = {
+  wrapperClass?: string;
+  id?: string;
+  label?: string;
+  options: SelectOption[];
+};
+
+const props = defineProps<SelectProps>();
 
 defineOptions({
   inheritAttrs: false,
 });
 
 const model = defineModel({
-  type: [String, Number],
+  type: String,
   required: true,
 });
 
 const preparedId = computed(() => {
-  return props.label ? `${props.id}-${getCurrentInstance().uid}` : null;
+  return props.label ? `${props.id}-${getCurrentInstance()?.uid}` : undefined;
 });
 </script>
 

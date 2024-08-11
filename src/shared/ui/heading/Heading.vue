@@ -4,27 +4,31 @@
   </component>
 </template>
 
-<script setup>
-const props = defineProps({
-  level: {
-    type: Number,
-    default: 1,
-  },
-  variant: {
-    type: String,
-    validator: (value) => ["underline"].includes(value),
-    default: null,
-  },
+<script setup lang="ts">
+type HeadingVariants = "underline";
+
+type HeadingProps = {
+  level?: number;
+  variant?: HeadingVariants;
+};
+
+const props = withDefaults(defineProps<HeadingProps>(), {
+  level: 1,
+  variant: undefined,
 });
 
 const heading = computed(() => `h${props.level}`);
 
 const variants = ref({
   underline: "heading--underline",
-});
+} as const);
 
 const variant = computed(() => {
-  return variants.value[props.variant];
+  if (props.variant) {
+    return variants.value[props.variant];
+  }
+
+  return undefined;
 });
 
 const classObject = computed(() => {

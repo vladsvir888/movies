@@ -7,17 +7,13 @@
   </Html>
 </template>
 
-<script setup>
-defineProps({
-  title: {
-    type: String,
-    required: true,
-  },
-  description: {
-    type: String,
-    required: true,
-  },
-});
+<script setup lang="ts">
+type PageSeoDataProps = {
+  title: string;
+  description: string;
+};
+
+defineProps<PageSeoDataProps>();
 
 const { locale } = useI18n();
 </script>

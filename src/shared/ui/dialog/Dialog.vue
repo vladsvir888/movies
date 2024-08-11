@@ -17,11 +17,15 @@
   </dialog>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import Icon from "~/src/shared/ui/icon";
 import Heading from "~/src/shared/ui/heading";
 import Button from "~/src/shared/ui/button";
 import { toggleScrollbar } from "~/src/shared/lib/dom";
+
+type DialogProps = {
+  title: string;
+};
 
 const ANIMATION = [
   {
@@ -35,38 +39,34 @@ const ANIMATION = [
 ];
 const ANIMATION_DURATION = 200;
 
-defineProps({
-  title: {
-    type: String,
-    required: true,
-  },
-});
+defineProps<DialogProps>();
 
 const isShow = defineModel("isShow", {
   type: Boolean,
   default: false,
 });
 
-const dialog = ref(null);
+const dialog = ref<HTMLDialogElement | null>(null);
 
-const hideDialog = () => {
+const hideDialog = (): void => {
   isShow.value = false;
 };
 
-const onClickOutsideDialog = (event) => {
+const onClickOutsideDialog = (event: Event): void => {
   if (event.target === dialog.value) {
     hideDialog();
   }
 };
 
-const toggleIsShow = (value) => {
+const toggleIsShow = (value: boolean): void => {
   if (value) {
-    dialog.value.showModal();
-    dialog.value.animate(ANIMATION[0], ANIMATION_DURATION);
+    dialog.value?.showModal();
+    dialog.value?.animate(ANIMATION[0], ANIMATION_DURATION);
   } else {
-    dialog.value.animate(ANIMATION[1], ANIMATION_DURATION).onfinish = () => {
-      dialog.value?.close();
-    };
+    dialog.value &&
+      (dialog.value.animate(ANIMATION[1], ANIMATION_DURATION).onfinish = () => {
+        dialog.value?.close();
+      });
   }
 
   toggleScrollbar(value);
@@ -76,7 +76,7 @@ watch(isShow, (newValue) => toggleIsShow(newValue));
 
 onMounted(() => {
   document.body.addEventListener("click", onClickOutsideDialog);
-  dialog.value.addEventListener("close", hideDialog);
+  dialog.value?.addEventListener("close", hideDialog);
 });
 
 onUnmounted(() => {

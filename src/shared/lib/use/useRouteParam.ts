@@ -1,5 +1,5 @@
 export const useRouteParam = (
-  param: string
+  param: string,
 ): ComputedRef<string | string[]> => {
   return computed(() => useRoute().params[param]);
 };

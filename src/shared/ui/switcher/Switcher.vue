@@ -19,20 +19,19 @@
   </div>
 </template>
 
-<script setup>
-defineProps({
-  label: {
-    type: String,
-    default: null,
-  },
-});
+<script setup lang="ts">
+type SwitcherProps = {
+  label?: string;
+};
+
+defineProps<SwitcherProps>();
 
 const isChecked = defineModel({
   type: Boolean,
   default: false,
 });
 
-const toggle = () => (isChecked.value = !isChecked.value);
+const toggle = (): boolean => (isChecked.value = !isChecked.value);
 </script>
 
 <style lang="scss">

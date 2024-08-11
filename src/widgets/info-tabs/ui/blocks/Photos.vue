@@ -62,7 +62,7 @@ const backdrops = ref(props.data.backdrops);
 const posters = ref(props.data.posters);
 
 const items = ref([]);
-const indexActiveItem = ref(null);
+const indexActiveItem = ref(0);
 const isShow = ref(false);
 
 const onClickButton = (category, index) => {

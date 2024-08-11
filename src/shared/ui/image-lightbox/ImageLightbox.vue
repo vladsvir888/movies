@@ -63,20 +63,17 @@
   </Teleport>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import Icon from "~/src/shared/ui/icon";
 import Button from "~/src/shared/ui/button";
 import { toggleScrollbar } from "~/src/shared/lib/dom";
 import { useFocusTrap } from "~/src/shared/lib/use";
 
-const config = useRuntimeConfig();
+type ImageLightboxProps = {
+  items: string[];
+};
 
-const props = defineProps({
-  items: {
-    type: Array,
-    required: true,
-  },
-});
+const props = defineProps<ImageLightboxProps>();
 
 const isShow = defineModel("isShow", {
   type: Boolean,
@@ -85,10 +82,12 @@ const isShow = defineModel("isShow", {
 
 const index = defineModel("index", {
   type: Number,
-  default: null,
+  default: 0,
 });
 
-const lightbox = ref(null);
+const config = useRuntimeConfig();
+
+const lightbox = ref<HTMLDivElement | null>(null);
 
 const { activate, deactivate } = useFocusTrap(lightbox, {
   fallbackFocus: ".image-lightbox",
@@ -112,13 +111,12 @@ watch(isShow, (newValue) => {
   toggleScrollbar(newValue);
 });
 
-const closeLightbox = () => {
+const closeLightbox = (): void => {
   isShow.value = false;
-  index.value = null;
   deactivate();
 };
 
-const toNextImage = (event) => {
+const toNextImage = (event: Event): void => {
   if (isLastImage.value) {
     event.preventDefault();
     return;
@@ -127,7 +125,7 @@ const toNextImage = (event) => {
   index.value += 1;
 };
 
-const toPreviousImage = (event) => {
+const toPreviousImage = (event: Event): void => {
   if (isFirstImage.value) {
     event.preventDefault();
     return;

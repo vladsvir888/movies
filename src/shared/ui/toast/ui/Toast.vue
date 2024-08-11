@@ -13,7 +13,7 @@
       <Button
         class="toast__close"
         :aria-label="$t('Close')"
-        @click="removeToast(toast)"
+        @click="removeToast(toast.id)"
       >
         <Icon icon="close" />
       </Button>
@@ -21,7 +21,7 @@
   </TransitionGroup>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import Button from "~/src/shared/ui/button";
 import Icon from "~/src/shared/ui/icon";
 import { useToastStore } from "../model";
@@ -57,6 +57,10 @@ const { removeToast } = toastStore;
 
   &--danger {
     border-top: 3px solid red;
+  }
+
+  &--success {
+    border-top: 3px solid green;
   }
 
   &__close {

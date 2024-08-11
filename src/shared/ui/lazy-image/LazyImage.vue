@@ -25,29 +25,22 @@
   </span>
 </template>
 
-<script setup>
-defineProps({
-  src: {
-    type: String,
-    required: true,
-  },
-  sizes: {
-    type: Object,
-    default: () => {},
-  },
-  alt: {
-    type: String,
-    default: "",
-  },
-  loading: {
-    type: String,
-    default: null,
-  },
-});
+<script setup lang="ts">
+type LazyImageProps = {
+  src: string;
+  sizes?: {
+    width: number;
+    height: number;
+  };
+  alt?: string;
+  loading?: "lazy" | "eager";
+};
+
+defineProps<LazyImageProps>();
 
 const isPlaceholder = ref(true);
 
-const onLoad = () => {
+const onLoad = (): void => {
   isPlaceholder.value = false;
 };
 </script>
