@@ -16,7 +16,7 @@
       @keydown.down.prevent="setFocus"
       @keydown.home.prevent="setSelectedToFirstMenuItem"
       @keydown.end.prevent="setSelectedToLastMenuItem"
-      @keydown.tab.prevent="setSelectedToFirstMenuItem"
+      @keydown.tab="setSelectedToFirstMenuItem"
     >
       <slot name="toggle" />
     </Button>
@@ -136,7 +136,11 @@ const setSelectedToNextMenuItem = () => {
   setFocus();
 };
 
-const setSelectedToFirstMenuItem = () => {
+const setSelectedToFirstMenuItem = (event) => {
+  if (isShowMenu.value) {
+    event.preventDefault();
+  }
+
   activeIndexMenuItem.value = 0;
   setFocus();
 };
