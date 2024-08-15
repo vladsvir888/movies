@@ -52,16 +52,30 @@
   </Splide>
 </template>
 
-<script setup>
-import { Splide, SplideSlide, SplideTrack } from "@splidejs/vue-splide";
+<script setup lang="ts">
+import { Splide, SplideSlide, SplideTrack } from "@splidejs/vue-splide"; // https://github.com/Splidejs/splide/issues/1248
 import "@splidejs/vue-splide/css/core";
+import type { Options } from "@splidejs/splide";
+import type { MediaTypes, MediaCategories } from "~/src/shared/config";
 import Icon from "~/src/shared/ui/icon";
 import Heading from "~/src/shared/ui/heading";
 import Button from "~/src/shared/ui/button";
 
+type CarouselProps = {
+  type: MediaTypes;
+  category: MediaCategories;
+  title: string;
+  isShowMore?: boolean;
+  options?: Options;
+  tag?: string;
+  // todo: добавить типы для items
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  items: Array<any>;
+};
+
 const { t } = useI18n();
 
-const DEFAULT_OPTIONS = {
+const DEFAULT_OPTIONS: Options = {
   focus: 0,
   omitEnd: true,
   gap: 10,
@@ -77,35 +91,10 @@ const DEFAULT_OPTIONS = {
   },
 };
 
-const props = defineProps({
-  type: {
-    type: String,
-    required: true,
-  },
-  category: {
-    type: String,
-    required: true,
-  },
-  title: {
-    type: String,
-    required: true,
-  },
-  isShowMore: {
-    type: Boolean,
-    default: true,
-  },
-  options: {
-    type: Object,
-    default: () => {},
-  },
-  tag: {
-    type: String,
-    default: "section",
-  },
-  items: {
-    type: Array,
-    required: true,
-  },
+const props = withDefaults(defineProps<CarouselProps>(), {
+  isShowMore: true,
+  tag: "section",
+  options: undefined,
 });
 
 const preparedOptions = computed(() => {

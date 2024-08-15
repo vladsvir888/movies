@@ -16,7 +16,7 @@
         @keydown.right="setSelectedToNextTab"
         @keydown.left="setSelectedToPreviousTab"
         @keydown.home.prevent="setSelectedTab(0)"
-        @keydown.end.prevent="setSelectedTab(tabTitles.length - 1)"
+        @keydown.end.prevent="tabTitles && setSelectedTab(tabTitles.length - 1)"
       >
         {{ title }}
       </Button>
@@ -27,34 +27,51 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
+import { activeTabKey } from "./config";
 import Button from "~/src/shared/ui/button";
 
 const emit = defineEmits(["update:selected-tab"]);
 
-const tabRefs = ref([]);
+const slots = defineSlots<{
+  default: () => VNode[] | undefined;
+}>();
+const vnodes = slots.default?.();
+
+const tabRefs = ref<InstanceType<typeof Button>[]>([]);
+
 const tabTitles = ref(
-  useSlots()
-    .default()[0]
-    .children.map((tab) => tab.props?.title),
+  Array.isArray(vnodes?.[0].children)
+    ? vnodes[0].children.map((tab) => (tab as VNode).props?.title as string)
+    : null,
 );
-const activeTab = ref(tabTitles.value[0]);
 
-provide("activeTab", activeTab);
+const activeTab = ref(tabTitles.value?.[0]);
 
-const getCurrentIndexTab = () => {
-  return tabTitles.value.findIndex((title) => title === activeTab.value);
+if (activeTab.value) {
+  provide(activeTabKey, activeTab as Ref<string>);
+}
+
+const getCurrentIndexTab = (): number | undefined => {
+  return tabTitles.value?.findIndex((title) => title === activeTab.value);
 };
 
-const setSelectedTab = (index) => {
-  tabRefs.value[index].button.focus();
-  activeTab.value = tabTitles.value[index];
+const setSelectedTab = (index: number): void => {
+  tabRefs.value[index].button?.focus();
+
+  if (tabTitles.value?.[index]) {
+    activeTab.value = tabTitles.value?.[index];
+  }
 
   emit("update:selected-tab", activeTab);
 };
 
-const setSelectedToPreviousTab = () => {
+const setSelectedToPreviousTab = (): void => {
   const index = getCurrentIndexTab();
+
+  if (index === undefined || tabTitles.value === null) {
+    return;
+  }
 
   if (index !== 0) {
     setSelectedTab(index - 1);
@@ -63,8 +80,12 @@ const setSelectedToPreviousTab = () => {
   }
 };
 
-const setSelectedToNextTab = () => {
+const setSelectedToNextTab = (): void => {
   const index = getCurrentIndexTab();
+
+  if (index === undefined || tabTitles.value === null) {
+    return;
+  }
 
   if (index === tabTitles.value.length - 1) {
     setSelectedTab(0);

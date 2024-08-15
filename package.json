@@ -10,7 +10,8 @@
     "postinstall": "nuxt prepare",
     "test": "vitest",
     "lint:eslint": "eslint . --fix",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "type-check": "npx nuxi typecheck"
   },
   "dependencies": {
     "@floating-ui/vue": "^1.0.6",

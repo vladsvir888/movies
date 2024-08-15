@@ -25,30 +25,26 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import Icon from "~/src/shared/ui/icon";
 import Heading from "~/src/shared/ui/heading";
 import Button from "~/src/shared/ui/button";
+import { type AccordionItem, activeAccordionItemKey } from "./config";
 
-const props = defineProps({
-  id: {
-    type: String,
-    required: true,
-  },
-  title: {
-    type: String,
-    required: true,
-  },
-});
+const props = defineProps<AccordionItem>();
 
-const activeAccordionItem = inject("activeAccordionItem");
+const activeAccordionItem = inject<Ref<AccordionItem>>(activeAccordionItemKey);
 
 const isShow = ref(false);
 
-onMounted(() => {
-  if (activeAccordionItem.value === props.id) {
+const openActiveAccordionItem = () => {
+  if (activeAccordionItem?.value.id === props.id) {
     isShow.value = true;
   }
+};
+
+onMounted(() => {
+  openActiveAccordionItem();
 });
 </script>
 

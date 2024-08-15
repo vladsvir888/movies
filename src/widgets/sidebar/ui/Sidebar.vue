@@ -22,7 +22,6 @@
 
             <Dropdown
               v-else-if="!link.auth"
-              :selected-item="dropdownSelectedItem"
               toggle-class="sidebar__link"
               :toggle-title-attr="link.value"
               :items="link.dropdown.items"

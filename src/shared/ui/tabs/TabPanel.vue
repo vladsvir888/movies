@@ -11,11 +11,9 @@
 </template>
 
 <script setup lang="ts">
-type TabPanelProps = {
-  title: string;
-};
+import { type TabPanel, activeTabKey } from "./config";
 
-defineProps<TabPanelProps>();
+defineProps<TabPanel>();
 
-const activeTab = inject("activeTab");
+const activeTab = inject(activeTabKey);
 </script>

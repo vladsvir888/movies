@@ -56,69 +56,68 @@
   </div>
 </template>
 
-<script setup>
-import { useFloating, offset } from "@floating-ui/vue";
+<script setup lang="ts">
+import { useFloating, offset, type Placement } from "@floating-ui/vue";
 import Button from "~/src/shared/ui/button";
 import { useClickOutside } from "~/src/shared/lib/use";
 
-const props = defineProps({
-  toggleClass: {
-    type: String,
-    default: null,
-  },
-  toggleTitleAttr: {
-    type: String,
-    default: null,
-  },
-  placementMenu: {
-    type: String,
-    default: "bottom-start",
-  },
-  items: {
-    type: Array,
-    required: true,
-  },
-  selectedItem: {
-    type: String,
-    default: null,
-  },
+type DropdownMenuItem = {
+  text: string;
+  value: string;
+};
+
+type DropdownProps = {
+  toggleClass?: string;
+  toggleTitleAttr?: string;
+  placementMenu?: Placement;
+  items: DropdownMenuItem[];
+  selectedItem?: string;
+};
+
+const props = withDefaults(defineProps<DropdownProps>(), {
+  toggleClass: undefined,
+  toggleTitleAttr: undefined,
+  placementMenu: "bottom-start",
+  selectedItem: undefined,
 });
 
-const emit = defineEmits(["update:selected-item"]);
-
-const menuItems = ref([]);
-const activeIndexMenuItem = ref(0);
+const emit = defineEmits<{
+  "update:selected-item": [value: string];
+}>();
 
 const uid = useId();
+
+const menuItems = ref<HTMLLIElement[]>([]);
+const activeIndexMenuItem = ref(0);
+
 const isShowMenu = ref(false);
-const reference = ref(null);
-const floating = ref(null);
-const dropdown = ref(null);
+const reference = ref<InstanceType<typeof Button> | null>(null);
+const floating = ref<HTMLUListElement | null>(null);
+const dropdown = ref<HTMLDivElement | null>(null);
 
 const { floatingStyles, update } = useFloating(reference, floating, {
   placement: props.placementMenu,
   middleware: [offset(10)],
 });
 
-const hideMenu = () => {
+const hideMenu = (): void => {
   isShowMenu.value = false;
   activeIndexMenuItem.value = 0;
 };
 
-const toggleMenu = () => {
+const toggleMenu = (): void => {
   isShowMenu.value = !isShowMenu.value;
-
   update();
 };
 
-const onClickMenuItem = (value) => {
+const onClickMenuItem = (value: string): void => {
   emit("update:selected-item", value);
   hideMenu();
 };
 
-const setFocus = () => menuItems.value[activeIndexMenuItem.value].focus();
+const setFocus = (): void => menuItems.value[activeIndexMenuItem.value].focus();
 
-const setSelectedToPreviousMenuItem = () => {
+const setSelectedToPreviousMenuItem = (): void => {
   if (activeIndexMenuItem.value === 0) {
     return;
   }
@@ -127,7 +126,7 @@ const setSelectedToPreviousMenuItem = () => {
   setFocus();
 };
 
-const setSelectedToNextMenuItem = () => {
+const setSelectedToNextMenuItem = (): void => {
   if (activeIndexMenuItem.value >= menuItems.value.length - 1) {
     return;
   }
@@ -136,7 +135,7 @@ const setSelectedToNextMenuItem = () => {
   setFocus();
 };
 
-const setSelectedToFirstMenuItem = (event) => {
+const setSelectedToFirstMenuItem = (event: Event): void => {
   if (isShowMenu.value) {
     event.preventDefault();
   }
@@ -145,13 +144,13 @@ const setSelectedToFirstMenuItem = (event) => {
   setFocus();
 };
 
-const setSelectedToLastMenuItem = () => {
+const setSelectedToLastMenuItem = (): void => {
   activeIndexMenuItem.value = menuItems.value.length - 1;
   setFocus();
 };
 
-const hideMenuAndSetFocusOnButton = () => {
-  reference.value.button.focus();
+const hideMenuAndSetFocusOnButton = (): void => {
+  reference.value?.button?.focus();
   hideMenu();
 };
 
