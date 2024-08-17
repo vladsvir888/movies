@@ -60,11 +60,7 @@
 import { useFloating, offset, type Placement } from "@floating-ui/vue";
 import Button from "~/src/shared/ui/button";
 import { useClickOutside } from "~/src/shared/lib/use";
-
-type DropdownMenuItem = {
-  text: string;
-  value: string;
-};
+import type { DropdownMenuItem } from "./config";
 
 type DropdownProps = {
   toggleClass?: string;

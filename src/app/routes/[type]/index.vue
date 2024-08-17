@@ -2,6 +2,6 @@
   <MediaPage />
 </template>
 
-<script setup>
+<script setup lang="ts">
 import MediaPage from "~/src/pages/media";
 </script>

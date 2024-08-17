@@ -47,7 +47,7 @@
   </header>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import LanguageSwitcher from "~/src/entities/language";
 import Icon from "~/src/shared/ui/icon";
 import Button from "~/src/shared/ui/button";
@@ -74,7 +74,7 @@ const preparedMediaType = computed(() => {
     return `${t("Search")} by ${t("TV Shows")}`;
   }
 
-  return "";
+  return undefined;
 });
 </script>
 

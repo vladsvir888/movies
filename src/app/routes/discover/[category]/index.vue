@@ -2,6 +2,6 @@
   <DiscoverPage />
 </template>
 
-<script setup>
+<script setup lang="ts">
 import DiscoverPage from "~/src/pages/discover";
 </script>

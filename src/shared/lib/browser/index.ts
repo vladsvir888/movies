@@ -1,5 +1,1 @@
-export {
-  getItemFromLocalStorage,
-  setItemInLocalStorage,
-  removeItemFromLocalStorage,
-} from "./localStorage";
+export { cacheKey, cacheUtil } from "./localStorage";

@@ -14,14 +14,13 @@
               :to="link.to"
               :title="link.value"
               class="sidebar__link"
-              v-on="link.handlers ?? {}"
             >
               <Icon :icon="link.icon" />
               <span class="sidebar__link-text"> {{ link.value }}</span>
             </Button>
 
             <Dropdown
-              v-else-if="!link.auth"
+              v-else-if="link.dropdown && !link.auth"
               toggle-class="sidebar__link"
               :toggle-title-attr="link.value"
               :items="link.dropdown.items"
@@ -70,7 +69,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import Dropdown from "~/src/shared/ui/dropdown";
 import Icon from "~/src/shared/ui/icon";
 import Button from "~/src/shared/ui/button";
@@ -78,9 +77,20 @@ import { toggleScrollbar } from "~/src/shared/lib/dom";
 import { useFocusTrap, useRouteParam } from "~/src/shared/lib/use";
 import { useAuthStore } from "~/src/entities/user";
 import { MEDIA_TYPES } from "~/src/entities/media";
+import type { MediaTypes } from "~/src/shared/config";
+import type { DropdownMenuItem } from "~/src/shared/ui/dropdown";
 
-const sidebar = ref(null);
-const dropdownSelectedItem = ref(null);
+type LinksItem = {
+  to?: string;
+  value: string;
+  icon: MediaTypes | "home" | "filter" | "right-to-bracket";
+  auth?: string;
+  dropdown?: {
+    items: DropdownMenuItem[];
+  };
+};
+
+const sidebar = ref<HTMLDivElement | null>(null);
 
 const { t } = useI18n();
 const route = useRoute();
@@ -100,47 +110,45 @@ const isMenuVisible = defineModel("isMenuVisible", {
   default: false,
 });
 
-const links = computed(() => {
-  return [
-    {
-      to: "/",
-      value: t("Home"),
-      icon: "home",
+const links = computed<LinksItem[]>(() => [
+  {
+    to: "/",
+    value: t("Home"),
+    icon: "home",
+  },
+  {
+    to: "/movie",
+    value: t("Movies"),
+    icon: "movie",
+  },
+  {
+    to: "/tv",
+    value: t("TV Shows"),
+    icon: "tv",
+  },
+  {
+    dropdown: {
+      items: [
+        {
+          text: t("Movies"),
+          value: "movie",
+        },
+        {
+          text: t("TV Shows"),
+          value: "tv",
+        },
+      ],
     },
-    {
-      to: "/movie",
-      value: t("Movies"),
-      icon: "movie",
-    },
-    {
-      to: "/tv",
-      value: t("TV Shows"),
-      icon: "tv",
-    },
-    {
-      dropdown: {
-        items: [
-          {
-            text: t("Movies"),
-            value: "movie",
-          },
-          {
-            text: t("TV Shows"),
-            value: "tv",
-          },
-        ],
-      },
-      value: t("Discover"),
-      icon: "filter",
-    },
-    {
-      auth: authStore.sessionId,
-      to: "/sign-in",
-      value: t("Sign In"),
-      icon: "right-to-bracket",
-    },
-  ];
-});
+    value: t("Discover"),
+    icon: "filter",
+  },
+  {
+    auth: authStore.sessionId,
+    to: "/sign-in",
+    value: t("Sign In"),
+    icon: "right-to-bracket",
+  },
+]);
 
 const preparedMediaType = computed(() => {
   if (mediaType.value === MEDIA_TYPES[0]) {
@@ -149,23 +157,22 @@ const preparedMediaType = computed(() => {
     return `${t("Search")} by ${t("TV Shows")}`;
   }
 
-  return "";
+  return undefined;
 });
 
-const onClickSearchButton = () => {
+const onClickSearchButton = (): void => {
   isSearchDialogVisible.value = true;
   isMenuVisible.value = false;
   deactivate();
 };
 
-const closeMenu = () => {
+const closeMenu = (): void => {
   isMenuVisible.value = false;
   toggleScrollbar(false);
   deactivate();
 };
 
-const onUpdateSelectedItem = async ($event) => {
-  dropdownSelectedItem.value = $event;
+const onUpdateSelectedItem = async ($event: string): Promise<void> => {
   await navigateTo(localePath(`/discover/${$event}`));
 };
 

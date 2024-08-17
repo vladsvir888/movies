@@ -1,4 +1,4 @@
-import { getItemFromLocalStorage } from "~/src/shared/lib/browser";
+import { cacheUtil, cacheKey } from "~/src/shared/lib/browser";
 
 export default defineNuxtPlugin(() => {
   addRouteMiddleware((to) => {
@@ -6,8 +6,7 @@ export default defineNuxtPlugin(() => {
       return;
     }
 
-    const config = useRuntimeConfig();
-    const authData = getItemFromLocalStorage(config.public.appTokenDataKey);
+    const authData = cacheUtil.get(cacheKey.appTokenData);
 
     if (authData) {
       throw createError({

@@ -17,7 +17,7 @@
   <SearchDialog v-model:is-search-dialog-visible="isSearchDialogVisible" />
 </template>
 
-<script setup>
+<script setup lang="ts">
 import Header from "~/src/widgets/header";
 import Footer from "~/src/widgets/footer";
 import Sidebar from "~/src/widgets/sidebar";

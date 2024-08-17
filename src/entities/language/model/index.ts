@@ -1,12 +1,8 @@
-import {
-  setItemInLocalStorage,
-  getItemFromLocalStorage,
-} from "~/src/shared/lib/browser";
+import { cacheUtil, cacheKey } from "~/src/shared/lib/browser";
 
 const NAMESPACE = "language-switcher";
 
 export const useLanguageSwitcherStore = defineStore(NAMESPACE, () => {
-  const config = useRuntimeConfig();
   const { locales, setLocale } = useI18n();
 
   const transformedLocales = computed(() => {
@@ -16,14 +12,14 @@ export const useLanguageSwitcherStore = defineStore(NAMESPACE, () => {
     }));
   });
 
-  const updateLocale = (event) => {
+  const updateLocale = (event: Event & { target: HTMLSelectElement }): void => {
     setLocale(event.target.value);
-    setItemInLocalStorage(config.public.appLangKey, event.target.value);
+    cacheUtil.set(cacheKey.appLangKey, event.target.value);
     window.location.reload(); // because of caching data in store
   };
 
-  const checkLocale = () => {
-    const value = getItemFromLocalStorage(config.public.appLangKey);
+  const checkLocale = (): void => {
+    const value = cacheUtil.get(cacheKey.appLangKey);
 
     if (!value) {
       return;

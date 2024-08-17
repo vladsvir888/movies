@@ -11,7 +11,7 @@ export default defineNuxtConfig({
 
   plugins: [
     { src: "~/src/entities/user/model/auth-middleware.js", mode: "client" },
-    { src: "~/src/shared/api/api.js" },
+    { src: "~/src/shared/api/api.ts" },
   ],
 
   runtimeConfig: {
@@ -19,8 +19,6 @@ export default defineNuxtConfig({
       apiToken: process.env.NUXT_ACCESS_TOKEN_AUTH || "",
       apiUrl: process.env.NUXT_API_URL || "",
       apiImgUrl: process.env.NUXT_API_IMG_URL || "",
-      appLangKey: process.env.NUXT_APP_LANG_KEY || "",
-      appTokenDataKey: process.env.NUXT_APP_TOKEN_DATA || "",
     },
   },
 

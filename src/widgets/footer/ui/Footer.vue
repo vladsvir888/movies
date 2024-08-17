@@ -27,7 +27,7 @@
   </footer>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import LanguageSwitcher from "~/src/entities/language";
 import Icon from "~/src/shared/ui/icon";
 import Button from "~/src/shared/ui/button";

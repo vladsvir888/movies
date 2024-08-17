@@ -1,7 +1,10 @@
 import { hash as ohash } from "ohash";
 
 export const useCustomFetch = async (url, options = {}) => {
-  const { $i18n, $api } = useNuxtApp();
+  const {
+    $i18n: { locale },
+    $api,
+  } = useNuxtApp();
   const hash = ohash([url, options]);
   const state = useState(hash, () => null);
 
@@ -13,7 +16,7 @@ export const useCustomFetch = async (url, options = {}) => {
 
   const { data, error, status, refresh } = await useFetch(url, {
     query: {
-      language: $i18n.locale,
+      language: locale,
     },
     server: false, // todo: разобраться, почему происходит какая-то ошибка с themoviedb при получении данных на сервере
     $fetch: $api,

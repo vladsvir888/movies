@@ -1,15 +1,30 @@
-export const getItemFromLocalStorage = (key: string): unknown => {
-  const data = localStorage.getItem(key);
+// https://gist.github.com/srvice-temp/046126458bbed2239e0b8d6403bced18
+export const cacheKey = {
+  appLangKey: "movie-universe-lang",
+  appTokenData: "movie-universe-token",
+} as const;
 
-  if (data) {
-    return JSON.parse(data);
-  }
+type CacheKeyValues = (typeof cacheKey)[keyof typeof cacheKey];
+
+type CacheValues = {
+  [cacheKey.appLangKey]: string;
+  [cacheKey.appTokenData]: {
+    expiresAt: string;
+    sessionId: string;
+    token: string;
+  };
 };
 
-export const setItemInLocalStorage = (key: string, value: unknown): void => {
-  localStorage.setItem(key, JSON.stringify(value));
-};
+interface CacheUtil {
+  set: <T extends CacheKeyValues>(key: T, object: CacheValues[T]) => void;
+  get: <T extends CacheKeyValues>(key: T) => CacheValues[T] | null;
+  remove: (key: CacheKeyValues) => void;
+}
 
-export const removeItemFromLocalStorage = (key: string): void => {
-  localStorage.removeItem(key);
+export const cacheUtil: CacheUtil = {
+  set: (key, object) => {
+    localStorage.setItem(key, JSON.stringify(object));
+  },
+  get: (key) => JSON.parse(String(localStorage.getItem(key))),
+  remove: (key) => localStorage.removeItem(key),
 };

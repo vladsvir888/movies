@@ -1,4 +1,4 @@
-import { type NuxtI18nOptions } from "@nuxtjs/i18n";
+import type { NuxtI18nOptions } from "@nuxtjs/i18n";
 
 export default <NuxtI18nOptions>{
   locales: [

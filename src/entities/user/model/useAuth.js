@@ -1,8 +1,4 @@
-import {
-  setItemInLocalStorage,
-  removeItemFromLocalStorage,
-  getItemFromLocalStorage,
-} from "~/src/shared/lib/browser";
+import { cacheUtil, cacheKey } from "~/src/shared/lib/browser";
 import { useToastStore } from "~/src/shared/ui/toast";
 import { getLoginData, getSessionData, getTokenData } from "../api";
 
@@ -39,7 +35,7 @@ export const useAuthStore = defineStore(NAMESPACE, {
         const sessionRequest = await getSessionData(this.token);
         this.sessionId = sessionRequest.session_id;
 
-        setItemInLocalStorage(useRuntimeConfig().public.appTokenDataKey, {
+        cacheUtil.set(cacheKey.appTokenData, {
           token: this.token,
           expiresAt: this.expiresAt,
           sessionId: this.sessionId,
@@ -55,13 +51,11 @@ export const useAuthStore = defineStore(NAMESPACE, {
 
     logout() {
       this.resetState();
-      removeItemFromLocalStorage(useRuntimeConfig().public.appTokenDataKey);
+      cacheUtil.remove(cacheKey.appTokenData);
     },
 
     getDataFromLSAndSetInStore() {
-      const authData = getItemFromLocalStorage(
-        useRuntimeConfig().public.appTokenDataKey,
-      );
+      const authData = cacheUtil.get(cacheKey.appTokenData);
 
       if (!authData) {
         return;

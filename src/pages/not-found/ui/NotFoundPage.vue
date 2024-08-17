@@ -27,7 +27,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import PageSeoData from "~/src/shared/ui/page-seo-data";
 import Heading from "~/src/shared/ui/heading";
 import Button from "~/src/shared/ui/button";

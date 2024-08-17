@@ -2,6 +2,6 @@
   <MediaCategoryPage />
 </template>
 
-<script setup>
+<script setup lang="ts">
 import MediaCategoryPage from "~/src/pages/media-category";
 </script>

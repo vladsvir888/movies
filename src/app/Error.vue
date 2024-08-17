@@ -2,6 +2,6 @@
   <NotFoundPage />
 </template>
 
-<script setup>
+<script setup lang="ts">
 import NotFoundPage from "~/src/pages/not-found";
 </script>
