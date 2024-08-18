@@ -23,7 +23,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import PageSeoData from "~/src/shared/ui/page-seo-data";
 import Icon from "~/src/shared/ui/icon";
 import Heading from "~/src/shared/ui/heading";

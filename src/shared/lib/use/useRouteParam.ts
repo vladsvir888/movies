@@ -1,5 +1,3 @@
-export const useRouteParam = (
-  param: string
-): ComputedRef<string | string[] | undefined> => {
-  return computed(() => useRoute().params[param]);
+export const useRouteParam = <T>(param: string): ComputedRef<T> => {
+  return computed(() => useRoute().params[param] as T);
 };

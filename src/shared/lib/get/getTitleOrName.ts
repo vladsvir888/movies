@@ -1,5 +1,7 @@
-export const getTitleOrName = (data: Record<string, unknown>): string => {
+import type { Media } from "~/src/shared/config";
+
+export const getTitleOrName = (data: Media): string | undefined => {
   const { title, name } = data;
 
-  return (title ? title : name) as unknown as string;
+  return title ? title : name;
 };

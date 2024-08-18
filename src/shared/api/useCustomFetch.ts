@@ -1,12 +1,16 @@
 import { hash as ohash } from "ohash";
+import type { UseFetchOptions } from "#app";
 
-export const useCustomFetch = async (url, options = {}) => {
+export const useCustomFetch = async <DataT>(
+  url: string | (() => string),
+  options: UseFetchOptions<DataT> = {},
+) => {
   const {
     $i18n: { locale },
     $api,
   } = useNuxtApp();
   const hash = ohash([url, options]);
-  const state = useState(hash, () => null);
+  const state = useState<DataT | null>(hash, () => null);
 
   if (state.value) {
     return {
@@ -14,7 +18,7 @@ export const useCustomFetch = async (url, options = {}) => {
     };
   }
 
-  const { data, error, status, refresh } = await useFetch(url, {
+  const { data, error, status, refresh, execute } = await useFetch(url, {
     query: {
       language: locale,
     },
@@ -23,12 +27,13 @@ export const useCustomFetch = async (url, options = {}) => {
     ...options,
   });
 
-  state.value = data.value;
+  state.value = data.value as DataT;
 
   return {
     state,
     error,
     status,
     refresh,
+    execute,
   };
 };

@@ -24,37 +24,28 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { Card } from "~/src/entities/media";
 import Icon from "~/src/shared/ui/icon";
 import Heading from "~/src/shared/ui/heading";
 import Button from "~/src/shared/ui/button";
 import { BaseLoader } from "~/src/shared/ui/loaders";
 import { useIntersectionObserver, useRouteParam } from "~/src/shared/lib/use";
+import type { Media, MediaTypes } from "~/src/shared/config";
 
-const props = defineProps({
-  data: {
-    type: Array,
-    required: true,
-  },
-  totalPages: {
-    type: Number,
-    required: true,
-    default: 0,
-  },
-  isPending: {
-    type: Boolean,
-    required: true,
-    default: false,
-  },
-  title: {
-    type: String,
-    default: null,
-  },
-  isBackButton: {
-    type: Boolean,
-    default: true,
-  },
+type CatalogProps = {
+  data: Media[];
+  totalPages: number;
+  isPending: boolean;
+  title?: string;
+  isBackButton?: boolean;
+};
+
+const props = withDefaults(defineProps<CatalogProps>(), {
+  totalPages: 0,
+  isPending: false,
+  title: undefined,
+  isBackButton: true,
 });
 
 const page = defineModel("page", {
@@ -62,18 +53,17 @@ const page = defineModel("page", {
   default: 1,
 });
 
-const type = useRouteParam("type");
-const category = useRouteParam("category");
+const type = useRouteParam<MediaTypes>("type");
 
-const preparedType = computed(() => type.value || category.value);
+const preparedType = computed(() => type.value);
 
-const observer = ref(null);
+const observer = ref<HTMLDivElement | null>(null);
 
 const options = {
   rootMargin: "-150px 0px 0px 0px",
 };
-const callback = () => {
-  if (props.page < props.totalPages && !props.isPending) {
+const callback = (): void => {
+  if (page.value < props.totalPages && !props.isPending) {
     page.value += 1;
   }
 };
@@ -84,7 +74,9 @@ const { observer: observerCatalog } = useIntersectionObserver(
 );
 
 onMounted(() => {
-  observerCatalog.observe(observer.value);
+  if (observer.value) {
+    observerCatalog.observe(observer.value);
+  }
 });
 
 onUnmounted(() => {

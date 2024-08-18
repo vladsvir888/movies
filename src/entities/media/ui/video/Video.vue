@@ -1,9 +1,14 @@
 <template>
   <article class="video-player">
-    <div v-show="isLoadIframe" ref="iframe" class="video-player__iframe" />
+    <div
+      v-show="isLoadIframe"
+      :id="props.data.key"
+      ref="iframe"
+      class="video-player__iframe"
+    />
     <div v-show="!isLoadIframe" class="video-player__media">
       <NuxtImg
-        :src="`https://i.ytimg.com/vi/${data.id}/maxresdefault.jpg`"
+        :src="`https://i.ytimg.com/vi/${data.key}/maxresdefault.jpg`"
         loading="lazy"
         alt=""
         class="video-player__img"
@@ -28,32 +33,34 @@
   </article>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import Icon from "~/src/shared/ui/icon";
 import Heading from "~/src/shared/ui/heading";
 import Button from "~/src/shared/ui/button";
 import { formatDate } from "~/src/shared/lib/format";
 import { useVideoStore } from "~/src/entities/media";
+import type { Video } from "~/src/shared/config";
+
+type VideoProps = {
+  data: Video;
+};
+
+const props = defineProps<VideoProps>();
 
 const videoStore = useVideoStore();
 
-const props = defineProps({
-  data: {
-    type: Object,
-    required: true,
-  },
-});
-
 const transformedDate = computed(() => {
-  return formatDate(props.data.date);
+  return formatDate(props.data.published_at);
 });
 
-const iframe = ref(null);
+const iframe = ref<HTMLDivElement | null>(null);
 const isLoadIframe = ref(false);
 
 function createIframe() {
   isLoadIframe.value = true;
-  videoStore.createVideo(iframe.value, props.data.id);
+  if (iframe.value?.id) {
+    videoStore.createVideo(iframe.value.id, props.data.key);
+  }
 }
 </script>
 

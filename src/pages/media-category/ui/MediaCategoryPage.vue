@@ -1,41 +1,50 @@
 <template>
   <div class="page page-category container">
-    <PageSeoData :title="$t(title)" :description="$t(title)" />
+    <PageSeoData
+      v-if="preparedTitle"
+      :title="$t(preparedTitle)"
+      :description="$t(preparedTitle)"
+    />
     <Catalog
       v-if="totalResults.length"
       v-model:page="page"
       :data="totalResults"
       :total-pages="totalPages"
       :is-pending="isPendingAutoload"
-      :title="title"
+      :title="preparedTitle"
       class="page-category__card-block"
     />
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import PageSeoData from "~/src/shared/ui/page-seo-data";
 import Catalog from "~/src/widgets/catalog";
 import { useCustomFetch } from "~/src/shared/api";
 import { useRouteParam } from "~/src/shared/lib/use";
 import { MEDIA_LIST } from "~/src/entities/media";
+import type {
+  MediaTypes,
+  MediaCategories,
+  Media,
+  PageResult,
+} from "~/src/shared/config";
 
 const { locale } = useI18n();
+const type = useRouteParam<MediaTypes>("type");
+const category = useRouteParam<MediaCategories>("category");
 
 const page = ref(1);
 const totalPages = ref(0);
-const totalResults = ref([]);
+const totalResults = ref<Media[]>([]);
 const isPendingAutoload = ref(false);
-
-const type = useRouteParam("type");
-const category = useRouteParam("category");
 
 const listItem = MEDIA_LIST[type.value].find(
   (item) => item.category === category.value,
 );
 
-const title = computed(() => {
-  return listItem.title;
+const preparedTitle = computed(() => {
+  return listItem?.title;
 });
 
 if (!listItem) {
@@ -54,9 +63,10 @@ await useCustomFetch(`/${type.value}/${category.value}`, {
     isPendingAutoload.value = true;
   },
   onResponse({ response }) {
+    const responseData = response._data as PageResult<Media>;
     isPendingAutoload.value = false;
-    totalResults.value = [...totalResults.value, ...response._data.results];
-    totalPages.value = response._data.total_pages;
+    totalResults.value = [...totalResults.value, ...responseData.results];
+    totalPages.value = responseData.total_pages;
   },
 });
 </script>

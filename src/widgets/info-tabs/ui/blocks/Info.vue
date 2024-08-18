@@ -2,13 +2,13 @@
   <div class="info">
     <div class="info__table-wrapper">
       <table class="info__table">
-        <tr v-if="data.originalTitle" class="info__row">
+        <tr v-if="data.original_title" class="info__row">
           <td class="info__cell">
             {{ $t("Original Title") }}
           </td>
-          <td class="info__cell">{{ data.originalTitle }}</td>
+          <td class="info__cell">{{ data.original_title }}</td>
         </tr>
-        <tr v-if="data.originalLanguage" class="info__row">
+        <tr v-if="data.original_language" class="info__row">
           <td class="info__cell">
             {{ $t("Original Language") }}
           </td>
@@ -32,7 +32,7 @@
             {{ data.status }}
           </td>
         </tr>
-        <tr v-if="data.date" class="info__row">
+        <tr v-if="data.release_date" class="info__row">
           <td class="info__cell">
             {{ $t("Release Date") }}
           </td>
@@ -40,7 +40,7 @@
             {{ transformedDate }}
           </td>
         </tr>
-        <tr v-if="data.productionCountries" class="info__row">
+        <tr v-if="data.production_countries" class="info__row">
           <td class="info__cell">
             {{ $t("Production Countries") }}
           </td>
@@ -48,7 +48,7 @@
             {{ transformedProductionCountries }}
           </td>
         </tr>
-        <tr v-if="data.productionCompanies" class="info__row">
+        <tr v-if="data.production_companies" class="info__row">
           <td class="info__cell">
             {{ $t("Production Companies") }}
           </td>
@@ -107,11 +107,11 @@ const props = defineProps({
 });
 
 const transformedLanguage = computed(() => {
-  return props.data.originalLanguage.toUpperCase();
+  return props.data.original_language.toUpperCase();
 });
 
 const transformedDate = computed(() => {
-  return formatDate(props.data.date);
+  return formatDate(props.data.release_date);
 });
 
 const transformedRuntime = computed(() => {
@@ -121,13 +121,13 @@ const transformedRuntime = computed(() => {
 });
 
 const transformedProductionCountries = computed(() => {
-  return props.data.productionCountries
+  return props.data.production_countries
     .map((country) => country.name)
     .join(", ");
 });
 
 const transformedProductionCompanies = computed(() => {
-  return props.data.productionCompanies.map(({ id, name, logo_path }) => ({
+  return props.data.production_companies.map(({ id, name, logo_path }) => ({
     id,
     name,
     logo: logo_path,

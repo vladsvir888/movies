@@ -25,30 +25,26 @@
   </article>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import LazyImage from "~/src/shared/ui/lazy-image";
 import Rating from "~/src/shared/ui/rating";
 import Heading from "~/src/shared/ui/heading";
 import Button from "~/src/shared/ui/button";
 import { divideByTwoAndRound } from "~/src/shared/lib/format";
 import { getTitleOrName } from "~/src/shared/lib/get";
+import type { Media, MediaTypes } from "~/src/shared/config";
+
+type CardProps = {
+  data: Media;
+  type: MediaTypes;
+  headingLevel?: number;
+};
+
+const props = withDefaults(defineProps<CardProps>(), {
+  headingLevel: 3,
+});
 
 const config = useRuntimeConfig();
-
-const props = defineProps({
-  data: {
-    type: Object,
-    required: true,
-  },
-  type: {
-    type: String,
-    required: true,
-  },
-  headingLevel: {
-    type: Number,
-    default: 3,
-  },
-});
 
 const ratingCount = ref(divideByTwoAndRound(props.data.vote_average));
 

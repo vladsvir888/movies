@@ -40,22 +40,22 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import Icon from "~/src/shared/ui/icon";
 import Rating from "~/src/shared/ui/rating";
 import Button from "~/src/shared/ui/button";
 import { getTitleOrName } from "~/src/shared/lib/get";
 import { formatDate, divideByTwoAndRound } from "~/src/shared/lib/format";
 import { MEDIA_TYPES } from "~/src/entities/media";
+import type { Media } from "~/src/shared/config";
+
+type HeroSectionProps = {
+  data: Media;
+};
+
+const props = defineProps<HeroSectionProps>();
 
 const config = useRuntimeConfig();
-
-const props = defineProps({
-  data: {
-    type: Object,
-    required: true,
-  },
-});
 
 const ratingCount = ref(divideByTwoAndRound(props.data.vote_average));
 

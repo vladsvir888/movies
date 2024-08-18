@@ -1,3 +1,5 @@
+import type { MediaStore } from "~/src/shared/config";
+
 const NAMESPACE = "media";
 
 export const useMediaStore = defineStore(NAMESPACE, {
@@ -17,7 +19,7 @@ export const useMediaStore = defineStore(NAMESPACE, {
         topRated: [],
         genres: [],
       },
-    };
+    } as unknown as MediaStore;
   },
 });
 

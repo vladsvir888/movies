@@ -27,6 +27,7 @@ import { useVideoStore } from "~/src/entities/media";
 const heroDetail = defineModel("heroDetail", {
   type: Object,
   required: true,
+  default: null,
 });
 
 const { t, locale } = useI18n();
@@ -78,54 +79,54 @@ await useCustomFetch(`/${type.value}/${id.value}`, {
     }
 
     const {
-      original_title: originalTitle,
-      original_language: originalLanguage,
+      original_title,
+      original_language,
       runtime,
       budget,
       revenue,
-      production_companies: productionCompanies,
-      production_countries: productionCountries,
-      backdrop_path: backdropImage,
+      production_companies,
+      production_countries,
+      backdrop_path,
       title,
       name,
-      overview: text,
-      release_date: date,
+      overview,
+      release_date,
       status,
       genres,
-      vote_average: voteAverage,
-      poster_path: posterImage,
+      vote_average,
+      poster_path,
       images,
-      reviews: reviewsItems,
-      videos: videosItems,
+      reviews,
+      videos,
       similar,
     } = response._data;
 
     heroDetail.value = {
-      backdropImage,
+      backdrop_path,
       title,
       name,
-      text,
-      date,
+      overview,
+      release_date,
       status,
       genres,
-      voteAverage,
-      posterImage,
+      vote_average,
+      poster_path,
     };
 
     tabPanels.value.info.data = {
-      originalTitle,
-      originalLanguage,
+      original_title,
+      original_language,
       runtime,
       budget,
       revenue,
       status,
-      date,
-      productionCompanies,
-      productionCountries,
+      release_date,
+      production_companies,
+      production_countries,
     };
     tabPanels.value.photos.data = transformPhotos(images);
-    tabPanels.value.reviews.data = transformReviews(reviewsItems.results);
-    tabPanels.value.videos.data = transformVideos(videosItems.results);
+    tabPanels.value.reviews.data = transformReviews(reviews.results);
+    tabPanels.value.videos.data = transformVideos(videos.results);
     tabPanels.value.similar.data = similar;
   },
 });

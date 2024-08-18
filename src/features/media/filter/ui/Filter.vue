@@ -83,17 +83,17 @@ const ratingCount = ref(0);
 const sortOrder = ref(SORT_ORDERS.descending);
 const isOrderDescending = ref(true);
 
-const category = useRouteParam("category");
+const type = useRouteParam("type");
 
 const transformedGenres = computed(() => {
-  return mediaStore[category.value].genres.map(({ id, name }) => ({
+  return mediaStore[type.value].genres.map(({ id, name }) => ({
     value: id,
     text: name,
   }));
 });
 
 const sortedData = computed(() => {
-  const types = SORT_TYPES[category.value];
+  const types = SORT_TYPES[type.value];
   const data = [];
 
   const transformType = (type) =>
@@ -183,9 +183,9 @@ watch(removedVariant, (newValue) => {
   setFilterValuesInUrl();
 });
 
-useCustomFetch(`/genre/${category.value}/list`, {
+useCustomFetch(`/genre/${type.value}/list`, {
   onResponse({ response }) {
-    mediaStore[category.value].genres = response._data.genres;
+    mediaStore[type.value].genres = response._data.genres;
   },
 });
 

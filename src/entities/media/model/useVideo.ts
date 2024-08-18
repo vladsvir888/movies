@@ -1,8 +1,19 @@
 import YouTubePlayer from "youtube-player";
+import type { YouTubePlayer as YTP } from "youtube-player/dist/types";
+
+type StringOrNull = string | null;
+
+type VideoState = {
+  videos: {
+    video: YTP;
+    id: StringOrNull;
+  }[];
+  activeVideoId: StringOrNull;
+};
 
 const NAMESPACE = "video";
 
-const getDefaultState = () => {
+const getDefaultState = (): VideoState => {
   return {
     videos: [],
     activeVideoId: null,
@@ -17,7 +28,7 @@ export const useVideoStore = defineStore(NAMESPACE, {
   state: () => getDefaultState(),
 
   actions: {
-    createVideo(element, videoId) {
+    createVideo(element: string, videoId: string): void {
       const video = YouTubePlayer(element, {
         videoId,
       });
@@ -37,7 +48,7 @@ export const useVideoStore = defineStore(NAMESPACE, {
       video.playVideo();
     },
 
-    stopVideo() {
+    stopVideo(): void {
       this.videos.forEach((video) => {
         if (video.id !== this.activeVideoId) {
           video.video.pauseVideo();
@@ -45,11 +56,11 @@ export const useVideoStore = defineStore(NAMESPACE, {
       });
     },
 
-    stopAllVideos() {
+    stopAllVideos(): void {
       this.videos.forEach((video) => video.video.pauseVideo());
     },
 
-    resetState() {
+    resetState(): void {
       Object.assign(this, getDefaultState());
     },
   },

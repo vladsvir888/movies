@@ -10,10 +10,10 @@ export const transformPhotos = (items) => {
 
 export const transformVideos = (items) => {
   return items.map(({ key, name, type, published_at }) => ({
-    id: key,
+    key,
     name,
     type,
-    date: published_at,
+    published_at,
   }));
 };
 

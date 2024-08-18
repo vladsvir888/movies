@@ -1,13 +1,14 @@
 <template>
   <div class="page">
-    <Heading class="visually-hidden">
-      {{ title }}
+    <Heading v-if="preparedTitle" class="visually-hidden">
+      {{ preparedTitle }}
     </Heading>
-
-    <PageSeoData :title="title" :description="title" />
-
+    <PageSeoData
+      v-if="preparedTitle"
+      :title="preparedTitle"
+      :description="preparedTitle"
+    />
     <HeroSection :data="mediaStore[type].heroBlock" />
-
     <Category
       v-for="item in MEDIA_LIST[type]"
       :key="item.category"
@@ -18,7 +19,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import HeroSection from "~/src/widgets/hero-section";
 import Category from "~/src/widgets/category";
 import { useMediaStore, MEDIA_LIST, MEDIA_TYPES } from "~/src/entities/media";
@@ -26,20 +27,20 @@ import PageSeoData from "~/src/shared/ui/page-seo-data";
 import Heading from "~/src/shared/ui/heading";
 import { useCustomFetch } from "~/src/shared/api";
 import { useRouteParam } from "~/src/shared/lib/use";
+import type { MediaTypes, Media, PageResult } from "~/src/shared/config";
 
 const mediaStore = useMediaStore();
 const { t } = useI18n();
+const type = useRouteParam<MediaTypes>("type");
 
-const type = useRouteParam("type");
-
-const title = computed(() => {
+const preparedTitle = computed(() => {
   if (type.value === MEDIA_TYPES[0]) {
     return t("Movies");
   } else if (type.value === MEDIA_TYPES[1]) {
     return t("TV Shows");
   }
 
-  return "";
+  return undefined;
 });
 
 if (!MEDIA_LIST[type.value]) {
@@ -51,7 +52,9 @@ if (!MEDIA_LIST[type.value]) {
 
 useCustomFetch(`/${type.value}/popular`, {
   onResponse({ response }) {
-    mediaStore[type.value].heroBlock = response._data.results[0];
+    mediaStore[type.value].heroBlock = (
+      response._data as PageResult<Media>
+    ).results[0];
   },
 });
 </script>

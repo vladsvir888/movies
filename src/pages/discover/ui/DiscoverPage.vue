@@ -1,9 +1,13 @@
 <template>
   <div class="page page-discover container">
-    <PageSeoData :title="title" :description="title" />
+    <PageSeoData
+      v-if="preparedTitle"
+      :title="preparedTitle"
+      :description="preparedTitle"
+    />
 
     <Heading class="page-discover__title" variant="underline">
-      {{ title }}
+      {{ preparedTitle }}
     </Heading>
 
     <div class="page-discover__wrapper">
@@ -41,7 +45,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import PageSeoData from "~/src/shared/ui/page-seo-data";
 import Icon from "~/src/shared/ui/icon";
 import Heading from "~/src/shared/ui/heading";
@@ -54,50 +58,48 @@ import { useRouteParam } from "~/src/shared/lib/use";
 import { isEmptyObject, isObjectsEqual } from "~/src/shared/lib/is";
 import { scrollUp } from "~/src/shared/lib/dom";
 import { MEDIA_TYPES } from "~/src/entities/media";
+import type { MediaTypes, Media, PageResult } from "~/src/shared/config";
 
 const route = useRoute();
 const { t, locale } = useI18n();
-
 const params = ref({
   ...FILTER,
 });
-const removedVariant = ref(null);
+const removedVariant = ref<string | number | null>(null);
 
 const page = ref(1);
 const totalPages = ref(0);
-const totalResults = ref([]);
+const totalResults = ref<Media[]>([]);
 const isPendingAutoload = ref(false);
 
-const category = useRouteParam("category");
+const type = useRouteParam<MediaTypes>("type");
 
-const title = computed(() => {
-  if (category.value === MEDIA_TYPES[0]) {
+const preparedTitle = computed(() => {
+  if (type.value === MEDIA_TYPES[0]) {
     return `${t("Discover")} ${t("Movies")}`;
-  } else if (category.value === MEDIA_TYPES[1]) {
+  } else if (type.value === MEDIA_TYPES[1]) {
     return `${t("Discover")} ${t("TV Shows")}`;
   }
 
-  return "";
+  return undefined;
 });
 
-useCustomFetch(
-  () => `/discover/${category.value}?${buildQuery(params.value)}`,
-  {
-    query: {
-      page,
-      include_adult: false,
-      language: locale,
-    },
-    onRequest() {
-      isPendingAutoload.value = true;
-    },
-    onResponse({ response }) {
-      isPendingAutoload.value = false;
-      totalResults.value = [...totalResults.value, ...response._data.results];
-      totalPages.value = response._data.total_pages;
-    },
+useCustomFetch(() => `/discover/${type.value}?${buildQuery(params.value)}`, {
+  query: {
+    page,
+    include_adult: false,
+    language: locale,
   },
-);
+  onRequest() {
+    isPendingAutoload.value = true;
+  },
+  onResponse({ response }) {
+    const responseData = response._data as PageResult<Media>;
+    isPendingAutoload.value = false;
+    totalResults.value = [...totalResults.value, ...responseData.results];
+    totalPages.value = responseData.total_pages;
+  },
+});
 
 watch(
   () => route.query,
@@ -105,7 +107,7 @@ watch(
     page.value = 1;
     totalPages.value = 0;
     totalResults.value = [];
-    params.value = route.query;
+    params.value = route.query as Record<string, string>;
 
     if (isObjectsEqual(params.value, FILTER)) {
       removedVariant.value = null;
@@ -122,7 +124,7 @@ onMounted(() => {
     return;
   }
 
-  params.value = route.query;
+  params.value = query as Record<string, string>;
 });
 </script>
 
