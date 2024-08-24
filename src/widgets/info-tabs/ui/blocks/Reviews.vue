@@ -3,7 +3,7 @@
     <div v-if="data.length" class="reviews">
       <AccordionGroup>
         <AccordionItem
-          v-for="item in data"
+          v-for="item in localData"
           :id="item.id"
           :key="item.id"
           :title="item.author"
@@ -16,14 +16,20 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { AccordionGroup, AccordionItem } from "~/src/shared/ui/accordion";
+import type { Review } from "~/src/shared/config";
 
-defineProps({
-  data: {
-    type: Array,
-    default: null,
-  },
+const props = defineProps<{
+  data: Review[];
+}>();
+
+const localData = computed(() => {
+  return props.data.map(({ id, author, content }) => ({
+    id,
+    author,
+    content,
+  }));
 });
 </script>
 

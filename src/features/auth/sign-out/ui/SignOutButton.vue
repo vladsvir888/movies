@@ -10,7 +10,7 @@
   </Button>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import Button from "~/src/shared/ui/button";
 import { useAuthStore } from "~/src/entities/user";
 

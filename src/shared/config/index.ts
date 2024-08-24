@@ -5,6 +5,9 @@ export type {
   MediaTypesTuple,
   Media,
   MediaStore,
+  MediaImages,
+  MediaImagesKeys,
+  MediaImagesKeysWithoutLogos,
 } from "./media";
 export type { Genre } from "./genre";
 export type { Image } from "./image";

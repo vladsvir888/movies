@@ -91,20 +91,17 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { getHoursAndMinutes } from "~/src/shared/lib/get";
 import { formatNumber, formatDate } from "~/src/shared/lib/format";
+import type { Media } from "~/src/shared/config";
 
 const { t } = useI18n();
 const config = useRuntimeConfig();
 
-const props = defineProps({
-  data: {
-    type: Object,
-    required: true,
-    default: () => {},
-  },
-});
+const props = defineProps<{
+  data: Media;
+}>();
 
 const transformedLanguage = computed(() => {
   return props.data.original_language.toUpperCase();
@@ -115,19 +112,22 @@ const transformedDate = computed(() => {
 });
 
 const transformedRuntime = computed(() => {
-  const { hours: h, minutes: m } = getHoursAndMinutes(props.data.runtime);
+  if (props.data.runtime) {
+    const { hours: h, minutes: m } = getHoursAndMinutes(props.data.runtime);
+    return `${h}${t("h")} ${m}${t("min")}`;
+  }
 
-  return `${h}${t("h")} ${m}${t("min")}`;
+  return undefined;
 });
 
 const transformedProductionCountries = computed(() => {
   return props.data.production_countries
-    .map((country) => country.name)
+    ?.map((country) => country.name)
     .join(", ");
 });
 
 const transformedProductionCompanies = computed(() => {
-  return props.data.production_companies.map(({ id, name, logo_path }) => ({
+  return props.data.production_companies?.map(({ id, name, logo_path }) => ({
     id,
     name,
     logo: logo_path,
@@ -135,11 +135,19 @@ const transformedProductionCompanies = computed(() => {
 });
 
 const transformedBudget = computed(() => {
-  return formatNumber(props.data.budget);
+  if (props.data.budget) {
+    return formatNumber(props.data.budget);
+  }
+
+  return undefined;
 });
 
 const transformedRevenue = computed(() => {
-  return formatNumber(props.data.revenue);
+  if (props.data.revenue) {
+    return formatNumber(props.data.revenue);
+  }
+
+  return undefined;
 });
 </script>
 

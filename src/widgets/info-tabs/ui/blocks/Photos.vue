@@ -1,25 +1,25 @@
 <template>
   <div class="photos">
     <section
-      v-for="(categoryData, categoryName) in data"
-      :key="categoryName"
+      v-for="(imageList, imageListKey) in localData"
+      :key="imageListKey"
       class="photos__section"
     >
       <Heading :level="2" class="photos__title">
-        {{ transformCategory(categoryName) }}
-        <span>{{ categoryData.length }} {{ $t("Images") }}</span>
+        {{ transformCategory(imageListKey) }}
+        <span>{{ imageList.length }} {{ $t("Images") }}</span>
       </Heading>
 
       <ul class="photos__list">
         <li
-          v-for="(path, index) in categoryData"
+          v-for="(path, index) in imageList"
           :key="path"
           class="photos__list-item"
         >
           <Button
             class="photos__list-button"
             :aria-label="$t('Open gallery images')"
-            @click="onClickButton(categoryName, index)"
+            @click="onClickButton(imageListKey, index)"
           >
             <LazyImage
               :src="`${config.public.apiImgUrl}w500${path}`"
@@ -43,41 +43,60 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import ImageLightbox from "~/src/shared/ui/image-lightbox";
 import LazyImage from "~/src/shared/ui/lazy-image";
 import Heading from "~/src/shared/ui/heading";
 import Button from "~/src/shared/ui/button";
+import type {
+  MediaImages,
+  MediaImagesKeys,
+  MediaImagesKeysWithoutLogos,
+} from "~/src/shared/config";
 
 const config = useRuntimeConfig();
 
-const props = defineProps({
-  data: {
-    type: Object,
-    default: null,
-  },
+const props = defineProps<{
+  data: MediaImages;
+}>();
+
+const localData = computed(() => {
+  const result: Record<MediaImagesKeysWithoutLogos, string[]> = {
+    backdrops: [],
+    posters: [],
+  };
+  let key: MediaImagesKeys;
+
+  for (key in props.data) {
+    if (key === "logos") continue;
+    result[key] = props.data[key].map((item) => item.file_path);
+  }
+
+  return result;
 });
 
-const backdrops = ref(props.data.backdrops);
-const posters = ref(props.data.posters);
-
-const items = ref([]);
+const items = ref<string[]>([]);
 const indexActiveItem = ref(0);
 const isShow = ref(false);
 
-const onClickButton = (category, index) => {
+const onClickButton = (
+  category: MediaImagesKeysWithoutLogos,
+  index: number,
+): void => {
   if (category === "backdrops") {
-    items.value = backdrops.value;
+    items.value = localData.value.backdrops;
   } else if (category === "posters") {
-    items.value = posters.value;
+    items.value = localData.value.posters;
   }
 
   indexActiveItem.value = index;
   isShow.value = true;
 };
 
-const transformCategory = (category) => {
-  return category[0].toUpperCase() + category.slice(1);
+const transformCategory = <T extends MediaImagesKeysWithoutLogos>(
+  category: T,
+): Capitalize<T> => {
+  return (category[0].toUpperCase() + category.slice(1)) as Capitalize<T>;
 };
 </script>
 

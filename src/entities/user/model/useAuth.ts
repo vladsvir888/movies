@@ -1,13 +1,13 @@
 import { cacheUtil, cacheKey } from "~/src/shared/lib/browser";
 import { useToastStore } from "~/src/shared/ui/toast";
 import { getLoginData, getSessionData, getTokenData } from "../api";
+import { FetchError } from "ofetch";
+import type { AuthError } from "../config";
 
 const NAMESPACE = "auth";
 
 const getDefaultState = () => {
   return {
-    username: "",
-    password: "",
     token: "",
     expiresAt: "",
     sessionId: "",
@@ -19,18 +19,21 @@ export const useAuthStore = defineStore(NAMESPACE, {
   state: () => getDefaultState(),
 
   actions: {
-    async auth(data) {
+    async auth({
+      username,
+      password,
+    }: {
+      username: string;
+      password: string;
+    }): Promise<void> {
       this.loading = true;
-
-      this.username = data.value.username;
-      this.password = data.value.password;
 
       try {
         const tokenRequest = await getTokenData();
         this.token = tokenRequest.request_token;
         this.expiresAt = tokenRequest.expires_at;
 
-        await getLoginData(this.username, this.password, this.token);
+        await getLoginData(username, password, this.token);
 
         const sessionRequest = await getSessionData(this.token);
         this.sessionId = sessionRequest.session_id;
@@ -42,19 +45,22 @@ export const useAuthStore = defineStore(NAMESPACE, {
         });
 
         await navigateTo("/");
-      } catch (error) {
-        this.setError(error.response._data.status_message);
+      } catch (error: unknown) {
+        if (error instanceof FetchError) {
+          const data: AuthError = error.data;
+          this.setError(data.status_message);
+        }
       } finally {
         this.loading = false;
       }
     },
 
-    logout() {
+    logout(): void {
       this.resetState();
       cacheUtil.remove(cacheKey.appTokenData);
     },
 
-    getDataFromLSAndSetInStore() {
+    getDataFromLSAndSetInStore(): void {
       const authData = cacheUtil.get(cacheKey.appTokenData);
 
       if (!authData) {
@@ -73,18 +79,17 @@ export const useAuthStore = defineStore(NAMESPACE, {
       }
     },
 
-    setError(err) {
+    setError(err: string): void {
       useToastStore().addToast({
         id: Math.random(),
         variant: "danger",
         content: err,
         duration: 3500,
       });
-
       this.resetState();
     },
 
-    resetState() {
+    resetState(): void {
       Object.assign(this, getDefaultState());
     },
   },

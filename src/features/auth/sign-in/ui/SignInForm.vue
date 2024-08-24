@@ -39,7 +39,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import InputBlock from "~/src/shared/ui/input-block";
 import Button from "~/src/shared/ui/button";
 import { BaseLoader } from "~/src/shared/ui/loaders";
@@ -52,28 +52,31 @@ const state = ref({
   password: "",
 });
 
-const form = ref(null);
-const usernameInput = ref(null);
-const passwordInput = ref(null);
+const form = ref<HTMLFormElement | null>(null);
+const usernameInput = ref<InstanceType<typeof InputBlock> | null>(null);
+const passwordInput = ref<InstanceType<typeof InputBlock> | null>(null);
 
 const onSubmitForm = async () => {
   const inputs = [usernameInput.value, passwordInput.value];
 
-  if (!form.value.checkValidity()) {
+  if (!form.value?.checkValidity()) {
     inputs.forEach((el) => {
-      if (el.input.value) {
+      if (el?.input?.value) {
         return;
       }
 
-      el.setError();
+      el?.setError();
     });
 
     return;
   }
 
-  inputs.forEach((el) => el.resetError());
+  inputs.forEach((el) => el?.resetError());
 
-  await authStore.auth(state);
+  await authStore.auth({
+    username: state.value.username,
+    password: state.value.password,
+  });
 
   state.value.username = "";
   state.value.password = "";

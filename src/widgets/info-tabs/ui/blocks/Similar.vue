@@ -12,18 +12,15 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import Catalog from "~/src/widgets/catalog";
 import { useCustomFetch } from "~/src/shared/api";
 import { useRouteParam } from "~/src/shared/lib/use";
+import type { Media, PageResult } from "~/src/shared/config";
 
-const props = defineProps({
-  data: {
-    type: Object,
-    required: true,
-    default: () => {},
-  },
-});
+const props = defineProps<{
+  data: PageResult<Media>;
+}>();
 
 const { locale } = useI18n();
 
@@ -32,7 +29,7 @@ const totalPages = ref(props.data.total_pages);
 const totalResults = ref(props.data.results);
 const isPendingAutoload = ref(false);
 
-const id = useRouteParam("id");
+const id = useRouteParam<string>("id");
 
 useCustomFetch(`/movie/${id.value}/similar`, {
   immediate: false,
@@ -44,9 +41,10 @@ useCustomFetch(`/movie/${id.value}/similar`, {
     isPendingAutoload.value = true;
   },
   onResponse({ response }) {
+    const responseData = response._data as PageResult<Media>;
     isPendingAutoload.value = false;
-    totalResults.value = [...totalResults.value, ...response._data.results];
-    totalPages.value = response._data.total_pages;
+    totalResults.value = [...totalResults.value, ...responseData.results];
+    totalPages.value = responseData.total_pages;
   },
 });
 </script>

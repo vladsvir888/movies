@@ -24,6 +24,16 @@ export type MediaList = {
   [K in MediaTypes]: MediaItem[];
 };
 
+export type MediaImages = {
+  backdrops: Image[];
+  posters: Image[];
+  logos: Image[];
+};
+
+export type MediaImagesKeys = keyof MediaImages;
+
+export type MediaImagesKeysWithoutLogos = Exclude<MediaImagesKeys, "logos">;
+
 export type Media = {
   backdrop_path: string;
   id: number;
@@ -56,10 +66,7 @@ export type Media = {
   }[];
   budget?: number;
   genres?: Genre[];
-  images?: {
-    backdrops: Image[];
-    posters: Image[];
-  };
+  images?: MediaImages;
 };
 
 export type MediaStore = {

@@ -1,6 +1,6 @@
 <template>
   <div class="info-tabs">
-    <TabGroup @update:selected-tab="onUpdateSelectedTab">
+    <TabGroup @update:selected-tab="videoStore.stopAllVideos()">
       <TabPanel
         v-for="(tabPanelsValue, tabPanelsKey) in tabPanels"
         :key="tabPanelsKey"
@@ -16,18 +16,23 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { Info, Videos, Photos, Reviews, Similar } from "./blocks";
-import { transformPhotos, transformVideos, transformReviews } from "../lib";
 import { TabGroup, TabPanel } from "~/src/shared/ui/tabs";
 import { useCustomFetch } from "~/src/shared/api";
 import { useRouteParam } from "~/src/shared/lib/use";
 import { useVideoStore } from "~/src/entities/media";
+import type {
+  MediaTypes,
+  Media,
+  MediaImages,
+  BaseVideo,
+  Review,
+  PageResult,
+} from "~/src/shared/config";
 
-const heroDetail = defineModel("heroDetail", {
-  type: Object,
+const heroDetail = defineModel<Media | null>("heroDetail", {
   required: true,
-  default: null,
 });
 
 const { t, locale } = useI18n();
@@ -37,35 +42,33 @@ const tabPanels = ref({
   info: {
     title: t("Info"),
     component: markRaw(Info),
-    data: ref(null),
+    data: ref<Media | undefined>(undefined),
   },
   videos: {
     title: t("Videos"),
     component: markRaw(Videos),
-    data: ref(null),
+    data: ref<BaseVideo[] | undefined>(undefined),
   },
   photos: {
     title: t("Photos"),
     component: markRaw(Photos),
-    data: ref(null),
+    data: ref<MediaImages | undefined>(undefined),
   },
   reviews: {
     title: t("Reviews"),
     component: markRaw(Reviews),
-    data: ref(null),
+    data: ref<Review[] | undefined>(undefined),
   },
   similar: {
     title: t("Similar"),
     component: markRaw(Similar),
-    data: ref(null),
+    data: ref<PageResult<Media> | undefined>(undefined),
   },
 });
 const isNotFoundMediaObject = ref(false);
 
-const onUpdateSelectedTab = () => videoStore.stopAllVideos();
-
-const type = useRouteParam("type");
-const id = useRouteParam("id");
+const type = useRouteParam<MediaTypes>("type");
+const id = useRouteParam<string>("id");
 
 await useCustomFetch(`/${type.value}/${id.value}`, {
   query: {
@@ -78,56 +81,13 @@ await useCustomFetch(`/${type.value}/${id.value}`, {
       return;
     }
 
-    const {
-      original_title,
-      original_language,
-      runtime,
-      budget,
-      revenue,
-      production_companies,
-      production_countries,
-      backdrop_path,
-      title,
-      name,
-      overview,
-      release_date,
-      status,
-      genres,
-      vote_average,
-      poster_path,
-      images,
-      reviews,
-      videos,
-      similar,
-    } = response._data;
-
-    heroDetail.value = {
-      backdrop_path,
-      title,
-      name,
-      overview,
-      release_date,
-      status,
-      genres,
-      vote_average,
-      poster_path,
-    };
-
-    tabPanels.value.info.data = {
-      original_title,
-      original_language,
-      runtime,
-      budget,
-      revenue,
-      status,
-      release_date,
-      production_companies,
-      production_countries,
-    };
-    tabPanels.value.photos.data = transformPhotos(images);
-    tabPanels.value.reviews.data = transformReviews(reviews.results);
-    tabPanels.value.videos.data = transformVideos(videos.results);
-    tabPanels.value.similar.data = similar;
+    const responseData = response._data as Media;
+    heroDetail.value = responseData;
+    tabPanels.value.info.data = responseData;
+    tabPanels.value.videos.data = responseData.videos?.results;
+    tabPanels.value.photos.data = responseData.images;
+    tabPanels.value.reviews.data = responseData.reviews?.results;
+    tabPanels.value.similar.data = responseData.similar;
   },
 });
 

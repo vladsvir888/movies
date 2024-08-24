@@ -10,7 +10,7 @@ export default defineNuxtConfig({
   },
 
   plugins: [
-    { src: "~/src/entities/user/model/auth-middleware.js", mode: "client" },
+    { src: "~/src/entities/user/model/auth-middleware.ts", mode: "client" },
     { src: "~/src/shared/api/api.ts" },
   ],
 
