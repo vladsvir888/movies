@@ -35,6 +35,9 @@ export type MediaImagesKeys = keyof MediaImages;
 export type MediaImagesKeysWithoutLogos = Exclude<MediaImagesKeys, "logos">;
 
 export type Media = {
+  adult: boolean;
+  genre_ids: number[];
+  video: boolean;
   backdrop_path: string;
   id: number;
   original_language: string;
@@ -82,7 +85,9 @@ export type MediaStore = {
     : {
         heroBlock: Media;
         popular: Media[];
+        nowPlaying?: never;
         topRated: Media[];
+        upcoming?: never;
         genres: Genre[];
       };
 };

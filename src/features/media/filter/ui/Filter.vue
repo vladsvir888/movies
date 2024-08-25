@@ -55,7 +55,7 @@
   </aside>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { AccordionGroup, AccordionItem } from "~/src/shared/ui/accordion";
 import InputBlock from "~/src/shared/ui/input-block";
 import Rating from "~/src/shared/ui/rating";

@@ -2,6 +2,6 @@
   <Error />
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { Error } from "~/src/app";
 </script>

@@ -50,9 +50,9 @@
       class="search-dialog__pagination"
     >
       <Button
+        v-show="!isFirstPage"
         class="search-dialog__pagination-button search-dialog__pagination-button--prev"
         :aria-label="$t('Previous')"
-        :disabled="isFirstPage"
         @click="toPreviousPage"
       >
         <Icon icon="arrow-prev" />
@@ -61,9 +61,9 @@
         {{ page }} / {{ totalPages }}
       </p>
       <Button
+        v-show="!isLastPage"
         class="search-dialog__pagination-button search-dialog__pagination-button--next"
         :aria-label="$t('Next')"
-        :disabled="isLastPage"
         @click="toNextPage"
       >
         <Icon icon="arrow-next" />
@@ -72,44 +72,50 @@
   </Dialog>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import Dialog from "~/src/shared/ui/dialog";
 import InputBlock from "~/src/shared/ui/input-block";
 import Icon from "~/src/shared/ui/icon";
 import Button from "~/src/shared/ui/button";
 import { BaseLoader } from "~/src/shared/ui/loaders";
 import { useDebouncedRef, useRouteParam } from "~/src/shared/lib/use";
+import type {
+  MediaTypes,
+  SearchByMovie,
+  SearchByTV,
+  PageResult,
+} from "~/src/shared/config";
 
 const { locale } = useI18n();
 const { $api } = useNuxtApp();
-const mediaType = useRouteParam("type");
+const mediaType = useRouteParam<MediaTypes>("type");
 
 const searchQuery = ref("");
 const searchQueryDebounced = useDebouncedRef(searchQuery, 650);
-const totalResults = ref([]);
+const totalResults = ref<SearchByMovie[] | SearchByTV[]>([]);
 const isPendingSearch = ref(false);
 const page = ref(1);
-const totalPages = ref(null);
-const totalResultsCount = ref(null);
+const totalPages = ref<number | null>(null);
+const totalResultsCount = ref<number | null>(null);
 
 const isSearchDialogVisible = defineModel("isSearchDialogVisible", {
   type: Boolean,
   default: false,
 });
 
-const toPreviousPage = () => {
+const toPreviousPage = (): void => {
   page.value -= 1;
 };
 
-const toNextPage = () => {
+const toNextPage = (): void => {
   page.value += 1;
 };
 
-const hideSearchDialog = () => {
+const hideSearchDialog = (): void => {
   isSearchDialogVisible.value = false;
 };
 
-const resetSearchQuery = () => {
+const resetSearchQuery = (): void => {
   searchQuery.value = "";
   totalResults.value = [];
   page.value = 1;
@@ -125,37 +131,44 @@ const isLastPage = computed(() => {
   return page.value === totalPages.value;
 });
 
-watch([searchQueryDebounced, page], async () => {
-  if (!mediaType.value) {
-    return;
-  }
+watch(
+  [searchQueryDebounced, page],
+  async ([newValueSearchQueryDebounced, newValuePage]) => {
+    if (!mediaType.value) {
+      return;
+    }
 
-  await $api(`/search/${mediaType.value}`, {
-    onRequest({ options }) {
-      isPendingSearch.value = true;
-      options.query = {
-        query: searchQueryDebounced.value,
-        include_adult: false,
-        page: page.value,
-        language: locale.value,
-      };
-    },
-    onResponse({ response }) {
-      isPendingSearch.value = false;
-      totalResults.value = response._data.results;
+    await $api(`/search/${mediaType.value}`, {
+      onRequest({ options }) {
+        isPendingSearch.value = true;
+        options.query = {
+          query: newValueSearchQueryDebounced,
+          include_adult: false,
+          page: newValuePage,
+          language: locale.value,
+        };
+      },
+      onResponse({ response }) {
+        const responseData = response._data as
+          | PageResult<SearchByMovie>
+          | PageResult<SearchByTV>;
 
-      if (
-        totalPages.value !== response._data.total_pages &&
-        totalResultsCount.value !== response._data.total_results
-      ) {
-        page.value = 1;
-      }
+        isPendingSearch.value = false;
+        totalResults.value = responseData.results;
 
-      totalPages.value = response._data.total_pages;
-      totalResultsCount.value = response._data.total_results;
-    },
-  });
-});
+        if (
+          totalPages.value !== responseData.total_pages &&
+          totalResultsCount.value !== responseData.total_results
+        ) {
+          page.value = 1;
+        }
+
+        totalPages.value = responseData.total_pages;
+        totalResultsCount.value = responseData.total_results;
+      },
+    });
+  },
+);
 
 watch(mediaType, resetSearchQuery);
 </script>
@@ -170,9 +183,7 @@ watch(mediaType, resetSearchQuery);
     transition: color var(--transition300ms);
 
     @include hover {
-      &:not(:disabled) {
-        color: var(--palette-puerto-rico);
-      }
+      color: var(--palette-puerto-rico);
     }
   }
 

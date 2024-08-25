@@ -4,6 +4,6 @@
   </App>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { App } from "~/src/app";
 </script>

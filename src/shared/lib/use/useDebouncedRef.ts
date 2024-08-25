@@ -1,15 +1,15 @@
 import { debounce } from "../events";
 
-export const useDebouncedRef = (
-  source: Ref<unknown>,
+export const useDebouncedRef = <T>(
+  source: Ref<T>,
   wait: number = 300,
-): Ref<unknown> => {
-  const debouncedSource = ref(source.value);
+): Ref<T> => {
+  const debouncedSource = ref(source.value) as Ref<T>; // https://github.com/vuejs/core/issues/1324#issuecomment-747479802
 
   watch(
     source,
     debounce((value) => {
-      debouncedSource.value = value;
+      debouncedSource.value = value as T;
     }, wait),
   );
 

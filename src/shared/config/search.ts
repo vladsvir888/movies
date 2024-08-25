@@ -1,0 +1,41 @@
+export type SearchByMovie = {
+  adult: boolean;
+  backdrop_path: string;
+  genre_ids: number[];
+  id: number;
+  origin_country: never;
+  original_language: string;
+  original_title: string;
+  original_name: never;
+  overview: string;
+  popularity: number;
+  poster_path: string;
+  release_date: string;
+  first_air_date: never;
+  title: string;
+  name: never;
+  video: boolean;
+  vote_average: number;
+  vote_count: number;
+};
+
+export type SearchByTV = {
+  adult: boolean;
+  backdrop_path: string;
+  genre_ids: number[];
+  id: number;
+  origin_country: string[];
+  original_language: string;
+  original_name: string;
+  original_title: never;
+  overview: string;
+  popularity: number;
+  poster_path: string;
+  release_date: never;
+  first_air_date: string;
+  name: string;
+  title: never;
+  video: never;
+  vote_average: number;
+  vote_count: number;
+};

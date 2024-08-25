@@ -10,33 +10,32 @@
   </Carousel>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import Carousel from "~/src/shared/ui/carousel";
 import { useMediaStore, Card } from "~/src/entities/media";
 import { useCustomFetch } from "~/src/shared/api";
 import { transformCategory } from "../lib";
+import type {
+  MediaTypes,
+  MediaCategories,
+  PageResult,
+  Media,
+} from "~/src/shared/config";
 
-const props = defineProps({
-  type: {
-    type: String,
-    required: true,
-  },
-  category: {
-    type: String,
-    required: true,
-  },
-  title: {
-    type: String,
-    required: true,
-  },
-});
+type CategoryProps = {
+  type: MediaTypes;
+  category: MediaCategories;
+  title: string;
+};
+
+const props = defineProps<CategoryProps>();
 
 const mediaStore = useMediaStore();
 
 useCustomFetch(`/${props.type}/${props.category}`, {
   onResponse({ response }) {
-    mediaStore[props.type][transformCategory(props.category)] =
-      response._data.results;
+    const responseData = (response._data as PageResult<Media>).results;
+    mediaStore[props.type][transformCategory(props.category)] = responseData;
   },
 });
 

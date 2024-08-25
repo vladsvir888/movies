@@ -56,7 +56,7 @@
 import { Splide, SplideSlide, SplideTrack } from "@splidejs/vue-splide"; // https://github.com/Splidejs/splide/issues/1248
 import "@splidejs/vue-splide/css/core";
 import type { Options } from "@splidejs/splide";
-import type { MediaTypes, MediaCategories } from "~/src/shared/config";
+import type { MediaTypes, MediaCategories, Media } from "~/src/shared/config";
 import Icon from "~/src/shared/ui/icon";
 import Heading from "~/src/shared/ui/heading";
 import Button from "~/src/shared/ui/button";
@@ -68,9 +68,7 @@ type CarouselProps = {
   isShowMore?: boolean;
   options?: Options;
   tag?: string;
-  // todo: добавить типы для items
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  items: Array<any>;
+  items: Media[];
 };
 
 const { t } = useI18n();
@@ -95,6 +93,7 @@ const props = withDefaults(defineProps<CarouselProps>(), {
   isShowMore: true,
   tag: "section",
   options: undefined,
+  items: () => [],
 });
 
 const preparedOptions = computed(() => {
