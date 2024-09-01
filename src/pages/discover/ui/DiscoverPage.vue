@@ -5,11 +5,9 @@
       :title="preparedTitle"
       :description="preparedTitle"
     />
-
     <Heading class="page-discover__title" variant="underline">
       {{ preparedTitle }}
     </Heading>
-
     <div class="page-discover__wrapper">
       <Filter v-model:removed-variant="removedVariant" />
       <div class="page-discover__cards">
@@ -26,7 +24,7 @@
                 size="medium"
                 @click="removedVariant = variantKey"
               >
-                {{ variantValue }}
+                {{ getRemovedVariant(variantKey, variantValue) }}
                 <Icon icon="close" />
               </Button>
             </li>
@@ -51,21 +49,28 @@ import Icon from "~/src/shared/ui/icon";
 import Heading from "~/src/shared/ui/heading";
 import Button from "~/src/shared/ui/button";
 import Catalog from "~/src/widgets/catalog";
-import { Filter, FILTER } from "~/src/features/media";
+import {
+  Filter,
+  FILTER,
+  FILTER_VALUES,
+  type TFilter,
+  type FilterKeys,
+} from "~/src/features/media";
 import { useCustomFetch } from "~/src/shared/api";
 import { buildQuery } from "~/src/shared/lib/format";
 import { useRouteParam } from "~/src/shared/lib/use";
 import { isEmptyObject, isObjectsEqual } from "~/src/shared/lib/is";
 import { scrollUp } from "~/src/shared/lib/dom";
-import { MEDIA_TYPES } from "~/src/entities/media";
+import { MEDIA_TYPES, useMediaStore } from "~/src/entities/media";
 import type { MediaTypes, Media, PageResult } from "~/src/shared/config";
 
+const mediaStore = useMediaStore();
 const route = useRoute();
 const { t, locale } = useI18n();
 const params = ref({
   ...FILTER,
 });
-const removedVariant = ref<string | number | null>(null);
+const removedVariant = ref<string | undefined>(undefined);
 
 const page = ref(1);
 const totalPages = ref(0);
@@ -84,22 +89,37 @@ const preparedTitle = computed(() => {
   return undefined;
 });
 
-useCustomFetch(() => `/discover/${type.value}?${buildQuery(params.value)}`, {
-  query: {
-    page,
-    include_adult: false,
-    language: locale,
+const getRemovedVariant = (key: FilterKeys, value: string | number): string => {
+  if (key === FILTER_VALUES.with_genres) {
+    const genre = mediaStore[type.value].genres.find(
+      (item) => item.id === Number(value),
+    );
+    return `${t(key)}: ${genre?.name}`;
+  }
+
+  return `${t(key)}: ${value}`;
+};
+
+useCustomFetch(
+  () =>
+    `/discover/${type.value}?${buildQuery(params.value as unknown as Record<string, string>)}`,
+  {
+    query: {
+      page,
+      include_adult: false,
+      language: locale,
+    },
+    onRequest() {
+      isPendingAutoload.value = true;
+    },
+    onResponse({ response }) {
+      const responseData = response._data as PageResult<Media>;
+      isPendingAutoload.value = false;
+      totalResults.value = [...totalResults.value, ...responseData.results];
+      totalPages.value = responseData.total_pages;
+    },
   },
-  onRequest() {
-    isPendingAutoload.value = true;
-  },
-  onResponse({ response }) {
-    const responseData = response._data as PageResult<Media>;
-    isPendingAutoload.value = false;
-    totalResults.value = [...totalResults.value, ...responseData.results];
-    totalPages.value = responseData.total_pages;
-  },
-});
+);
 
 watch(
   () => route.query,
@@ -107,10 +127,10 @@ watch(
     page.value = 1;
     totalPages.value = 0;
     totalResults.value = [];
-    params.value = route.query as Record<string, string>;
+    params.value = route.query as unknown as TFilter;
 
     if (isObjectsEqual(params.value, FILTER)) {
-      removedVariant.value = null;
+      removedVariant.value = undefined;
     }
 
     scrollUp();
@@ -124,7 +144,7 @@ onMounted(() => {
     return;
   }
 
-  params.value = query as Record<string, string>;
+  params.value = query as unknown as TFilter;
 });
 </script>
 
@@ -146,6 +166,9 @@ onMounted(() => {
   }
 
   &__variants {
+    position: sticky;
+    top: calc(var(--header-height) + 10px);
+    z-index: 3;
     display: flex;
     align-items: center;
     flex-wrap: wrap;

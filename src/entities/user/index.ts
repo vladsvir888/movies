@@ -1,2 +1,2 @@
-export { useAuthStore } from "./model/useAuth.js";
+export { useAuthStore } from "./model/useAuth";
 export { passwordErrorMessage } from "./config";

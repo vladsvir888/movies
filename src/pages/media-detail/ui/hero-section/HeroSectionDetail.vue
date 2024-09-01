@@ -20,7 +20,7 @@
         <ul v-if="data.genres?.length" class="hero-block-detail__genres">
           <li v-for="genre in data.genres" :key="genre.id">
             <Button
-              :to="`/discover/${type}?${FILTER_VALUES['with_genres']}=${genre.id}`"
+              :to="`/discover/${type}?${FILTER_VALUES.with_genres}=${genre.id}`"
               variant="secondary"
               :pill="true"
               size="medium"

@@ -4,7 +4,7 @@
       <AccordionGroup>
         <AccordionItem id="filter-genres" :title="$t('Genres')">
           <Select
-            v-model="filter.with_genres"
+            v-model="filter[FILTER_VALUES.with_genres]"
             :options="transformedGenres"
             wrapper-class="filter__select-block"
             @change="setFilterValuesInUrl"
@@ -17,7 +17,7 @@
               v-for="radio in sortedData"
               :id="`filter-sort-${radio.value}`"
               :key="`filter-sort-${radio.value}`"
-              v-model="filter.sort_by"
+              v-model="filter[FILTER_VALUES.sort_by]"
               :label="radio.label"
               :value="radio.value"
               @change="setFilterValuesInUrl"
@@ -66,37 +66,42 @@ import { useCustomFetch } from "~/src/shared/api";
 import { divideByTwoAndRound } from "~/src/shared/lib/format";
 import { useRouteParam } from "~/src/shared/lib/use";
 import { isEmptyObject } from "~/src/shared/lib/is";
-import { SORT_ORDERS, SORT_TYPES, FILTER_VALUES, FILTER } from "../config";
+import {
+  SORT_ORDERS,
+  SORT_TYPES,
+  FILTER_VALUES,
+  FILTER,
+  type SortOrdersKeys,
+  type FilterKeys,
+} from "../config";
 import { useMediaStore } from "~/src/entities/media";
+import type { MediaTypes, Genre } from "~/src/shared/config";
 
 const mediaStore = useMediaStore();
 const router = useRouter();
 const route = useRoute();
 const { t } = useI18n();
 
-const removedVariant = defineModel("removedVariant", {
-  type: String,
-  default: null,
-});
+const removedVariant = defineModel<FilterKeys | undefined>("removedVariant");
 
 const ratingCount = ref(0);
-const sortOrder = ref(SORT_ORDERS.descending);
+const sortOrder = ref<SortOrdersKeys>(SORT_ORDERS.desc);
 const isOrderDescending = ref(true);
 
-const type = useRouteParam("type");
+const type = useRouteParam<MediaTypes>("type");
 
 const transformedGenres = computed(() => {
   return mediaStore[type.value].genres.map(({ id, name }) => ({
-    value: id,
+    value: String(id),
     text: name,
   }));
 });
 
 const sortedData = computed(() => {
   const types = SORT_TYPES[type.value];
-  const data = [];
+  const data = [] as { value: string; label: string }[];
 
-  const transformType = (type) =>
+  const transformType = (type: string): string =>
     type
       .split("_")
       .map((item) => item[0].toUpperCase() + item.slice(1))
@@ -116,27 +121,27 @@ const filter = ref({
   ...FILTER,
 });
 
-const setFilterValuesInUrl = () => {
+const setFilterValuesInUrl = (): void => {
   router.push({
     query: filter.value,
   });
 };
 
-const toggleSortOrder = (value) => {
+const toggleSortOrder = (value: boolean): void => {
   if (!value) {
-    sortOrder.value = SORT_ORDERS.ascending;
+    sortOrder.value = SORT_ORDERS.asc;
   } else {
-    sortOrder.value = SORT_ORDERS.descending;
+    sortOrder.value = SORT_ORDERS.desc;
   }
 };
 
-const updateFilterSortBy = (value) => {
-  filter.value[FILTER_VALUES["sort_by"]] = value
+const updateFilterSortBy = (value: string | undefined): void => {
+  filter.value[FILTER_VALUES.sort_by] = value
     ? `${value.split(".")[0]}.${sortOrder.value}`
     : sortedData.value[0].value;
 };
 
-const updateFilterValues = () => {
+const updateFilterValues = (): void => {
   const { query } = route;
 
   if (isEmptyObject(query)) {
@@ -144,22 +149,26 @@ const updateFilterValues = () => {
   }
 
   for (const key in query) {
-    if (key === FILTER_VALUES["vote_average.gte"]) {
-      ratingCount.value = divideByTwoAndRound(Number(query[key])); // trigger watch ratingCount
-    } else if (key === FILTER_VALUES["sort_by"] && query[key] !== "") {
-      isOrderDescending.value = query[key].split(".")[1] === sortOrder.value;
+    if (typeof query[key] !== "string") {
+      return;
+    }
 
+    if (key === FILTER_VALUES.vote_average_gte) {
+      ratingCount.value = divideByTwoAndRound(Number(query[key])); // trigger watch ratingCount
+    } else if (key === FILTER_VALUES.sort_by && query[key] !== "") {
+      isOrderDescending.value = query[key].split(".")[1] === sortOrder.value;
       toggleSortOrder(isOrderDescending.value);
       updateFilterSortBy(query[key]);
     } else {
-      filter.value[key] = query[key];
+      filter.value[key as Exclude<FilterKeys, "sort_by" | "vote_average.gte">] =
+        query[key];
     }
   }
 };
 
 watch(isOrderDescending, (newValue) => {
   toggleSortOrder(newValue);
-  updateFilterSortBy(filter.value[FILTER_VALUES["sort_by"]]);
+  updateFilterSortBy(filter.value[FILTER_VALUES.sort_by]);
   setFilterValuesInUrl();
 });
 
@@ -168,24 +177,32 @@ watch(ratingCount, (newValue) => {
     return;
   }
 
-  filter.value[FILTER_VALUES["vote_average.gte"]] = newValue * 2;
+  filter.value[FILTER_VALUES.vote_average_gte] = newValue * 2;
 
   setFilterValuesInUrl();
 });
 
 watch(removedVariant, (newValue) => {
-  if (newValue === FILTER_VALUES["vote_average.gte"]) {
+  if (!newValue) {
+    return;
+  }
+
+  if (newValue === FILTER_VALUES.vote_average_gte) {
     ratingCount.value = 0;
   }
 
-  filter.value[newValue] = "";
+  if (newValue === FILTER_VALUES.with_genres) {
+    filter.value[newValue] = "";
+  } else {
+    filter.value[newValue] = undefined;
+  }
 
   setFilterValuesInUrl();
 });
 
 useCustomFetch(`/genre/${type.value}/list`, {
   onResponse({ response }) {
-    mediaStore[type.value].genres = response._data.genres;
+    mediaStore[type.value].genres = response._data.genres as Genre[];
   },
 });
 

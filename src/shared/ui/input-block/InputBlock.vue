@@ -20,7 +20,7 @@
           v-bind="$attrs"
         />
         <Button
-          v-if="clearable && model.length"
+          v-if="clearable && model?.length"
           class="input-block__clear"
           :aria-label="$t('Clear entry')"
           type="button"
@@ -83,10 +83,7 @@ defineOptions({
   inheritAttrs: false,
 });
 
-const model = defineModel({
-  type: String,
-  required: true,
-});
+const model = defineModel<string | undefined>();
 
 const { t } = useI18n();
 

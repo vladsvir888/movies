@@ -20,10 +20,7 @@ type RadioButtonProps = {
 
 defineProps<RadioButtonProps>();
 
-const model = defineModel({
-  type: String,
-  required: true,
-});
+const model = defineModel<string | undefined>();
 </script>
 
 <style lang="scss">

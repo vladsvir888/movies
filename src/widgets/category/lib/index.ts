@@ -5,7 +5,7 @@ type TransformCategory<T> = T extends `${infer First}_${infer Rest}`
   : T;
 
 export const transformCategory = <T extends MediaCategories>(
-  value: T
+  value: T,
 ): TransformCategory<T> => {
   return value
     .split("_")
