@@ -97,7 +97,7 @@ const preparedTitle = computed(() => {
 const getRemovedVariant = (key: FilterKeys, value: string | number): string => {
   if (key === FILTER_VALUES.with_genres) {
     const genre = mediaStore[type.value].genres.find(
-      (item) => item.id === Number(value)
+      (item) => item.id === Number(value),
     );
     return `${t(key)}: ${genre?.name}`;
   }
@@ -129,7 +129,7 @@ useCustomFetch(
       totalResults.value = [...totalResults.value, ...responseData.results];
       totalPages.value = responseData.total_pages;
     },
-  }
+  },
 );
 
 watch(
@@ -145,7 +145,7 @@ watch(
     }
 
     scrollUp();
-  }
+  },
 );
 
 onMounted(() => {

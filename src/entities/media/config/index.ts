@@ -1,6 +1,6 @@
 import type { MediaList, MediaTypesTuple } from "~/src/shared/config";
 
-export const MEDIA_LIST = {
+export const MEDIA_LIST: MediaList = {
   movie: [
     {
       type: "movie",
@@ -35,6 +35,6 @@ export const MEDIA_LIST = {
       title: "Top Rated TV Shows",
     },
   ],
-} as MediaList;
+};
 
 export const MEDIA_TYPES = Object.keys(MEDIA_LIST) as MediaTypesTuple;

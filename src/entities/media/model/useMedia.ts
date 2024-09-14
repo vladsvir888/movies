@@ -3,7 +3,7 @@ import type { MediaStore } from "~/src/shared/config";
 const NAMESPACE = "media";
 
 export const useMediaStore = defineStore(NAMESPACE, {
-  state: () => {
+  state: (): MediaStore => {
     return {
       movie: {
         heroBlock: undefined,
@@ -19,7 +19,7 @@ export const useMediaStore = defineStore(NAMESPACE, {
         topRated: [],
         genres: [],
       },
-    } as unknown as MediaStore;
+    };
   },
 });
 

@@ -100,7 +100,7 @@ const transformedGenres = computed(() => {
 
 const sortedData = computed(() => {
   const types = SORT_TYPES[type.value];
-  const data = [] as { value: string; label: string }[];
+  const data: { value: string; label: string }[] = [];
 
   const transformType = (type: string): string =>
     type
