@@ -8,7 +8,9 @@
           :key="item.id"
           :title="item.author"
         >
-          {{ item.content }}
+          <!-- eslint-disable vue/no-v-html -->
+          <div v-html="item.content" />
+          <!--eslint-enable-->
         </AccordionItem>
       </AccordionGroup>
     </div>

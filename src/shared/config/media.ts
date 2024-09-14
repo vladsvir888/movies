@@ -75,7 +75,7 @@ export type Media = {
 export type MediaStore = {
   [K in MediaTypes]: K extends MediaTypesTuple[0]
     ? {
-        heroBlock: Media;
+        heroBlock?: Media;
         popular: Media[];
         nowPlaying: Media[];
         topRated: Media[];
@@ -83,7 +83,7 @@ export type MediaStore = {
         genres: Genre[];
       }
     : {
-        heroBlock: Media;
+        heroBlock?: Media;
         popular: Media[];
         nowPlaying?: never;
         topRated: Media[];

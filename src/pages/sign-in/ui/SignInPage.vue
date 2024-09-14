@@ -33,8 +33,6 @@ import { SignInForm } from "~/src/features/auth";
 
 <style lang="scss">
 .page-sign-in {
-  padding: var(--header-margin) 0 20px;
-
   &__wrapper {
     display: flex;
     flex-direction: column;

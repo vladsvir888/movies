@@ -2,11 +2,10 @@
   <div class="videos">
     <Select
       v-if="selectedVariantSortedData"
-      id="videos-sort-by-select"
       v-model="selectedVariantSortedData"
       :options="sortedData"
       :label="$t('Sort by')"
-      wrapper-class="videos__select"
+      class="videos__select"
     />
     <div v-if="filteredData.length" class="videos__wrapper">
       <Video v-for="item in filteredData" :key="item.key" :data="item" />

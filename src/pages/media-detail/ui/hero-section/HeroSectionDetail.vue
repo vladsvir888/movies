@@ -85,7 +85,8 @@ watch(
   min-height: min(100vh, 1080px);
   max-width: 1920px;
   margin: 0 auto;
-  padding: var(--header-margin) 0;
+  display: flex;
+  margin-top: calc(var(--header-height) * -1);
   background-position: center center;
   background-size: cover;
   background-repeat: no-repeat;

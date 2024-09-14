@@ -8,7 +8,10 @@
       :title="preparedTitle"
       :description="preparedTitle"
     />
-    <HeroSection :data="mediaStore[type].heroBlock" />
+    <HeroSection
+      v-if="mediaStore[type].heroBlock"
+      :data="mediaStore[type].heroBlock"
+    />
     <Category
       v-for="item in MEDIA_LIST[type]"
       :key="item.category"
@@ -50,11 +53,11 @@ if (!MEDIA_LIST[type.value]) {
   });
 }
 
-useCustomFetch(`/${type.value}/popular`, {
-  onResponse({ response }) {
-    mediaStore[type.value].heroBlock = (
-      response._data as PageResult<Media>
-    ).results[0];
-  },
-});
+const { state } = await useCustomFetch<PageResult<Media>>(
+  `/${type.value}/popular`,
+);
+
+if (state.value) {
+  mediaStore[type.value].heroBlock = state.value.results[0];
+}
 </script>

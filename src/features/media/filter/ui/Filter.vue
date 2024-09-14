@@ -6,7 +6,8 @@
           <Select
             v-model="filter[FILTER_VALUES.with_genres]"
             :options="transformedGenres"
-            wrapper-class="filter__select-block"
+            class="filter__select-block"
+            :label="$t('Genres')"
             @change="setFilterValuesInUrl"
           />
         </AccordionItem>
@@ -38,14 +39,14 @@
             <InputBlock
               v-model="filter['release_date.gte']"
               type="date"
-              wrapper-class="filter__date-input-block"
+              class="filter__date-input-block"
               @change="setFilterValuesInUrl"
             />
             <span class="filter__date-divider">—</span>
             <InputBlock
               v-model="filter['release_date.lte']"
               type="date"
-              wrapper-class="filter__date-input-block"
+              class="filter__date-input-block"
               @change="setFilterValuesInUrl"
             />
           </div>
@@ -75,7 +76,7 @@ import {
   type FilterKeys,
 } from "../config";
 import { useMediaStore } from "~/src/entities/media";
-import type { MediaTypes, Genre } from "~/src/shared/config";
+import type { MediaTypes, Genre, IResponse } from "~/src/shared/config";
 
 const mediaStore = useMediaStore();
 const router = useRouter();
@@ -201,8 +202,14 @@ watch(removedVariant, (newValue) => {
 });
 
 useCustomFetch(`/genre/${type.value}/list`, {
-  onResponse({ response }) {
-    mediaStore[type.value].genres = response._data.genres as Genre[];
+  onResponse({ response }: IResponse<{ genres: Genre[] }>) {
+    const responseData = response._data;
+
+    if (!responseData) {
+      return;
+    }
+
+    mediaStore[type.value].genres = responseData.genres;
   },
 });
 
@@ -225,10 +232,14 @@ onMounted(updateFilterValues);
   }
 
   &__select-block {
+    flex-direction: column;
+    align-items: flex-start;
+    row-gap: 10px;
+    margin: 1px;
+
     .select-block {
       &__select-wrapper {
         width: 100%;
-        margin: 1px;
       }
 
       &__select {

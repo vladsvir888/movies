@@ -22,7 +22,6 @@ export const useCustomFetch = async <DataT>(
     query: {
       language: locale,
     },
-    server: false, // todo: разобраться, почему происходит какая-то ошибка с themoviedb при получении данных на сервере
     $fetch: $api,
     ...options,
   });

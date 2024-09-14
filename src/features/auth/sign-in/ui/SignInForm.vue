@@ -12,7 +12,6 @@
         v-model="state.username"
         :placeholder="$t('Username')"
         :is-need-validation="true"
-        class="sign-in-block__form-input"
         required
       />
       <InputBlock
@@ -23,7 +22,6 @@
         :validation-message="$t(passwordErrorMessage)"
         :minlength="4"
         type="password"
-        class="sign-in-block__form-input"
         required
       />
       <Button
@@ -42,7 +40,7 @@
 <script setup lang="ts">
 import InputBlock from "~/src/shared/ui/input-block";
 import Button from "~/src/shared/ui/button";
-import { BaseLoader } from "~/src/shared/ui/loaders";
+import BaseLoader from "~/src/shared/ui/loaders";
 import { useAuthStore, passwordErrorMessage } from "~/src/entities/user";
 
 const authStore = useAuthStore();

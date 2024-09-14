@@ -1,24 +1,22 @@
 <template>
-  <ClientOnly>
-    <div class="rating" :inert="inert">
-      <template v-for="star in stars" :key="star.value">
-        <input
-          :id="`star-${uid}-${star.value}`"
-          v-model="model"
-          :value="star.value"
-          type="radio"
-          class="rating__input visually-hidden"
-          v-bind="$attrs"
-        />
-        <label :for="`star-${uid}-${star.value}`" class="rating__label">
-          <span class="visually-hidden"
-            >{{ star.value }} {{ $t("star | stars", star.value) }}</span
-          >
-          <Icon icon="star" />
-        </label>
-      </template>
-    </div>
-  </ClientOnly>
+  <div class="rating" :inert="inert">
+    <template v-for="star in stars" :key="star.value">
+      <input
+        :id="`star-${uid}-${star.value}`"
+        v-model="model"
+        :value="star.value"
+        type="radio"
+        class="rating__input visually-hidden"
+        v-bind="$attrs"
+      />
+      <label :for="`star-${uid}-${star.value}`" class="rating__label">
+        <span class="visually-hidden"
+          >{{ star.value }} {{ $t("star | stars", star.value) }}</span
+        >
+        <Icon icon="star" />
+      </label>
+    </template>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -30,10 +28,6 @@ type RatingProps = {
 
 withDefaults(defineProps<RatingProps>(), {
   inert: true,
-});
-
-defineOptions({
-  inheritAttrs: false,
 });
 
 const model = defineModel({
@@ -48,7 +42,8 @@ const stars = ref([
   { value: 4 },
   { value: 5 },
 ]);
-const uid = ref(getCurrentInstance()?.uid);
+
+const uid = useId(); // https://github.com/nuxt/nuxt/issues/25755
 </script>
 
 <style lang="scss">

@@ -16,7 +16,7 @@
 import Catalog from "~/src/widgets/catalog";
 import { useCustomFetch } from "~/src/shared/api";
 import { useRouteParam } from "~/src/shared/lib/use";
-import type { Media, PageResult } from "~/src/shared/config";
+import type { Media, PageResult, IResponse } from "~/src/shared/config";
 
 const props = defineProps<{
   data: PageResult<Media>;
@@ -40,8 +40,13 @@ useCustomFetch(`/movie/${id.value}/similar`, {
   onRequest() {
     isPendingAutoload.value = true;
   },
-  onResponse({ response }) {
-    const responseData = response._data as PageResult<Media>;
+  onResponse({ response }: IResponse<PageResult<Media>>) {
+    const responseData = response._data;
+
+    if (!responseData) {
+      return;
+    }
+
     isPendingAutoload.value = false;
     totalResults.value = [...totalResults.value, ...responseData.results];
     totalPages.value = responseData.total_pages;

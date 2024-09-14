@@ -9,6 +9,7 @@
           :alt="$t('Home')"
           loading="lazy"
           class="header__logo-img"
+          format="webp"
         />
       </Button>
 

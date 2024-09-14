@@ -12,7 +12,6 @@
       :total-pages="totalPages"
       :is-pending="isPendingAutoload"
       :title="preparedTitle"
-      class="page-category__card-block"
     />
   </div>
 </template>
@@ -28,6 +27,7 @@ import type {
   MediaCategories,
   Media,
   PageResult,
+  IResponse,
 } from "~/src/shared/config";
 
 const { locale } = useI18n();
@@ -54,27 +54,31 @@ if (!listItem) {
   });
 }
 
-await useCustomFetch(`/${type.value}/${category.value}`, {
-  query: {
-    page,
-    language: locale,
-  },
-  onRequest() {
-    isPendingAutoload.value = true;
-  },
-  onResponse({ response }) {
-    const responseData = response._data as PageResult<Media>;
-    isPendingAutoload.value = false;
-    totalResults.value = [...totalResults.value, ...responseData.results];
-    totalPages.value = responseData.total_pages;
-  },
-});
-</script>
+const { state } = await useCustomFetch<PageResult<Media>>(
+  `/${type.value}/${category.value}`,
+  {
+    query: {
+      page,
+      language: locale,
+    },
+    onRequest() {
+      isPendingAutoload.value = true;
+    },
+    onResponse({ response }: IResponse<PageResult<Media>>) {
+      const responseData = response._data;
 
-<style lang="scss">
-.page-category {
-  &__card-block {
-    padding: var(--header-margin) 0 20px;
-  }
+      if (!responseData) {
+        return;
+      }
+
+      isPendingAutoload.value = false;
+      totalResults.value = [...totalResults.value, ...responseData.results];
+      totalPages.value = responseData.total_pages;
+    },
+  },
+);
+if (state.value) {
+  totalResults.value = state.value.results;
+  totalPages.value = state.value.total_pages;
 }
-</style>
+</script>

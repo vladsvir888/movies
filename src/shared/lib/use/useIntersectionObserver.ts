@@ -1,5 +1,5 @@
 type ReturnTypeUseIntersectionObserver = {
-  observer: IntersectionObserver;
+  observer: IntersectionObserver | undefined;
   isElementIntersecting: Ref<boolean>;
 };
 
@@ -9,20 +9,24 @@ export const useIntersectionObserver = (
 ): ReturnTypeUseIntersectionObserver => {
   const isElementIntersecting = ref(false);
 
-  const observerCallback: IntersectionObserverCallback = (entries) => {
-    entries.forEach(({ isIntersecting }) => {
-      if (isIntersecting) {
-        isElementIntersecting.value = true;
-        callback();
-      } else {
-        isElementIntersecting.value = false;
-      }
-    });
-  };
+  let observer: IntersectionObserver | undefined;
 
-  const observer = new IntersectionObserver(observerCallback, {
-    ...options,
-  });
+  if (import.meta.client) {
+    const observerCallback: IntersectionObserverCallback = (entries) => {
+      entries.forEach(({ isIntersecting }) => {
+        if (isIntersecting) {
+          isElementIntersecting.value = true;
+          callback();
+        } else {
+          isElementIntersecting.value = false;
+        }
+      });
+    };
+
+    observer = new IntersectionObserver(observerCallback, {
+      ...options,
+    });
+  }
 
   return {
     observer,

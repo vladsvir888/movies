@@ -6,19 +6,16 @@
     />
     <div class="error-page__content">
       <Heading class="error-page__title">
-        {{ $t("This page could not be found") }}
+        {{ error?.statusCode || 404 }}
       </Heading>
       <p class="error-page__text">
-        {{
-          $t(
-            "Looks like you've followed a broken link or entered a URL that doesn't exist on this site.",
-          )
-        }}
+        {{ $t("This page could not be found") }}
       </p>
       <Button
         class="error-page__button"
         variant="primary"
         size="large"
+        :pill="true"
         @click="() => clearError({ redirect: '/' })"
       >
         {{ $t("Go Home") }}
@@ -28,9 +25,14 @@
 </template>
 
 <script setup lang="ts">
+import type { NuxtError } from "#app";
 import PageSeoData from "~/src/shared/ui/page-seo-data";
 import Heading from "~/src/shared/ui/heading";
 import Button from "~/src/shared/ui/button";
+
+defineProps<{
+  error?: NuxtError;
+}>();
 </script>
 
 <style lang="scss">
@@ -44,11 +46,12 @@ import Button from "~/src/shared/ui/button";
 
   &__content {
     display: grid;
-    row-gap: 20px;
+    row-gap: 5px;
   }
 
   &__text {
     opacity: 0.5;
+    margin-bottom: 20px;
   }
 
   &__button {

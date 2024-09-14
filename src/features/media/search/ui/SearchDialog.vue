@@ -9,7 +9,6 @@
       :placeholder="$t('Type to search...')"
       :clearable="true"
       autocomplete="off"
-      class="search-dialog__input"
     >
       <template #prefix-icon>
         <Icon icon="loupe" />
@@ -77,13 +76,14 @@ import Dialog from "~/src/shared/ui/dialog";
 import InputBlock from "~/src/shared/ui/input-block";
 import Icon from "~/src/shared/ui/icon";
 import Button from "~/src/shared/ui/button";
-import { BaseLoader } from "~/src/shared/ui/loaders";
+import BaseLoader from "~/src/shared/ui/loaders";
 import { useDebouncedRef, useRouteParam } from "~/src/shared/lib/use";
 import type {
   MediaTypes,
   SearchByMovie,
   SearchByTV,
   PageResult,
+  IResponse,
 } from "~/src/shared/config";
 
 const { locale } = useI18n();
@@ -148,10 +148,14 @@ watch(
           language: locale.value,
         };
       },
-      onResponse({ response }) {
-        const responseData = response._data as
-          | PageResult<SearchByMovie>
-          | PageResult<SearchByTV>;
+      onResponse({
+        response,
+      }: IResponse<PageResult<SearchByMovie> | PageResult<SearchByTV>>) {
+        const responseData = response._data;
+
+        if (!responseData) {
+          return;
+        }
 
         isPendingSearch.value = false;
         totalResults.value = responseData.results;
@@ -175,10 +179,6 @@ watch(mediaType, resetSearchQuery);
 
 <style lang="scss">
 .search-dialog {
-  &__input {
-    font-weight: 700;
-  }
-
   &__pagination-button {
     transition: color var(--transition300ms);
 

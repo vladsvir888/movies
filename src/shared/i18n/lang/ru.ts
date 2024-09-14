@@ -1,8 +1,6 @@
 export default {
   lang: "ru",
   "This page could not be found": "Эту страницу не удалось найти",
-  "Looks like you've followed a broken link or entered a URL that doesn't exist on this site.":
-    "Похоже, вы перешли по неработающей ссылке или ввели URL, которого нет на этом сайте.",
   "Go Home": "Вернуться домой",
   Home: "Главная",
   "Language:": "Язык:",

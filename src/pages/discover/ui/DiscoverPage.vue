@@ -62,7 +62,12 @@ import { useRouteParam } from "~/src/shared/lib/use";
 import { isEmptyObject, isObjectsEqual } from "~/src/shared/lib/is";
 import { scrollUp } from "~/src/shared/lib/dom";
 import { MEDIA_TYPES, useMediaStore } from "~/src/entities/media";
-import type { MediaTypes, Media, PageResult } from "~/src/shared/config";
+import type {
+  MediaTypes,
+  Media,
+  PageResult,
+  IResponse,
+} from "~/src/shared/config";
 
 const mediaStore = useMediaStore();
 const route = useRoute();
@@ -70,7 +75,7 @@ const { t, locale } = useI18n();
 const params = ref({
   ...FILTER,
 });
-const removedVariant = ref<string | undefined>(undefined);
+const removedVariant = ref<FilterKeys | undefined>(undefined);
 
 const page = ref(1);
 const totalPages = ref(0);
@@ -92,7 +97,7 @@ const preparedTitle = computed(() => {
 const getRemovedVariant = (key: FilterKeys, value: string | number): string => {
   if (key === FILTER_VALUES.with_genres) {
     const genre = mediaStore[type.value].genres.find(
-      (item) => item.id === Number(value),
+      (item) => item.id === Number(value)
     );
     return `${t(key)}: ${genre?.name}`;
   }
@@ -109,16 +114,22 @@ useCustomFetch(
       include_adult: false,
       language: locale,
     },
+    server: false,
     onRequest() {
       isPendingAutoload.value = true;
     },
-    onResponse({ response }) {
-      const responseData = response._data as PageResult<Media>;
+    onResponse({ response }: IResponse<PageResult<Media>>) {
+      const responseData = response._data;
+
+      if (!responseData) {
+        return;
+      }
+
       isPendingAutoload.value = false;
       totalResults.value = [...totalResults.value, ...responseData.results];
       totalPages.value = responseData.total_pages;
     },
-  },
+  }
 );
 
 watch(
@@ -134,7 +145,7 @@ watch(
     }
 
     scrollUp();
-  },
+  }
 );
 
 onMounted(() => {
@@ -153,7 +164,6 @@ onMounted(() => {
   display: flex;
   flex-direction: column;
   row-gap: 20px;
-  padding: var(--header-margin) var(--container-padding) 20px;
 
   &__wrapper {
     display: grid;

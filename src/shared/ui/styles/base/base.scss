@@ -58,6 +58,15 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  padding-top: var(--header-margin);
+
+  &:has(.hero, .hero-block-detail) {
+    padding-top: var(--header-height);
+  }
+
+  &:has(.error-page) {
+    padding-top: 0;
+  }
 }
 
 .visually-hidden {

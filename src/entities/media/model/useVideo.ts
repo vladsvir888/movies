@@ -61,7 +61,7 @@ export const useVideoStore = defineStore(NAMESPACE, {
     },
 
     resetState(): void {
-      Object.assign(this, getDefaultState());
+      this.$reset();
     },
   },
 });

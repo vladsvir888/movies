@@ -19,11 +19,8 @@
 <script setup lang="ts">
 import { Info, Videos, Photos, Reviews, Similar } from "./blocks";
 import { TabGroup, TabPanel } from "~/src/shared/ui/tabs";
-import { useCustomFetch } from "~/src/shared/api";
-import { useRouteParam } from "~/src/shared/lib/use";
 import { useVideoStore } from "~/src/entities/media";
 import type {
-  MediaTypes,
   Media,
   MediaImages,
   BaseVideo,
@@ -31,11 +28,11 @@ import type {
   PageResult,
 } from "~/src/shared/config";
 
-const heroDetail = defineModel<Media | null>("heroDetail", {
-  required: true,
-});
+const props = defineProps<{
+  data: Media;
+}>();
 
-const { t, locale } = useI18n();
+const { t } = useI18n();
 const videoStore = useVideoStore();
 
 const tabPanels = ref({
@@ -65,38 +62,10 @@ const tabPanels = ref({
     data: ref<PageResult<Media> | undefined>(undefined),
   },
 });
-const isNotFoundMediaObject = ref(false);
 
-const type = useRouteParam<MediaTypes>("type");
-const id = useRouteParam<string>("id");
-
-await useCustomFetch(`/${type.value}/${id.value}`, {
-  query: {
-    language: locale,
-    append_to_response: "videos,images,reviews,similar",
-  },
-  onResponse({ response }) {
-    if (response.status === 404) {
-      isNotFoundMediaObject.value = true;
-      return;
-    }
-
-    const responseData = response._data as Media;
-    heroDetail.value = responseData;
-    tabPanels.value.info.data = responseData;
-    tabPanels.value.videos.data = responseData.videos?.results;
-    tabPanels.value.photos.data = responseData.images;
-    tabPanels.value.reviews.data = responseData.reviews?.results;
-    tabPanels.value.similar.data = responseData.similar;
-  },
-});
-
-watch(isNotFoundMediaObject, (newValue) => {
-  if (newValue) {
-    throw createError({
-      statusCode: 404,
-      fatal: true,
-    });
-  }
-});
+tabPanels.value.info.data = props.data;
+tabPanels.value.videos.data = props.data.videos?.results;
+tabPanels.value.photos.data = props.data.images;
+tabPanels.value.reviews.data = props.data.reviews?.results;
+tabPanels.value.similar.data = props.data.similar;
 </script>

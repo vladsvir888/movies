@@ -1,44 +1,42 @@
 <template>
-  <ClientOnly>
-    <div class="input-block" :class="wrapperClass">
-      <div class="input-block__wrapper">
-        <div
-          v-if="$slots['prefix-icon']"
-          class="input-block__icon input-block__icon--prefix"
-        >
-          <slot name="prefix-icon" />
-        </div>
-        <input
-          ref="input"
-          v-model="model"
-          :type="type"
-          :placeholder="placeholder"
-          :required="required"
-          :minlength="minlength"
-          :aria-describedby="`input-${uid}`"
-          class="input-block__input"
-          v-bind="$attrs"
-        />
-        <Button
-          v-if="clearable && model?.length"
-          class="input-block__clear"
-          :aria-label="$t('Clear entry')"
-          type="button"
-          @click="clearEntry"
-        >
-          <Icon icon="close" />
-        </Button>
-      </div>
-      <p
-        v-if="error"
-        :id="`input-${uid}`"
-        class="error input-block__error"
-        role="polite"
+  <div class="input-block">
+    <div class="input-block__wrapper">
+      <div
+        v-if="$slots['prefix-icon']"
+        class="input-block__icon input-block__icon--prefix"
       >
-        {{ error }}
-      </p>
+        <slot name="prefix-icon" />
+      </div>
+      <input
+        ref="input"
+        v-model="model"
+        :type="type"
+        :placeholder="placeholder"
+        :required="required"
+        :minlength="minlength"
+        :aria-describedby="`input-${uid}`"
+        :autocomplete="autocomplete"
+        class="input-block__input"
+      />
+      <Button
+        v-if="clearable && model?.length"
+        class="input-block__clear"
+        :aria-label="$t('Clear entry')"
+        type="button"
+        @click="clearEntry"
+      >
+        <Icon icon="close" />
+      </Button>
     </div>
-  </ClientOnly>
+    <p
+      v-if="error"
+      :id="`input-${uid}`"
+      class="error input-block__error"
+      role="polite"
+    >
+      {{ error }}
+    </p>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -61,33 +59,29 @@ type InputBlockProps = {
   type?: InputBlockTypes;
   placeholder?: string;
   clearable?: boolean;
-  wrapperClass?: string;
   isNeedValidation?: boolean;
   validationMessage?: string;
   required?: boolean;
   minlength?: number;
+  autocomplete?: string;
 };
 
 const props = withDefaults(defineProps<InputBlockProps>(), {
   type: "text",
   placeholder: undefined,
   clearable: false,
-  wrapperClass: undefined,
   isNeedValidation: false,
   validationMessage: undefined,
   required: false,
   minlength: undefined,
-});
-
-defineOptions({
-  inheritAttrs: false,
+  autocomplete: undefined,
 });
 
 const model = defineModel<string | undefined>();
 
 const { t } = useI18n();
 
-const uid = ref(getCurrentInstance()?.uid);
+const uid = useId();
 const input = ref<HTMLInputElement | null>(null);
 const error = ref<string | undefined>(undefined);
 

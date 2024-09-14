@@ -2,90 +2,92 @@
   <div class="info">
     <div class="info__table-wrapper">
       <table class="info__table">
-        <tr v-if="data.original_title" class="info__row">
-          <td class="info__cell">
-            {{ $t("Original Title") }}
-          </td>
-          <td class="info__cell">{{ data.original_title }}</td>
-        </tr>
-        <tr v-if="data.original_language" class="info__row">
-          <td class="info__cell">
-            {{ $t("Original Language") }}
-          </td>
-          <td class="info__cell">
-            {{ transformedLanguage }}
-          </td>
-        </tr>
-        <tr v-if="data.runtime" class="info__row">
-          <td class="info__cell">
-            {{ $t("Runtime") }}
-          </td>
-          <td class="info__cell">
-            {{ transformedRuntime }}
-          </td>
-        </tr>
-        <tr v-if="data.status" class="info__row">
-          <td class="info__cell">
-            {{ $t("Status") }}
-          </td>
-          <td class="info__cell">
-            {{ data.status }}
-          </td>
-        </tr>
-        <tr v-if="data.release_date" class="info__row">
-          <td class="info__cell">
-            {{ $t("Release Date") }}
-          </td>
-          <td class="info__cell">
-            {{ transformedDate }}
-          </td>
-        </tr>
-        <tr v-if="data.production_countries" class="info__row">
-          <td class="info__cell">
-            {{ $t("Production Countries") }}
-          </td>
-          <td class="info__cell">
-            {{ transformedProductionCountries }}
-          </td>
-        </tr>
-        <tr v-if="data.production_companies" class="info__row">
-          <td class="info__cell">
-            {{ $t("Production Companies") }}
-          </td>
-          <td class="info__cell">
-            <ul class="info__companies">
-              <li
-                v-for="(company, index) in transformedProductionCompanies"
-                :key="company.id"
-                class="info__company"
-              >
-                {{ index + 1 }}.
-                {{ company.name }}
-                <NuxtImg
-                  v-if="company.logo"
-                  :src="`${config.public.apiImgUrl}w200${company.logo}`"
-                  width="200"
-                  height="31"
-                  class="info__company-image"
-                  loading="lazy"
-                  alt=""
-                />
-              </li>
-            </ul>
-          </td>
-        </tr>
-        <tr v-if="data.budget" class="info__row">
-          <td class="info__cell">
-            {{ $t("Budget") }}
-          </td>
-          <td class="info__cell">${{ transformedBudget }}</td>
-        </tr>
-        <tr v-if="data.revenue" class="info__row">
-          <td class="info__cell">
-            {{ $t("Revenue") }}
-          </td>
-          <td class="info__cell">${{ transformedRevenue }}</td>
-        </tr>
+        <tbody>
+          <tr v-if="data.original_title" class="info__row">
+            <td class="info__cell">
+              {{ $t("Original Title") }}
+            </td>
+            <td class="info__cell">{{ data.original_title }}</td>
+          </tr>
+          <tr v-if="data.original_language" class="info__row">
+            <td class="info__cell">
+              {{ $t("Original Language") }}
+            </td>
+            <td class="info__cell">
+              {{ transformedLanguage }}
+            </td>
+          </tr>
+          <tr v-if="data.runtime" class="info__row">
+            <td class="info__cell">
+              {{ $t("Runtime") }}
+            </td>
+            <td class="info__cell">
+              {{ transformedRuntime }}
+            </td>
+          </tr>
+          <tr v-if="data.status" class="info__row">
+            <td class="info__cell">
+              {{ $t("Status") }}
+            </td>
+            <td class="info__cell">
+              {{ data.status }}
+            </td>
+          </tr>
+          <tr v-if="data.release_date" class="info__row">
+            <td class="info__cell">
+              {{ $t("Release Date") }}
+            </td>
+            <td class="info__cell">
+              {{ transformedDate }}
+            </td>
+          </tr>
+          <tr v-if="data.production_countries" class="info__row">
+            <td class="info__cell">
+              {{ $t("Production Countries") }}
+            </td>
+            <td class="info__cell">
+              {{ transformedProductionCountries }}
+            </td>
+          </tr>
+          <tr v-if="data.production_companies" class="info__row">
+            <td class="info__cell">
+              {{ $t("Production Companies") }}
+            </td>
+            <td class="info__cell">
+              <ul class="info__companies">
+                <li
+                  v-for="(company, index) in transformedProductionCompanies"
+                  :key="company.id"
+                  class="info__company"
+                >
+                  {{ index + 1 }}.
+                  {{ company.name }}
+                  <NuxtImg
+                    v-if="company.logo"
+                    :src="`${config.public.apiImgUrl}w200${company.logo}`"
+                    width="200"
+                    height="31"
+                    class="info__company-image"
+                    loading="lazy"
+                    alt=""
+                  />
+                </li>
+              </ul>
+            </td>
+          </tr>
+          <tr v-if="data.budget" class="info__row">
+            <td class="info__cell">
+              {{ $t("Budget") }}
+            </td>
+            <td class="info__cell">${{ transformedBudget }}</td>
+          </tr>
+          <tr v-if="data.revenue" class="info__row">
+            <td class="info__cell">
+              {{ $t("Revenue") }}
+            </td>
+            <td class="info__cell">${{ transformedRevenue }}</td>
+          </tr>
+        </tbody>
       </table>
     </div>
   </div>

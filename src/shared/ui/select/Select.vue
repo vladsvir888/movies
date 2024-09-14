@@ -1,29 +1,22 @@
 <template>
-  <ClientOnly>
-    <div class="select-block" :class="wrapperClass">
-      <label v-if="label" :for="preparedId" class="select-block__label">{{
-        label
-      }}</label>
-      <div class="select-block__select-wrapper">
-        <select
-          :id="preparedId"
-          v-model="model"
-          class="select-block__select"
-          v-bind="$attrs"
+  <div class="select-block">
+    <label v-if="label" :for="preparedId" class="select-block__label">{{
+      label
+    }}</label>
+    <div class="select-block__select-wrapper">
+      <select :id="preparedId" v-model="model" class="select-block__select">
+        <option disabled value="">{{ $t("Please select one") }}</option>
+        <option
+          v-for="option in options"
+          :key="option.value"
+          :value="option.value"
+          class="select-block__option"
         >
-          <option disabled value="">{{ $t("Please select one") }}</option>
-          <option
-            v-for="option in options"
-            :key="option.value"
-            :value="option.value"
-            class="select-block__option"
-          >
-            {{ option.text }}
-          </option>
-        </select>
-      </div>
+          {{ option.text }}
+        </option>
+      </select>
     </div>
-  </ClientOnly>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -33,25 +26,21 @@ type SelectOption = {
 };
 
 type SelectProps = {
-  wrapperClass?: string;
-  id?: string;
   label?: string;
   options: SelectOption[];
 };
 
 const props = defineProps<SelectProps>();
 
-defineOptions({
-  inheritAttrs: false,
-});
-
 const model = defineModel({
   type: String,
   required: true,
 });
 
+const uid = useId();
+
 const preparedId = computed(() => {
-  return props.label ? `${props.id}-${getCurrentInstance()?.uid}` : undefined;
+  return props.label ? uid : undefined;
 });
 </script>
 

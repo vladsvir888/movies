@@ -20,6 +20,7 @@ import type {
   MediaCategories,
   PageResult,
   Media,
+  IResponse,
 } from "~/src/shared/config";
 
 type CategoryProps = {
@@ -33,9 +34,15 @@ const props = defineProps<CategoryProps>();
 const mediaStore = useMediaStore();
 
 useCustomFetch(`/${props.type}/${props.category}`, {
-  onResponse({ response }) {
-    const responseData = (response._data as PageResult<Media>).results;
-    mediaStore[props.type][transformCategory(props.category)] = responseData;
+  onResponse({ response }: IResponse<PageResult<Media>>) {
+    const responseData = response._data;
+
+    if (!responseData) {
+      return;
+    }
+
+    mediaStore[props.type][transformCategory(props.category)] =
+      responseData.results;
   },
 });
 

@@ -29,7 +29,7 @@ import { Card } from "~/src/entities/media";
 import Icon from "~/src/shared/ui/icon";
 import Heading from "~/src/shared/ui/heading";
 import Button from "~/src/shared/ui/button";
-import { BaseLoader } from "~/src/shared/ui/loaders";
+import BaseLoader from "~/src/shared/ui/loaders";
 import { useIntersectionObserver, useRouteParam } from "~/src/shared/lib/use";
 import type { Media, MediaTypes } from "~/src/shared/config";
 
@@ -75,12 +75,12 @@ const { observer: observerCatalog } = useIntersectionObserver(
 
 onMounted(() => {
   if (observer.value) {
-    observerCatalog.observe(observer.value);
+    observerCatalog?.observe(observer.value);
   }
 });
 
 onUnmounted(() => {
-  observerCatalog.disconnect();
+  observerCatalog?.disconnect();
 });
 </script>
 

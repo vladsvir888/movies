@@ -6,7 +6,7 @@ export const useMediaStore = defineStore(NAMESPACE, {
   state: () => {
     return {
       movie: {
-        heroBlock: {},
+        heroBlock: undefined,
         popular: [],
         nowPlaying: [],
         topRated: [],
@@ -14,7 +14,7 @@ export const useMediaStore = defineStore(NAMESPACE, {
         genres: [],
       },
       tv: {
-        heroBlock: {},
+        heroBlock: undefined,
         popular: [],
         topRated: [],
         genres: [],

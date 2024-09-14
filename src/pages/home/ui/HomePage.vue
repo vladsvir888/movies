@@ -4,7 +4,10 @@
     <Heading class="visually-hidden">
       {{ $t("Home") }}
     </Heading>
-    <HeroSection :data="mediaStore.movie.heroBlock" />
+    <HeroSection
+      v-if="mediaStore.movie.heroBlock"
+      :data="mediaStore.movie.heroBlock"
+    />
     <Category
       v-for="item in preparedLists"
       :key="item.category"
@@ -22,7 +25,7 @@ import { useMediaStore, MEDIA_LIST } from "~/src/entities/media";
 import PageSeoData from "~/src/shared/ui/page-seo-data";
 import Heading from "~/src/shared/ui/heading";
 import { useCustomFetch } from "~/src/shared/api";
-import type { Media, PageResult } from "~/src/shared/config";
+import type { Media, PageResult, IResponse } from "~/src/shared/config";
 
 const mediaStore = useMediaStore();
 
@@ -30,11 +33,15 @@ const preparedLists = computed(() => {
   return [MEDIA_LIST.movie[0], MEDIA_LIST.tv[0]];
 });
 
-useCustomFetch("/movie/popular", {
-  onResponse({ response }) {
-    mediaStore.movie.heroBlock = (
-      response._data as PageResult<Media>
-    ).results[0];
+await useCustomFetch("/movie/popular", {
+  onResponse({ response }: IResponse<PageResult<Media>>) {
+    const responseData = response._data;
+
+    if (!responseData) {
+      return;
+    }
+
+    mediaStore.movie.heroBlock = responseData.results[0];
   },
 });
 </script>

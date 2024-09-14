@@ -8,6 +8,7 @@
           height="21"
           :alt="$t('Home')"
           loading="lazy"
+          format="webp"
         />
       </Button>
 

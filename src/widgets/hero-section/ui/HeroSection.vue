@@ -2,7 +2,7 @@
   <div
     class="hero"
     :style="{
-      backgroundImage: `url('${config.public.apiImgUrl}original${data.backdrop_path}')`,
+      backgroundImage: `url('${config.public.apiImgUrl}original${data?.backdrop_path}')`,
     }"
   >
     <div class="container">
@@ -11,23 +11,23 @@
           {{ preparedTitle }}
         </p>
         <div class="hero__wrapper">
-          <Rating v-if="data.vote_average" v-model="ratingCount" />
-          <p v-if="data.vote_average" class="hero__rating-count">
+          <Rating v-if="ratingCount" v-model="ratingCount" />
+          <p v-if="data?.vote_average" class="hero__rating-count">
             {{ data.vote_average }} / 10
           </p>
-          <p v-if="data.vote_count" class="hero__reviews">
+          <p v-if="data?.vote_count" class="hero__reviews">
             {{ $t("Reviews") }}: {{ data.vote_count }}
           </p>
-          <p v-if="data.release_date" class="hero__date">
+          <p v-if="data?.release_date" class="hero__date">
             {{ $t("Release Date") }}:
             {{ formatDate(data.release_date) }}
           </p>
         </div>
-        <p v-if="data.overview" class="hero__text">
+        <p v-if="data?.overview" class="hero__text">
           {{ data.overview }}
         </p>
         <Button
-          v-if="data.id"
+          v-if="data?.id"
           :to="`/${type}/${data.id}`"
           class="hero__more"
           variant="underline"
@@ -50,25 +50,36 @@ import { MEDIA_TYPES } from "~/src/entities/media";
 import type { Media } from "~/src/shared/config";
 
 type HeroSectionProps = {
-  data: Media;
+  data?: Media;
 };
 
 const props = defineProps<HeroSectionProps>();
 
 const config = useRuntimeConfig();
 
-const ratingCount = ref(divideByTwoAndRound(props.data.vote_average));
+const ratingCount = computed(() => {
+  if (!props.data?.vote_average) {
+    return 0;
+  }
 
-const preparedTitle = computed(() => getTitleOrName(props.data));
-
-const type = computed(() => {
-  return props.data.title ? MEDIA_TYPES[0] : MEDIA_TYPES[1];
+  return divideByTwoAndRound(props.data.vote_average);
 });
 
-watch(
-  () => props.data.vote_average,
-  (newValue) => (ratingCount.value = divideByTwoAndRound(newValue)),
-);
+const preparedTitle = computed(() => {
+  if (!props.data) {
+    return undefined;
+  }
+
+  return getTitleOrName(props.data);
+});
+
+const type = computed(() => {
+  if (!props.data) {
+    return undefined;
+  }
+
+  return props.data.title ? MEDIA_TYPES[0] : MEDIA_TYPES[1];
+});
 </script>
 
 <style lang="scss">
@@ -82,9 +93,11 @@ watch(
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
+  margin-top: calc(var(--header-height) * -1);
 
   @media (--mobile) {
     min-height: 500px;
+    margin-top: unset;
   }
 
   &::before {

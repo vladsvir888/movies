@@ -1,8 +1,6 @@
 export default {
   lang: "en",
   "This page could not be found": "This page could not be found",
-  "Looks like you've followed a broken link or entered a URL that doesn't exist on this site.":
-    "Looks like you've followed a broken link or entered a URL that doesn't exist on this site.",
   "Go Home": "Go Home",
   Home: "Home",
   "Language:": "Language:",

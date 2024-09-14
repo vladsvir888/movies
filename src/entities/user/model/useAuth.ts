@@ -90,7 +90,7 @@ export const useAuthStore = defineStore(NAMESPACE, {
     },
 
     resetState(): void {
-      Object.assign(this, getDefaultState());
+      this.$reset();
     },
   },
 });

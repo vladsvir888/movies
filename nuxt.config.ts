@@ -63,6 +63,10 @@ export default defineNuxtConfig({
 
   routeRules: {
     "/": { redirect: "/en" },
+    "/en/movie/*": { prerender: false },
+    "/ru/movie/*": { prerender: false },
+    "/en/tv/*": { prerender: false },
+    "/ru/tv/*": { prerender: false },
   },
 
   i18n,
