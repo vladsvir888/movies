@@ -63,8 +63,6 @@ export default defineNuxtConfig({
 
   routeRules: {
     "/": { redirect: "/en" },
-    "/en/sign-in": { prerender: true },
-    "/ru/sign-in": { prerender: true },
   },
 
   i18n,
