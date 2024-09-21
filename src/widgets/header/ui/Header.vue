@@ -70,9 +70,9 @@ const { t } = useI18n();
 
 const preparedMediaType = computed(() => {
   if (mediaType.value === MEDIA_TYPES[0]) {
-    return `${t("Search")} by ${t("Movies")}`;
+    return `${t("Search by")} ${t("Movies")}`;
   } else if (mediaType.value === MEDIA_TYPES[1]) {
-    return `${t("Search")} by ${t("TV Shows")}`;
+    return `${t("Search by")} ${t("TV Shows")}`;
   }
 
   return undefined;

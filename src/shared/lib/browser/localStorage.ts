@@ -1,12 +1,12 @@
 // https://gist.github.com/srvice-temp/046126458bbed2239e0b8d6403bced18
 export const cacheKey = {
-  appLangKey: "movie-universe-lang",
+  // appLangKey: "movie-universe-lang",
 } as const;
 
 type CacheKeyValues = (typeof cacheKey)[keyof typeof cacheKey];
 
 type CacheValues = {
-  [cacheKey.appLangKey]: string;
+  // [cacheKey.appLangKey]: string;
 };
 
 interface CacheUtil {

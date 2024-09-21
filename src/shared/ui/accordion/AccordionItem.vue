@@ -37,15 +37,9 @@ const activeAccordionItem = inject<Ref<AccordionItem>>(activeAccordionItemKey);
 
 const isShow = ref(false);
 
-const openActiveAccordionItem = () => {
-  if (activeAccordionItem?.value.id === props.id) {
-    isShow.value = true;
-  }
-};
-
-onMounted(() => {
-  openActiveAccordionItem();
-});
+if (activeAccordionItem?.value.id === props.id) {
+  isShow.value = true;
+}
 </script>
 
 <style lang="scss">

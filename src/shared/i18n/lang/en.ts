@@ -17,6 +17,7 @@ export default {
   "Top Rated TV Shows": "Top Rated TV Shows",
   Menu: "Menu",
   Search: "Search",
+  "Search by": "Search by",
   "Type to search...": "Type to search...",
   "Clear entry": "Clear entry",
   "No results for": "No results for",

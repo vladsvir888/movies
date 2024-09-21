@@ -1,4 +1,4 @@
-import { cacheUtil, cacheKey } from "~/src/shared/lib/browser";
+import { appLangKey } from "../config";
 
 const NAMESPACE = "language-switcher";
 
@@ -14,21 +14,21 @@ export const useLanguageSwitcherStore = defineStore(NAMESPACE, () => {
 
   const updateLocale = (event: Event & { target: HTMLSelectElement }): void => {
     setLocale(event.target.value);
-    cacheUtil.set(cacheKey.appLangKey, event.target.value);
+    useCookie(appLangKey).value = event.target.value;
     window.location.reload(); // because of caching data in store
   };
 
   const checkLocale = (): void => {
-    const value = cacheUtil.get(cacheKey.appLangKey);
+    const cookie = useCookie(appLangKey);
 
-    if (!value) {
+    if (!cookie.value) {
       return;
     }
 
-    setLocale(value);
+    setLocale(cookie.value);
   };
 
-  onBeforeMount(checkLocale);
+  checkLocale();
 
   return {
     transformedLocales,

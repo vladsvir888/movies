@@ -17,6 +17,7 @@ export default {
   "Top Rated TV Shows": "Телешоу с самым высоким рейтингом",
   Menu: "Меню",
   Search: "Поиск",
+  "Search by": "Поиск по",
   "Type to search...": "Введите что-нибудь...",
   "Clear entry": "Очистить ввод",
   "No results for": "Нет результатов для",
