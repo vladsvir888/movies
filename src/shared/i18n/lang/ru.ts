@@ -84,4 +84,6 @@ export default {
   "Password needs to be at least 4 characters long":
     "Пароль должен быть длиной не менее 4 символов",
   Open: "Открыть",
+  "Show password": "Показать пароль",
+  "Hide password": "Скрыть пароль",
 };

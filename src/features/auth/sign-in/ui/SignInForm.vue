@@ -21,6 +21,7 @@
         :is-need-validation="true"
         :validation-message="$t(passwordErrorMessage)"
         :minlength="4"
+        :password-toggle="true"
         type="password"
         required
       />

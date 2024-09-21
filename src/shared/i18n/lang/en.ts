@@ -84,4 +84,6 @@ export default {
   "Password needs to be at least 4 characters long":
     "Password needs to be at least 4 characters long",
   Open: "Open",
+  "Show password": "Show password",
+  "Hide password": "Hide password",
 };

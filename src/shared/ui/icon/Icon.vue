@@ -21,6 +21,8 @@ import {
   IconYoutube,
   IconFilter,
   IconRightToBracket,
+  IconEye,
+  IconEyeSlash,
 } from "./icons";
 
 type IconProps = {
@@ -39,7 +41,9 @@ type IconProps = {
     | "loupe-line-through"
     | "youtube"
     | "filter"
-    | "right-to-bracket";
+    | "right-to-bracket"
+    | "eye"
+    | "eye-slash";
 };
 
 defineProps<IconProps>();
@@ -60,6 +64,8 @@ const icons = shallowRef({
   youtube: IconYoutube,
   filter: IconFilter,
   "right-to-bracket": IconRightToBracket,
+  eye: IconEye,
+  "eye-slash": IconEyeSlash,
 });
 </script>
 

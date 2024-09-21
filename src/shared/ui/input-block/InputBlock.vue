@@ -10,7 +10,7 @@
       <input
         ref="input"
         v-model="model"
-        :type="type"
+        :type="preparedType"
         :placeholder="placeholder"
         :required="required"
         :minlength="minlength"
@@ -18,6 +18,18 @@
         :autocomplete="autocomplete"
         class="input-block__input"
       />
+      <Button
+        v-if="passwordToggle"
+        class="input-block__password-toggle"
+        type="button"
+        :aria-label="
+          isVisiblePassword ? $t('Hide password') : $t('Show password')
+        "
+        @click="isVisiblePassword = !isVisiblePassword"
+      >
+        <Icon v-show="!isVisiblePassword" icon="eye" />
+        <Icon v-show="isVisiblePassword" icon="eye-slash" />
+      </Button>
       <Button
         v-if="clearable && model?.length"
         class="input-block__clear"
@@ -64,6 +76,7 @@ type InputBlockProps = {
   required?: boolean;
   minlength?: number;
   autocomplete?: string;
+  passwordToggle?: boolean;
 };
 
 const props = withDefaults(defineProps<InputBlockProps>(), {
@@ -75,6 +88,7 @@ const props = withDefaults(defineProps<InputBlockProps>(), {
   required: false,
   minlength: undefined,
   autocomplete: undefined,
+  passwordToggle: undefined,
 });
 
 const model = defineModel<string | undefined>();
@@ -84,6 +98,15 @@ const { t } = useI18n();
 const uid = useId();
 const input = ref<HTMLInputElement | null>(null);
 const error = ref<string | undefined>(undefined);
+const isVisiblePassword = ref(false);
+
+const preparedType = computed(() => {
+  if (props.passwordToggle) {
+    return isVisiblePassword.value ? "text" : "password";
+  }
+
+  return props.type;
+});
 
 const clearEntry = () => (model.value = "");
 
@@ -179,6 +202,10 @@ defineExpose({
 
   &__error {
     margin-top: 4px;
+  }
+
+  &__password-toggle {
+    margin-right: 10px;
   }
 }
 </style>

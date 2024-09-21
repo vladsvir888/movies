@@ -13,3 +13,5 @@ export { default as IconStar } from "./IconStar.vue";
 export { default as IconTMDB } from "./IconTMDB.vue";
 export { default as IconTV } from "./IconTV.vue";
 export { default as IconYoutube } from "./IconYoutube.vue";
+export { default as IconEye } from "./IconEye.vue";
+export { default as IconEyeSlash } from "./IconEyeSlash.vue";
