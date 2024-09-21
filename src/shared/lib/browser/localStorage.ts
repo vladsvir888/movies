@@ -1,18 +1,12 @@
 // https://gist.github.com/srvice-temp/046126458bbed2239e0b8d6403bced18
 export const cacheKey = {
   appLangKey: "movie-universe-lang",
-  appTokenData: "movie-universe-token",
 } as const;
 
 type CacheKeyValues = (typeof cacheKey)[keyof typeof cacheKey];
 
 type CacheValues = {
   [cacheKey.appLangKey]: string;
-  [cacheKey.appTokenData]: {
-    expiresAt: string;
-    sessionId: string;
-    token: string;
-  };
 };
 
 interface CacheUtil {

@@ -24,12 +24,8 @@ import { SearchDialog } from "~/src/features/media";
 import { useAuthStore } from "~/src/entities/user";
 import { Toast } from "~/src/shared/ui/toast";
 
-const authStore = useAuthStore();
-
 const isSearchDialogVisible = ref(false);
 const isMenuVisible = ref(false);
 
-onMounted(() => {
-  authStore.getDataFromLSAndSetInStore();
-});
+useAuthStore().getSessionIdAndSetInStore();
 </script>

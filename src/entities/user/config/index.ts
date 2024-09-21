@@ -1,6 +1,8 @@
 export const passwordErrorMessage =
   "Password needs to be at least 4 characters long";
 
+export const authSessionId = "movie-universe-auth-session-id";
+
 interface AuthData {
   expires_at: string;
   request_token: string;

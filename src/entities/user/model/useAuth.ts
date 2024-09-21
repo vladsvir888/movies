@@ -1,15 +1,12 @@
-import { cacheUtil, cacheKey } from "~/src/shared/lib/browser";
 import { useToastStore } from "~/src/shared/ui/toast";
 import { getLoginData, getSessionData, getTokenData } from "../api";
 import { FetchError } from "ofetch";
-import type { AuthError } from "../config";
+import { type AuthError, authSessionId } from "../config";
 
 const NAMESPACE = "auth";
 
 const getDefaultState = () => {
   return {
-    token: "",
-    expiresAt: "",
     sessionId: "",
     loading: false,
   };
@@ -30,19 +27,16 @@ export const useAuthStore = defineStore(NAMESPACE, {
 
       try {
         const tokenRequest = await getTokenData();
-        this.token = tokenRequest.request_token;
-        this.expiresAt = tokenRequest.expires_at;
 
-        await getLoginData(username, password, this.token);
+        await getLoginData(username, password, tokenRequest.request_token);
 
-        const sessionRequest = await getSessionData(this.token);
+        const sessionRequest = await getSessionData(tokenRequest.request_token);
         this.sessionId = sessionRequest.session_id;
 
-        cacheUtil.set(cacheKey.appTokenData, {
-          token: this.token,
-          expiresAt: this.expiresAt,
-          sessionId: this.sessionId,
+        const cookie = useCookie(authSessionId, {
+          expires: new Date(tokenRequest.expires_at),
         });
+        cookie.value = this.sessionId;
 
         await navigateTo("/");
       } catch (error: unknown) {
@@ -57,26 +51,17 @@ export const useAuthStore = defineStore(NAMESPACE, {
 
     logout(): void {
       this.resetState();
-      cacheUtil.remove(cacheKey.appTokenData);
+      useCookie(authSessionId).value = null;
     },
 
-    getDataFromLSAndSetInStore(): void {
-      const authData = cacheUtil.get(cacheKey.appTokenData);
+    getSessionIdAndSetInStore() {
+      const cookie = useCookie(authSessionId);
 
-      if (!authData) {
+      if (!cookie.value) {
         return;
       }
 
-      const currentDate = new Date();
-      const expireTokenDate = new Date(authData.expiresAt);
-
-      if (currentDate > expireTokenDate) {
-        this.logout();
-      } else {
-        this.token = authData.token;
-        this.expiresAt = authData.expiresAt;
-        this.sessionId = authData.sessionId;
-      }
+      this.sessionId = cookie.value;
     },
 
     setError(err: string): void {
@@ -86,6 +71,7 @@ export const useAuthStore = defineStore(NAMESPACE, {
         content: err,
         duration: 3500,
       });
+
       this.resetState();
     },
 
