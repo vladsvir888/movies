@@ -16,7 +16,7 @@
         </Button>
       </Heading>
       <div class="card__wrapper">
-        <Icon icon="star" class="card__icon" />
+        <Icon v-if="data.vote_average" icon="star" class="card__icon" />
         <p v-if="data.vote_average" class="card__text">
           {{ data.vote_average }}
         </p>
