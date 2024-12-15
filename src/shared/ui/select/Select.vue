@@ -5,7 +5,9 @@
     }}</label>
     <div class="select-block__select-wrapper">
       <select :id="preparedId" v-model="model" class="select-block__select">
-        <option disabled value="">{{ $t("Please select one") }}</option>
+        <option disabled :value="undefined">
+          {{ $t("Please select one") }}
+        </option>
         <option
           v-for="option in options"
           :key="option.value"
@@ -34,7 +36,6 @@ const props = defineProps<SelectProps>();
 
 const model = defineModel({
   type: String,
-  required: true,
 });
 
 const uid = useId();

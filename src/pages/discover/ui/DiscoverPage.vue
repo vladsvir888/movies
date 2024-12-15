@@ -9,11 +9,11 @@
       {{ preparedTitle }}
     </Heading>
     <div class="page-discover__wrapper">
-      <Filter v-model:removed-variant="removedVariant" />
+      <Filter v-model:filter="filter" v-model:rating-count="ratingCount" />
       <div class="page-discover__cards">
         <ul class="page-discover__variants">
           <template
-            v-for="(variantValue, variantKey) in params"
+            v-for="(variantValue, variantKey) in filter"
             :key="variantKey"
           >
             <li v-if="variantValue" class="page-discover__variant">
@@ -22,7 +22,7 @@
                 class="page-discover__variant-button"
                 :pill="true"
                 size="medium"
-                @click="removedVariant = variantKey"
+                @click="onClickVariant(variantKey)"
               >
                 {{ getRemovedVariant(variantKey, variantValue) }}
                 <Icon icon="close" />
@@ -38,6 +38,7 @@
           :is-pending="isPendingAutoload"
           :is-back-button="false"
         />
+        <BaseLoader v-else />
       </div>
     </div>
   </div>
@@ -49,9 +50,9 @@ import Icon from "~/src/shared/ui/icon";
 import Heading from "~/src/shared/ui/heading";
 import Button from "~/src/shared/ui/button";
 import Catalog from "~/src/widgets/catalog";
+import BaseLoader from "~/src/shared/ui/loaders";
 import {
   Filter,
-  FILTER,
   FILTER_VALUES,
   type TFilter,
   type FilterKeys,
@@ -59,7 +60,7 @@ import {
 import { useCustomFetch } from "~/src/shared/api";
 import { buildQuery } from "~/src/shared/lib/format";
 import { useRouteParam } from "~/src/shared/lib/use";
-import { isEmptyObject, isObjectsEqual } from "~/src/shared/lib/is";
+import { isEmptyObject } from "~/src/shared/lib/is";
 import { scrollUp } from "~/src/shared/lib/dom";
 import { MEDIA_TYPES, useMediaStore } from "~/src/entities/media";
 import type {
@@ -67,20 +68,27 @@ import type {
   Media,
   PageResult,
   IResponse,
+  Genre,
 } from "~/src/shared/config";
 
 const mediaStore = useMediaStore();
+const router = useRouter();
 const route = useRoute();
 const { t, locale } = useI18n();
-const params = ref({
-  ...FILTER,
-});
-const removedVariant = ref<FilterKeys | undefined>(undefined);
+
+const filter = ref({
+  [FILTER_VALUES.with_genres]: undefined,
+  [FILTER_VALUES.sort_by]: undefined,
+  [FILTER_VALUES["vote_average.gte"]]: undefined,
+  [FILTER_VALUES["release_date.gte"]]: undefined,
+  [FILTER_VALUES["release_date.lte"]]: undefined,
+} as TFilter);
 
 const page = ref(1);
 const totalPages = ref(0);
 const totalResults = ref<Media[]>([]);
 const isPendingAutoload = ref(false);
+const ratingCount = ref(0);
 
 const type = useRouteParam<MediaTypes>("type");
 
@@ -105,16 +113,52 @@ const getRemovedVariant = (key: FilterKeys, value: string | number): string => {
   return `${t(key)}: ${value}`;
 };
 
-useCustomFetch(
-  () =>
-    `/discover/${type.value}?${buildQuery(params.value as unknown as Record<string, string>)}`,
+const onClickVariant = (key: FilterKeys): void => {
+  filter.value[key] = undefined;
+
+  router.push({
+    query: {
+      ...route.query,
+      [key]: undefined,
+    },
+  });
+
+  if (key === "vote_average.gte") {
+    ratingCount.value = 0;
+  }
+};
+
+if (!isEmptyObject(route.query)) {
+  filter.value = {
+    ...filter.value,
+    ...route.query,
+  };
+}
+
+await useCustomFetch<{ genres: Genre[] }>(() => `/genre/${type.value}/list`, {
+  onResponse({ response }: IResponse<{ genres: Genre[] }>) {
+    const responseData = response._data;
+
+    if (!responseData) {
+      return;
+    }
+
+    const value = import.meta.client
+      ? type.value
+      : (route.params.type as MediaTypes); // [nuxt] Calling `useRoute` within middleware may lead to misleading results. Instead, use the (to, from) arguments passed to the middleware to access the new and old routes.
+
+    mediaStore[value].genres = responseData.genres;
+  },
+});
+
+const { state } = await useCustomFetch<PageResult<Media>>(
+  () => `/discover/${type.value}?${buildQuery(filter.value)}`,
   {
     query: {
       page,
       include_adult: false,
       language: locale,
     },
-    server: false,
     onRequest() {
       isPendingAutoload.value = true;
     },
@@ -132,31 +176,21 @@ useCustomFetch(
   },
 );
 
+if (state.value) {
+  totalResults.value = state.value.results;
+  totalPages.value = state.value.total_pages;
+}
+
 watch(
   () => route.query,
   () => {
     page.value = 1;
     totalPages.value = 0;
     totalResults.value = [];
-    params.value = route.query as unknown as TFilter;
-
-    if (isObjectsEqual(params.value, FILTER)) {
-      removedVariant.value = undefined;
-    }
 
     scrollUp();
   },
 );
-
-onMounted(() => {
-  const { query } = route;
-
-  if (isEmptyObject(query)) {
-    return;
-  }
-
-  params.value = query as unknown as TFilter;
-});
 </script>
 
 <style lang="scss">

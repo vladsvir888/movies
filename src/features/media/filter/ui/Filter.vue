@@ -4,7 +4,7 @@
       <AccordionGroup>
         <AccordionItem id="filter-genres" :title="$t('Genres')">
           <Select
-            v-model="filter[FILTER_VALUES.with_genres]"
+            v-model="filter.with_genres"
             :options="transformedGenres"
             class="filter__select-block"
             :label="$t('Genres')"
@@ -18,7 +18,7 @@
               v-for="radio in sortedData"
               :id="`filter-sort-${radio.value}`"
               :key="`filter-sort-${radio.value}`"
-              v-model="filter[FILTER_VALUES.sort_by]"
+              v-model="filter.sort_by"
               :label="radio.label"
               :value="radio.value"
               @change="setFilterValuesInUrl"
@@ -40,14 +40,14 @@
               v-model="filter['release_date.gte']"
               type="date"
               class="filter__date-input-block"
-              @change="setFilterValuesInUrl"
+              @input="setFilterValuesInUrl"
             />
             <span class="filter__date-divider">—</span>
             <InputBlock
               v-model="filter['release_date.lte']"
               type="date"
               class="filter__date-input-block"
-              @change="setFilterValuesInUrl"
+              @input="setFilterValuesInUrl"
             />
           </div>
         </AccordionItem>
@@ -63,7 +63,6 @@ import Rating from "~/src/shared/ui/rating";
 import RadioButton from "~/src/shared/ui/radio-button";
 import Switcher from "~/src/shared/ui/switcher";
 import Select from "~/src/shared/ui/select";
-import { useCustomFetch } from "~/src/shared/api";
 import { divideByTwoAndRound } from "~/src/shared/lib/format";
 import { useRouteParam } from "~/src/shared/lib/use";
 import { isEmptyObject } from "~/src/shared/lib/is";
@@ -71,25 +70,28 @@ import {
   SORT_ORDERS,
   SORT_TYPES,
   FILTER_VALUES,
-  FILTER,
   type SortOrdersKeys,
+  type TFilter,
   type FilterKeys,
 } from "../config";
 import { useMediaStore } from "~/src/entities/media";
-import type { MediaTypes, Genre, IResponse } from "~/src/shared/config";
+import type { MediaTypes } from "~/src/shared/config";
+
+const filter = defineModel<TFilter>("filter", {
+  required: true,
+});
+const ratingCount = defineModel<number>("ratingCount", {
+  required: true,
+});
 
 const mediaStore = useMediaStore();
 const router = useRouter();
 const route = useRoute();
 const { t } = useI18n();
+const type = useRouteParam<MediaTypes>("type");
 
-const removedVariant = defineModel<FilterKeys | undefined>("removedVariant");
-
-const ratingCount = ref(0);
 const sortOrder = ref<SortOrdersKeys>(SORT_ORDERS.desc);
 const isOrderDescending = ref(true);
-
-const type = useRouteParam<MediaTypes>("type");
 
 const transformedGenres = computed(() => {
   return mediaStore[type.value].genres.map(({ id, name }) => ({
@@ -118,10 +120,6 @@ const sortedData = computed(() => {
   return data;
 });
 
-const filter = ref({
-  ...FILTER,
-});
-
 const setFilterValuesInUrl = (): void => {
   router.push({
     query: filter.value,
@@ -137,7 +135,7 @@ const toggleSortOrder = (value: boolean): void => {
 };
 
 const updateFilterSortBy = (value: string | undefined): void => {
-  filter.value[FILTER_VALUES.sort_by] = value
+  filter.value.sort_by = value
     ? `${value.split(".")[0]}.${sortOrder.value}`
     : sortedData.value[0].value;
 };
@@ -154,7 +152,7 @@ const updateFilterValues = (): void => {
       return;
     }
 
-    if (key === FILTER_VALUES.vote_average_gte) {
+    if (key === FILTER_VALUES["vote_average.gte"]) {
       ratingCount.value = divideByTwoAndRound(Number(query[key])); // trigger watch ratingCount
     } else if (key === FILTER_VALUES.sort_by && query[key] !== "") {
       isOrderDescending.value = query[key].split(".")[1] === sortOrder.value;
@@ -167,9 +165,11 @@ const updateFilterValues = (): void => {
   }
 };
 
+updateFilterValues();
+
 watch(isOrderDescending, (newValue) => {
   toggleSortOrder(newValue);
-  updateFilterSortBy(filter.value[FILTER_VALUES.sort_by]);
+  updateFilterSortBy(filter.value.sort_by);
   setFilterValuesInUrl();
 });
 
@@ -178,42 +178,10 @@ watch(ratingCount, (newValue) => {
     return;
   }
 
-  filter.value[FILTER_VALUES.vote_average_gte] = newValue * 2;
+  filter.value["vote_average.gte"] = String(newValue * 2);
 
   setFilterValuesInUrl();
 });
-
-watch(removedVariant, (newValue) => {
-  if (!newValue) {
-    return;
-  }
-
-  if (newValue === FILTER_VALUES.vote_average_gte) {
-    ratingCount.value = 0;
-  }
-
-  if (newValue === FILTER_VALUES.with_genres) {
-    filter.value[newValue] = "";
-  } else {
-    filter.value[newValue] = undefined;
-  }
-
-  setFilterValuesInUrl();
-});
-
-useCustomFetch(`/genre/${type.value}/list`, {
-  onResponse({ response }: IResponse<{ genres: Genre[] }>) {
-    const responseData = response._data;
-
-    if (!responseData) {
-      return;
-    }
-
-    mediaStore[type.value].genres = responseData.genres;
-  },
-});
-
-onMounted(updateFilterValues);
 </script>
 
 <style lang="scss">

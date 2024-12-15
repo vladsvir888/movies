@@ -37,7 +37,7 @@ const activeAccordionItem = inject<Ref<AccordionItem>>(activeAccordionItemKey);
 
 const isShow = ref(false);
 
-if (activeAccordionItem?.value.id === props.id) {
+if (activeAccordionItem?.value?.id === props.id) {
   isShow.value = true;
 }
 </script>
