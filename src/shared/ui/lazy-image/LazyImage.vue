@@ -13,7 +13,7 @@
     <NuxtImg
       class="lazy-image__image"
       :src="src"
-      :alt="alt"
+      :alt="alt ?? ''"
       :width="sizes?.width"
       :height="sizes?.height"
       :loading="loading"

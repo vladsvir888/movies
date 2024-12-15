@@ -16,7 +16,7 @@
         </Button>
       </Heading>
       <div class="card__wrapper">
-        <Rating v-if="data.vote_average" v-model="ratingCount" />
+        <Icon icon="star" class="card__icon" />
         <p v-if="data.vote_average" class="card__text">
           {{ data.vote_average }}
         </p>
@@ -27,10 +27,9 @@
 
 <script setup lang="ts">
 import LazyImage from "~/src/shared/ui/lazy-image";
-import Rating from "~/src/shared/ui/rating";
+import Icon from "~/src/shared/ui/icon";
 import Heading from "~/src/shared/ui/heading";
 import Button from "~/src/shared/ui/button";
-import { divideByTwoAndRound } from "~/src/shared/lib/format";
 import { getTitleOrName } from "~/src/shared/lib/get";
 import type { Media, MediaTypes } from "~/src/shared/config";
 
@@ -45,8 +44,6 @@ const props = withDefaults(defineProps<CardProps>(), {
 });
 
 const config = useRuntimeConfig();
-
-const ratingCount = ref(divideByTwoAndRound(props.data.vote_average));
 
 const preparedTitle = computed(() => getTitleOrName(props.data));
 </script>
@@ -125,7 +122,7 @@ const preparedTitle = computed(() => getTitleOrName(props.data));
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    gap: 5px 10px;
+    gap: 5px;
   }
 
   &__title {
@@ -143,6 +140,14 @@ const preparedTitle = computed(() => getTitleOrName(props.data));
       position: absolute;
       inset: 0;
       content: "";
+    }
+  }
+
+  &__icon {
+    color: var(--palette-puerto-rico);
+
+    > svg {
+      fill: currentColor;
     }
   }
 }

@@ -47,6 +47,9 @@ useCustomFetch(`/${props.type}/${props.category}`, {
 });
 
 const items = computed(() => {
-  return mediaStore[props.type][transformCategory(props.category)];
+  return mediaStore[props.type][transformCategory(props.category)]?.slice(
+    0,
+    10
+  );
 });
 </script>
