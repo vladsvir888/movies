@@ -135,7 +135,7 @@ if (!isEmptyObject(route.query)) {
   };
 }
 
-await useCustomFetch<{ genres: Genre[] }>(() => `/genre/${type.value}/list`, {
+await useCustomFetch(`/genre/${type.value}/list`, {
   onResponse({ response }: IResponse<{ genres: Genre[] }>) {
     const responseData = response._data;
 
