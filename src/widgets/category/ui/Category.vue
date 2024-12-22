@@ -17,17 +17,8 @@
       <Carousel
         v-slot="{ data }"
         :items="items"
-        :breakpoints="{
-          '1200': {
-            slidesPerView: 5,
-          },
-          '767': {
-            slidesPerView: 3,
-          },
-          '480': {
-            slidesPerView: 2,
-          },
-        }"
+        :slides-per-view="'auto'"
+        class="category__carousel"
       >
         <Card :data="data" :type="type" />
       </Carousel>
@@ -97,6 +88,12 @@ const items = computed(() => {
 
   &__more {
     column-gap: 5px;
+  }
+
+  &__carousel {
+    .carousel__slide {
+      width: 245px;
+    }
   }
 }
 </style>

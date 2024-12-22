@@ -35,15 +35,19 @@ import Icon from "~/src/shared/ui/icon";
 import type { Media } from "~/src/shared/config";
 import { throttle } from "~/src/shared/lib/events";
 
+type SlidesPerView = number | "auto";
+
+type SpaceBetween = number;
+
 type Breakpoint = {
-  slidesPerView?: number;
-  spaceBetween?: number;
+  slidesPerView?: SlidesPerView;
+  spaceBetween?: SpaceBetween;
 };
 
 type CarouselProps = {
   items: Media[];
-  slidesPerView?: number;
-  spaceBetween?: number;
+  slidesPerView?: SlidesPerView;
+  spaceBetween?: SpaceBetween;
   breakpoints?: Record<string, Breakpoint>;
   controls?: boolean;
 };
@@ -136,11 +140,19 @@ const localSpaceBetween = ref(prepareSpaceBetween(props.spaceBetween));
 const throttledSetBreakpoint = throttle(setBreakpoint);
 
 onMounted(() => {
+  if (localSlidesPerView.value === "auto") {
+    return;
+  }
+
   setBreakpoint();
   window.addEventListener("resize", throttledSetBreakpoint);
 });
 
 onUnmounted(() => {
+  if (localSlidesPerView.value === "auto") {
+    return;
+  }
+
   window.removeEventListener("resize", throttledSetBreakpoint);
 });
 </script>
