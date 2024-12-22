@@ -1,133 +1,167 @@
 <template>
-  <Splide
-    class="carousel"
-    :options="preparedOptions"
-    :has-track="false"
-    :tag="tag"
-    :auto-width="true"
-  >
-    <div class="container">
-      <header class="carousel__header">
-        <Heading :level="2" variant="underline" class="carousel__title">
-          {{ $t(title) }}
-        </Heading>
-
-        <Button
-          v-if="isShowMore"
-          :to="`/${type}/category/${category}`"
-          class="carousel__more"
-          variant="underline"
-        >
-          {{ $t("Explore more") }}
-          <Icon icon="arrow-next" />
-        </Button>
-      </header>
-
-      <SplideTrack class="carousel__track">
-        <SplideSlide
-          v-for="item in items"
-          :key="item.id"
-          class="carousel__slide"
-        >
-          <slot :data="item" :type="type" />
-        </SplideSlide>
-      </SplideTrack>
-
-      <div class="splide__arrows carousel__controls">
-        <Button
-          class="splide__arrow splide__arrow--prev carousel__button carousel__button--prev"
-        >
-          <span class="visually-hidden">{{ $t("Previous") }}</span>
-          <Icon icon="arrow-prev" />
-        </Button>
-        <div class="splide__pagination carousel__pagination" />
-        <Button
-          class="splide__arrow splide__arrow--next carousel__button carousel__button--next"
-        >
-          <span class="visually-hidden">{{ $t("Next") }}</span>
-          <Icon icon="arrow-next" />
-        </Button>
+  <div class="carousel">
+    <div ref="slides" class="carousel__slides">
+      <div
+        v-for="item in items"
+        :key="item.id"
+        ref="slide"
+        class="carousel__slide"
+      >
+        <slot :data="item" />
       </div>
     </div>
-  </Splide>
+    <div v-if="controls" class="carousel__controls">
+      <Button
+        class="carousel__button carousel__button--prev"
+        :aria-label="$t('Previous')"
+        @click="scroll('prev')"
+      >
+        <Icon icon="arrow-prev" />
+      </Button>
+      <Button
+        class="carousel__button carousel__button--next"
+        :aria-label="$t('Next')"
+        @click="scroll('next')"
+      >
+        <Icon icon="arrow-next" />
+      </Button>
+    </div>
+  </div>
 </template>
 
 <script setup lang="ts">
-import { Splide, SplideSlide, SplideTrack } from "@splidejs/vue-splide"; // https://github.com/Splidejs/splide/issues/1248
-import "@splidejs/vue-splide/css/core";
-import type { Options } from "@splidejs/splide";
-import type { MediaTypes, MediaCategories, Media } from "~/src/shared/config";
-import Icon from "~/src/shared/ui/icon";
-import Heading from "~/src/shared/ui/heading";
 import Button from "~/src/shared/ui/button";
+import Icon from "~/src/shared/ui/icon";
+import type { Media } from "~/src/shared/config";
+import { throttle } from "~/src/shared/lib/events";
+
+type Breakpoint = {
+  slidesPerView?: number;
+  spaceBetween?: number;
+};
 
 type CarouselProps = {
-  type: MediaTypes;
-  category: MediaCategories;
-  title: string;
-  isShowMore?: boolean;
-  options?: Options;
-  tag?: string;
   items: Media[];
+  slidesPerView?: number;
+  spaceBetween?: number;
+  breakpoints?: Record<string, Breakpoint>;
+  controls?: boolean;
 };
 
-const { t } = useI18n();
-
-const DEFAULT_OPTIONS: Options = {
-  focus: 0,
-  omitEnd: true,
-  gap: 10,
-  classes: {
-    page: "carousel__bullet",
-  },
-  i18n: {
-    select: t("Select a slide to show"),
-    prev: "",
-    next: "",
-    pageX: `${t("Go to")} %s`,
-    slideLabel: `%s ${t("of")} %s`,
-  },
-};
+type ScrollDirection = "prev" | "next";
 
 const props = withDefaults(defineProps<CarouselProps>(), {
-  isShowMore: true,
-  tag: "section",
-  options: undefined,
   items: () => [],
+  slidesPerView: 7,
+  spaceBetween: 10,
+  breakpoints: undefined,
+  controls: true,
 });
 
-const preparedOptions = computed(() => {
-  return {
-    ...DEFAULT_OPTIONS,
-    ...props.options,
-  };
+const slides = ref<HTMLDivElement | null>(null);
+const slide = ref<HTMLDivElement[]>([]);
+
+const getSlideWidth = (): number | undefined => {
+  if (!slide.value.length) {
+    return;
+  }
+
+  return slide.value[0].offsetWidth;
+};
+
+const scroll = (direction: ScrollDirection): void => {
+  if (!slides.value) {
+    return;
+  }
+
+  const slideWidth = getSlideWidth();
+
+  if (!slideWidth) {
+    return;
+  }
+
+  let left = 0;
+  const { scrollLeft } = slides.value;
+
+  switch (direction) {
+    case "prev":
+      left = scrollLeft - slideWidth;
+      break;
+    case "next":
+      left = scrollLeft + slideWidth;
+      break;
+    default:
+      break;
+  }
+
+  slides.value.scroll({
+    left,
+    behavior: "smooth",
+  });
+};
+
+const prepareSpaceBetween = (value: number): string => {
+  return `${value}px`;
+};
+
+const setBreakpoint = (): void => {
+  if (!props.breakpoints) {
+    return;
+  }
+
+  const windowWidth = window.innerWidth;
+  const points = Object.keys(props.breakpoints);
+  const point = points.find((item) => Number(item) >= windowWidth);
+
+  if (!point) {
+    localSlidesPerView.value = props.slidesPerView;
+    localSpaceBetween.value = prepareSpaceBetween(props.spaceBetween);
+    return;
+  }
+
+  if (window.matchMedia(`(max-width: ${point}px)`).matches) {
+    const breakpoint = props.breakpoints[point];
+    localSlidesPerView.value = breakpoint.slidesPerView
+      ? breakpoint.slidesPerView
+      : props.slidesPerView;
+    localSpaceBetween.value = breakpoint.spaceBetween
+      ? prepareSpaceBetween(breakpoint.spaceBetween)
+      : prepareSpaceBetween(props.spaceBetween);
+  }
+};
+
+const localSlidesPerView = ref(props.slidesPerView);
+const localSpaceBetween = ref(prepareSpaceBetween(props.spaceBetween));
+
+const throttledSetBreakpoint = throttle(setBreakpoint);
+
+onMounted(() => {
+  setBreakpoint();
+  window.addEventListener("resize", throttledSetBreakpoint);
+});
+
+onUnmounted(() => {
+  window.removeEventListener("resize", throttledSetBreakpoint);
 });
 </script>
 
 <style lang="scss">
 .carousel {
-  $this: &;
-
-  padding: 25px 0;
-  overflow-x: hidden;
+  &__slides {
+    display: flex;
+    align-items: center;
+    gap: v-bind(localSpaceBetween);
+    padding-bottom: 10px;
+    overflow: scroll hidden;
+    scroll-snap-type: x mandatory;
+    overscroll-behavior-x: contain;
+    scrollbar-width: thin;
+  }
 
   &__slide {
-    width: 245px !important;
-  }
-
-  &:not(.is-overflow) {
-    #{$this}__controls {
-      display: none;
-    }
-  }
-
-  &__header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-bottom: 20px;
+    scroll-snap-align: start;
+    flex-shrink: 0;
+    width: calc(100% / v-bind(localSlidesPerView) - v-bind(localSpaceBetween));
   }
 
   &__controls {
@@ -144,51 +178,10 @@ const preparedOptions = computed(() => {
     color: var(--palette-white);
     background-color: var(--palette-tuna);
     border-radius: 10px;
-    transition: background-color var(--transition300ms);
-
-    &:not(:disabled) {
-      @include hover {
-        background-color: rgb(var(--palette-black--rgb) / 80%);
-      }
-    }
-
-    &:disabled {
-      cursor: default;
-      opacity: 0.5;
-    }
 
     &--prev {
       rotate: 180deg;
     }
-  }
-
-  &__pagination {
-    gap: 4px;
-
-    li {
-      display: flex;
-    }
-  }
-
-  &__bullet {
-    padding: 0;
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background-color: var(--palette-topaz);
-    border: none;
-
-    &.is-active {
-      background-color: var(--palette-white);
-    }
-  }
-
-  &__track {
-    overflow: visible;
-  }
-
-  &__more {
-    column-gap: 5px;
   }
 }
 </style>

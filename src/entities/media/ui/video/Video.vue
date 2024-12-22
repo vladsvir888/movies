@@ -15,7 +15,7 @@
       />
       <Button
         class="video-player__button"
-        :aria-label="`Play video: ${data.name}`"
+        aria-label="Play video"
         @click="createIframe"
       >
         <Icon icon="youtube" />

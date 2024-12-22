@@ -1,6 +1,6 @@
 <template>
   <div
-    v-show="activeTab === title"
+    v-if="activeTab === title"
     :id="`tabpanel-${title}`"
     :aria-labelledby="`tab-${title}`"
     role="tabpanel"
