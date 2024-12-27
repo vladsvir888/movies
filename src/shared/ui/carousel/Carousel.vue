@@ -1,19 +1,23 @@
 <template>
   <div class="carousel">
-    <div ref="slides" class="carousel__slides">
+    <div ref="slides" class="carousel__slides" @scrollend="handleScrollend">
       <div
         v-for="item in items"
         :key="item.id"
         ref="slide"
         class="carousel__slide"
+        :style="{
+          width: preparedWidth,
+        }"
       >
         <slot :data="item" />
       </div>
     </div>
-    <div v-if="controls" class="carousel__controls">
+    <div v-if="controls && isOverflowing" class="carousel__controls">
       <Button
         class="carousel__button carousel__button--prev"
         :aria-label="$t('Previous')"
+        :disabled="isDisabledPrevButton"
         @click="scroll('prev')"
       >
         <Icon icon="arrow-prev" />
@@ -21,6 +25,7 @@
       <Button
         class="carousel__button carousel__button--next"
         :aria-label="$t('Next')"
+        :disabled="isDisabledNextButton"
         @click="scroll('next')"
       >
         <Icon icon="arrow-next" />
@@ -134,12 +139,56 @@ const setBreakpoint = (): void => {
   }
 };
 
+const isDisabledPrevButton = ref(true);
+const isDisabledNextButton = ref(false);
+const handleScrollend = () => {
+  if (!slides.value) {
+    return;
+  }
+
+  if (
+    slides.value.scrollLeft >=
+    slides.value.scrollWidth - slides.value.offsetWidth
+  ) {
+    isDisabledNextButton.value = true;
+  } else {
+    isDisabledNextButton.value = false;
+  }
+
+  if (slides.value.scrollLeft <= 0) {
+    isDisabledPrevButton.value = true;
+  } else {
+    isDisabledPrevButton.value = false;
+  }
+};
+
+const isOverflowing = ref(true);
+const checkOverflow = (): void => {
+  if (!slides.value) {
+    return;
+  }
+
+  if (slides.value.offsetWidth === slides.value.scrollWidth) {
+    isOverflowing.value = false;
+  }
+};
+
 const localSlidesPerView = ref(props.slidesPerView);
 const localSpaceBetween = ref(prepareSpaceBetween(props.spaceBetween));
 
 const throttledSetBreakpoint = throttle(setBreakpoint);
 
+const preparedWidth = computed(() => {
+  if (localSlidesPerView.value === "auto") {
+    return;
+  }
+
+  return `calc(100% / ${localSlidesPerView.value} - ${localSpaceBetween.value})`;
+});
+
 onMounted(() => {
+  checkOverflow();
+
   if (localSlidesPerView.value === "auto") {
     return;
   }
@@ -173,7 +222,6 @@ onUnmounted(() => {
   &__slide {
     scroll-snap-align: start;
     flex-shrink: 0;
-    width: calc(100% / v-bind(localSlidesPerView) - v-bind(localSpaceBetween));
   }
 
   &__controls {
@@ -190,6 +238,17 @@ onUnmounted(() => {
     color: var(--palette-white);
     background-color: var(--palette-tuna);
     border-radius: 10px;
+    transition: background-color var(--transition300ms);
+
+    &[disabled] {
+      opacity: 0.5;
+    }
+
+    &:not([disabled]) {
+      @include hover {
+        background-color: var(--palette-puerto-rico);
+      }
+    }
 
     &--prev {
       rotate: 180deg;
