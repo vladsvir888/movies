@@ -11,6 +11,12 @@
         @keydown.esc="closeLightbox"
         @keydown.right="toNextImage"
         @keydown.left="toPreviousImage"
+        @mousedown="handleMouseDown"
+        @mousemove="handleMouseMove"
+        @mouseup="handleMouseUp"
+        @touchstart="handleTouchStart"
+        @touchmove="handleTouchMove"
+        @touchend="handleTouchEnd"
       >
         <div class="image-lightbox__overlay" @click="closeLightbox" />
         <ul class="image-lightbox__list">
@@ -40,6 +46,7 @@
           <Icon icon="close" />
         </Button>
         <Button
+          ref="prevButton"
           class="image-lightbox__button image-lightbox__button--prev"
           :aria-label="$t('Previous')"
           :disabled="isFirstImage"
@@ -48,6 +55,7 @@
           <Icon icon="arrow-prev" />
         </Button>
         <Button
+          ref="nextButton"
           class="image-lightbox__button image-lightbox__button--next"
           :aria-label="$t('Next')"
           :disabled="isLastImage"
@@ -89,6 +97,9 @@ const config = useRuntimeConfig();
 
 const lightbox = ref<HTMLDivElement | null>(null);
 
+const prevButton = ref<InstanceType<typeof Button> | null>(null);
+const nextButton = ref<InstanceType<typeof Button> | null>(null);
+
 const { activate, deactivate } = useFocusTrap(lightbox, {
   fallbackFocus: ".image-lightbox",
 });
@@ -101,9 +112,20 @@ const isLastImage = computed(() => {
   return index.value === props.items.length - 1;
 });
 
-watch(isShow, (newValue) => {
+const handleFocus = async () => {
+  await nextTick();
+
+  if (isFirstImage.value) {
+    nextButton.value?.button?.focus();
+  } else if (isLastImage.value) {
+    prevButton.value?.button?.focus();
+  }
+};
+
+watch(isShow, async (newValue) => {
   if (newValue) {
     activate();
+    await handleFocus();
   } else {
     deactivate();
   }
@@ -111,10 +133,9 @@ watch(isShow, (newValue) => {
   toggleScrollbar(newValue);
 });
 
-const closeLightbox = (): void => {
-  isShow.value = false;
-  deactivate();
-};
+watch(index, async () => {
+  await handleFocus();
+});
 
 const toNextImage = (event: Event): void => {
   if (isLastImage.value) {
@@ -133,6 +154,84 @@ const toPreviousImage = (event: Event): void => {
 
   index.value -= 1;
 };
+
+const startX = ref(0); // Начальная позиция нажатия мыши или тача
+const deltaX = ref(0); // Смещение по X
+const isDragging = ref(false);
+const isClick = ref(false);
+
+const handleMouseDown = (event: MouseEvent) => {
+  startX.value = event.clientX; // Сохраняем начальную позицию мыши
+  isDragging.value = true;
+  isClick.value = true;
+};
+const handleMouseMove = (event: MouseEvent) => {
+  if (!isDragging.value) {
+    return;
+  }
+
+  deltaX.value = event.clientX - startX.value; // Вычисляем смещение
+
+  if (Math.abs(deltaX.value) > 5) {
+    // Если смещение больше 5px, считаем, что это драг
+    isClick.value = false;
+  }
+};
+const handleMouseUp = (event: MouseEvent) => {
+  if (!isDragging.value) {
+    return;
+  }
+
+  isDragging.value = false;
+
+  if (deltaX.value > 50) {
+    toPreviousImage(event);
+  } else if (deltaX.value < -50) {
+    toNextImage(event);
+  }
+
+  deltaX.value = 0;
+};
+
+const handleTouchStart = (event: TouchEvent) => {
+  startX.value = event.touches[0].clientX;
+  isDragging.value = true;
+  isClick.value = true;
+};
+const handleTouchMove = (event: TouchEvent) => {
+  if (!isDragging.value) {
+    return;
+  }
+
+  deltaX.value = event.touches[0].clientX - startX.value;
+
+  if (Math.abs(deltaX.value) > 5) {
+    // Если смещение больше 5px, считаем, что это драг
+    isClick.value = false;
+  }
+};
+const handleTouchEnd = (event: TouchEvent) => {
+  if (!isDragging.value) {
+    return;
+  }
+
+  isDragging.value = false;
+
+  if (deltaX.value > 50) {
+    toPreviousImage(event);
+  } else if (deltaX.value < -50) {
+    toNextImage(event);
+  }
+
+  deltaX.value = 0;
+};
+
+const closeLightbox = (): void => {
+  if (isClick.value) {
+    isShow.value = false;
+    deactivate();
+  }
+};
 </script>
 
 <style lang="scss">
@@ -143,6 +242,8 @@ const toPreviousImage = (event: Event): void => {
   display: flex;
   justify-content: center;
   align-items: center;
+  user-select: none;
+  cursor: grab;
 
   &__overlay {
     position: absolute;
@@ -157,6 +258,7 @@ const toPreviousImage = (event: Event): void => {
       left: 50%;
       transform: translate(-50%, -50%);
       transition: opacity var(--transition300ms);
+      pointer-events: none;
     }
   }
 
